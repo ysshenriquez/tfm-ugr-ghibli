@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Brújula de lo Invisible — Quiz Ghibli</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Quicksand:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --sky-light: #e8f0f2;
+      --sky: #a8d5e2;
+      --forest: #5b8c5a;
+      --forest-deep: #3a5a40;
+      --earth: #d4a373;
+      --earth-light: #faedcd;
+      --storm: #6b7b8d;
+      --storm-dark: #4a5568;
+      --blossom: #e8a0bf;
+      --nausicaa-blue: #4a8fa8;
+      --nausicaa-deep: #3a7a93;
+      --gold: #c9a84c;
+      --gold-light: #e8d48b;
+      --gold-glow: rgba(201, 168, 76, 0.4);
+      --warm-white: #fdf8ef;
+      --parchment: #f5eed6;
+      --text: #2d3436;
+      --text-soft: #636e72;
+      --shadow: rgba(45, 52, 54, 0.12);
+      --radius: 16px;
+      --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--warm-white);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 15% 10%, rgba(168, 213, 226, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(212, 163, 115, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 40%, rgba(91, 140, 90, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 15%, rgba(232, 160, 191, 0.1) 0%, transparent 45%),
+        radial-gradient(ellipse at 25% 80%, rgba(201, 168, 76, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(45, 52, 54, 0.06) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.7s ease-out;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 600;
+      color: var(--forest-deep);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--forest);
+      font-weight: 500;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+      font-style: italic;
+      color: var(--text-soft);
+      text-align: center;
+      margin-bottom: 2rem;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      color: var(--gold);
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 2.25rem 2rem;
+      max-width: 750px;
+      width: calc(100% - 2rem);
+      box-shadow: 0 4px 24px var(--shadow), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+      border: 1px solid rgba(201, 168, 76, 0.15);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--forest-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid rgba(201, 168, 76, 0.25);
+      border-radius: 10px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      background: rgba(253, 248, 239, 0.6);
+      color: var(--text);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    }
+
+    .form-group input::placeholder {
+      color: #b2bec3;
+    }
+
+    .avatar-label {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--forest-deep);
+      margin-bottom: 0.75rem;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+      padding: 4px;
+    }
+
+    .avatar-option {
+      position: relative;
+      cursor: pointer;
+      border-radius: 10px;
+      overflow: visible;
+      border: 2.5px solid rgba(201, 168, 76, 0.12);
+      transition: var(--transition);
+      background: var(--earth-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.45rem 0.3rem 0.35rem;
+    }
+
+    .avatar-option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(201, 168, 76, 0.4);
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.2);
+    }
+
+    .avatar-option.selected {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, 0.08);
+      box-shadow: 0 0 0 1.5px var(--gold), 0 0 16px var(--gold-glow), 0 4px 12px rgba(201, 168, 76, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .avatar-option.selected::after {
+      content: '✦';
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      font-size: 0.7rem;
+      color: var(--gold);
+      text-shadow: 0 0 6px var(--gold-glow);
+      z-index: 2;
+    }
+
+    .avatar-option .avatar-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      background-color: var(--parchment);
+      object-fit: cover;
+      margin-bottom: 0.25rem;
+      transition: var(--transition);
+      display: block;
+    }
+
+    .avatar-option:hover .avatar-img {
+      filter: brightness(1.05);
+    }
+
+    .avatar-option.selected .avatar-img {
+      filter: brightness(1.1) saturate(1.1);
+    }
+
+    .avatar-option .avatar-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-soft);
+      text-align: center;
+      line-height: 1.2;
+      transition: var(--transition);
+    }
+
+    .avatar-option.selected .avatar-name {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.03em;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--nausicaa-blue), var(--nausicaa-deep));
+      color: white;
+      box-shadow: 0 4px 18px rgba(74, 143, 168, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--nausicaa-deep), #2d6a7e);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(74, 143, 168, 0.45);
+    }
+
+    .btn-primary:disabled {
+      background: #b2bec3;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ─── MAP ─── */
+    .map-container {
+      max-width: 1100px;
+      width: 96vw;
+      position: relative;
+    }
+
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3358 / 2026;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(60, 40, 15, 0.3);
+    }
+
+    .map-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .island-spot {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      z-index: 3;
+    }
+
+    .island-spot .spot-label {
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      transition: var(--transition);
+    }
+
+    .island-spot .spot-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(0.65rem, 1.2vw, 0.9rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      display: block;
+    }
+
+    .island-spot .spot-status {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(0.5rem, 0.9vw, 0.7rem);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      display: block;
+      margin-top: 0.1rem;
+    }
+
+    .island-spot.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .island-spot.locked .spot-label {
+      background: rgba(0, 0, 0, 0.45);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .island-spot.current .spot-label {
+      background: rgba(201, 168, 76, 0.7);
+      border-color: rgba(255, 220, 120, 0.6);
+      box-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+      animation: spotPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes spotPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 15px rgba(201, 168, 76, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 0 30px rgba(201, 168, 76, 0.6);
+      }
+    }
+
+    .island-spot.current:hover .spot-label {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(201, 168, 76, 0.7);
+    }
+
+    .island-spot.completed .spot-label {
+      background: rgba(91, 140, 90, 0.65);
+      border-color: rgba(150, 210, 140, 0.4);
+    }
+
+    .island-spot.completed .spot-status::before {
+      content: '✓ ';
+    }
+
+    .island-spot:nth-child(1) {
+      left: 2%;
+      top: 72%;
+    }
+
+    .island-spot:nth-child(2) {
+      left: 9%;
+      top: 58%;
+    }
+
+    .island-spot:nth-child(3) {
+      left: 37%;
+      top: 51%;
+    }
+
+    .island-spot:nth-child(4) {
+      left: 46%;
+      top: 37%;
+    }
+
+    .island-spot:nth-child(5) {
+      left: 55%;
+      top: 9%;
+    }
+
+    .island-spot:nth-child(6) {
+      left: 75%;
+      top: 25%;
+    }
+
+    /* ─── QUIZ ─── */
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .quiz-header .island-badge {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    .quiz-progress {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-progress .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.2);
+      transition: var(--transition);
+    }
+
+    .quiz-progress .dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px var(--gold-glow);
+    }
+
+    .quiz-progress .dot.done {
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    .question-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 3.2vw, 1.5rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--forest-deep);
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      padding: 0 0.5rem;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .option-btn {
+      padding: 1.1rem 1.4rem;
+      border: 2px solid rgba(201, 168, 76, 0.18);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(253, 248, 239, 0.7), rgba(245, 238, 214, 0.5));
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+      line-height: 1.55;
+      position: relative;
+    }
+
+    .option-btn:hover {
+      border-color: var(--nausicaa-blue);
+      background: linear-gradient(135deg, rgba(74, 143, 168, 0.08), rgba(74, 143, 168, 0.03));
+      transform: translateX(6px);
+      box-shadow: 0 2px 12px rgba(74, 143, 168, 0.1);
+    }
+
+    .option-btn.selected {
+      border-color: var(--nausicaa-blue);
+      background: linear-gradient(135deg, rgba(74, 143, 168, 0.12), rgba(74, 143, 168, 0.06));
+      font-weight: 600;
+      box-shadow: 0 3px 16px rgba(74, 143, 168, 0.18);
+      transform: translateX(6px);
+    }
+
+    .option-btn.selected::before {
+      content: '✦';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--nausicaa-blue);
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--text-soft);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-back:hover {
+      border-color: var(--text-soft);
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    /* ─── FINAL ─── */
+    .final-content {
+      text-align: center;
+      max-width: 550px;
+    }
+
+    .final-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .final-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--forest);
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(201, 168, 76, 0.06);
+      border-radius: 0 12px 12px 0;
+      line-height: 1.7;
+    }
+
+    .final-instruction {
+      font-size: 1rem;
+      color: var(--text-soft);
+      margin-top: 1rem;
+    }
+
+    .final-instruction strong {
+      color: var(--forest-deep);
+    }
+
+    @media (max-width: 700px) {
+      .screen {
+        padding: 1rem;
+      }
+
+      .card {
+        padding: 1.5rem 1.25rem;
+      }
+
+      .avatar-grid {
+        gap: 0.4rem;
+      }
+
+      .avatar-option .avatar-img {
+        width: 56px;
+        height: 56px;
+      }
+
+      .avatar-option .avatar-name {
+        font-size: 0.55rem;
+      }
+
+      .avatar-option {
+        padding: 0.3rem 0.2rem 0.25rem;
+        border-radius: 8px;
+      }
+
+      .map-container {
+        width: 100vw;
+        margin: 0 -1rem;
+      }
+
+      .island-spot .spot-label {
+        padding: 0.3rem 0.6rem;
+      }
+
+      .island-spot .spot-name {
+        font-size: 0.55rem;
+      }
+
+      .island-spot .spot-status {
+        font-size: 0.45rem;
+      }
+    }
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(253, 248, 239, 0.95);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--earth-light);
+      border-top-color: var(--nausicaa-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--forest-deep);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════ SCREEN 1: WELCOME ═══════════ -->
+  <div id="screen-welcome" class="screen active">
+    <h1>La Brújula de lo <em>Invisible</em></h1>
+    <p class="subtitle">Cinco islas te esperan. Cada una guarda una parte de quien eres.</p>
+    <div class="divider">✦</div>
+
+    <div class="card">
+      <div class="form-group">
+        <label for="nickname">¿Cómo quieres que te llame?</label>
+        <input type="text" id="nickname" placeholder="Tu nickname..." maxlength="30" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="email">Tu correo</label>
+        <input type="email" id="email" placeholder="correo@ejemplo.com" autocomplete="email">
+      </div>
+
+      <p class="avatar-label">Elige tu compañero de viaje</p>
+      <div class="avatar-grid" id="avatar-grid"></div>
+
+      <div style="text-align: center;">
+        <button class="btn btn-primary" id="btn-start" disabled onclick="startJourney()">
+          Despertar al Viajero ✦
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCREEN 2: MAP ═══════════ -->
+  <div id="screen-map" class="screen">
+    <h1>Tu <em>Archipiélago</em></h1>
+    <p class="subtitle" id="map-subtitle">Explora cada isla en orden. Cada una revelará una dimensión de tu espíritu.
+    </p>
+
+    <div class="map-container">
+      <div class="map-wrapper" id="island-map">
+        <img src="mapa.png" alt="Mapa del Archipiélago del Espíritu">
+
+        <div class="island-spot current" data-island="0" onclick="enterIsland(0)">
+          <div class="spot-label">
+            <span class="spot-name">El Puerto de los<br>Compromisos</span>
+            <span class="spot-status">Explorar</span>
+          </div>
+        </div>
+
+        <div class="island-spot locked" data-island="1" onclick="enterIsland(1)">
+          <div class="spot-label">
+            <span class="spot-name">Las Tierras<br>del Viento</span>
+            <span class="spot-status">🔒</span>
+          </div>
+        </div>
+
+        <div class="island-spot locked" data-island="2" onclick="enterIsland(2)">
+          <div class="spot-label">
+            <span class="spot-name">El Bosque de<br>los Espíritus</span>
+            <span class="spot-status">🔒</span>
+          </div>
+        </div>
+
+        <div class="island-spot locked" data-island="3" onclick="enterIsland(3)">
+          <div class="spot-label">
+            <span class="spot-name">La Ciudad<br>de las Luces</span>
+            <span class="spot-status">🔒</span>
+          </div>
+        </div>
+
+        <div class="island-spot locked" data-island="4" onclick="enterIsland(4)">
+          <div class="spot-label">
+            <span class="spot-name">La Tormenta<br>Interior</span>
+            <span class="spot-status">🔒</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCREENS 3-7: QUIZ ═══════════ -->
+  <div id="screen-quiz" class="screen">
+    <div class="card" style="max-width: 720px;">
+      <div class="quiz-header">
+        <div class="island-badge" id="quiz-badge">🌬️ Las Tierras del Viento</div>
+        <div class="quiz-progress" id="quiz-progress"></div>
+      </div>
+      <p class="question-text" id="question-text"></p>
+      <div class="options-list" id="options-list"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-back" id="btn-prev" onclick="prevQuestion()">← Atrás</button>
+        <button class="btn btn-primary" id="btn-next" disabled onclick="nextQuestion()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCREEN 8: FINAL ═══════════ -->
+  <div id="screen-final" class="screen">
+    <div class="final-content">
+      <div class="final-icon">🏝️</div>
+      <h1>¡Viaje <em>completado</em>!</h1>
+      <p class="subtitle">Has explorado las cinco islas del archipiélago y tu espíritu ha sido cartografiado.</p>
+      <div class="final-quote">
+        "Siempre creeré en ti, aunque no pueda ir contigo."<br>
+        <small style="color: var(--text-soft); font-family: 'Quicksand', sans-serif; font-size: 0.85rem;">— El viaje de
+          Chihiro</small>
+      </div>
+      <p class="final-instruction">
+        Has completado las cinco islas.<br>
+        <strong>Revisa tu correo</strong> — te espera una sorpresa.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════ LOADING ═══════════ -->
+  <div class="loading-overlay" id="loading">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Enviando tus respuestas al archipiélago...</p>
+  </div>
+
+  <!-- ═══════════ APPWRITE SDK ═══════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
+
+  <script>
+    const AVATARS = [
+      { id: 'chihiro', name: 'Chihiro' },
+      { id: 'howl', name: 'Howl' },
+      { id: 'sophie', name: 'Sophie' },
+      { id: 'kiki', name: 'Kiki' },
+      { id: 'san', name: 'San' },
+      { id: 'ashitaka', name: 'Ashitaka' },
+      { id: 'totoro', name: 'Totoro' },
+      { id: 'porco', name: 'Porco' },
+      { id: 'arrietty', name: 'Arrietty' },
+      { id: 'haku', name: 'Haku' },
+    ];
+
+    const ISLANDS = [
+      { key: 'conscientiousness', name: 'El Puerto de los Compromisos', icon: '⚓', badgeColor: '#b8845a' },
+      { key: 'openness', name: 'Las Tierras del Viento', icon: '🌬️', badgeColor: '#5a9cb5' },
+      { key: 'agreeableness', name: 'El Bosque de los Espíritus', icon: '🌿', badgeColor: '#4a7a49' },
+      { key: 'extraversion', name: 'La Ciudad de las Luces', icon: '✨', badgeColor: '#d07ca3' },
+      { key: 'neuroticism', name: 'La Tormenta Interior', icon: '⛈️', badgeColor: '#4a5568' },
+    ];
+
+    const QUESTIONS = {
+      openness: [
+        {
+          text: 'Cuando te enfrentas a un problema que no tiene una solución clara, tu reacción más honesta es...', options: [
+            { text: 'Me incomoda no tener un camino definido, prefiero buscar referencias de cómo otros lo han resuelto', label: 'A' },
+            { text: 'Lo analizo desde distintos ángulos aunque tarde más, me gusta entender el problema antes de actuar', label: 'B' },
+            { text: 'Es justo el tipo de situación que me activa, la ambigüedad me parece un espacio interesante', label: 'C' },
+            { text: 'Busco la solución más práctica y eficiente aunque no sea original, lo importante es resolver', label: 'D' },
+          ]
+        },
+        {
+          text: 'Cuando escuchas música, ves una película o lees algo, lo que más valoras es...', options: [
+            { text: 'Que te entretenga y te haga desconectar, no necesito más que eso', label: 'A' },
+            { text: 'Que tenga algo que decir, una historia bien contada o una idea que te haga pensar', label: 'B' },
+            { text: 'La experiencia en sí misma, el cómo está hecho, la estética, lo que evoca más allá del argumento', label: 'C' },
+            { text: 'Que sea bueno en lo que es, ya sea acción, humor o emoción, sin necesidad de que sea profundo', label: 'D' },
+          ]
+        },
+        {
+          text: 'Si tuvieras que describir tu relación con las rutinas, dirías que...', options: [
+            { text: 'Las necesito, me dan estructura y sin ellas siento que pierdo el control', label: 'A' },
+            { text: 'Me ayudan a moverme mejor, puedo cambiarlas o ajustarlas, pero siempre vuelvo a tener alguna', label: 'B' },
+            { text: 'Me aburren bastante, prefiero que cada día tenga algo diferente aunque sea pequeño', label: 'C' },
+            { text: 'Tengo algunas rutinas muy fijas y otras áreas de mi vida donde las evito completamente', label: 'D' },
+          ]
+        },
+        {
+          text: 'Cuando piensas en viajar a un lugar que no conoces, lo que más te motiva es...', options: [
+            { text: 'Descansar y desconectar en un entorno diferente al habitual', label: 'A' },
+            { text: 'Poder conocer cómo vive y piensa la gente de ese lugar, su cultura, su historia, su forma de ver el mundo', label: 'B' },
+            { text: 'Algo específico de ese destino te llama la atención sin que puedas explicarlo del todo racionalmente', label: 'C' },
+            { text: 'Tener una experiencia nueva que contar, ampliar el mapa de lugares que has vivido', label: 'D' },
+          ]
+        },
+        {
+          text: 'Imagina que alguien te propone una conversación sin respuesta correcta, del tipo ¿tenemos libre albedrío?, ¿qué es lo que hace que algo sea bello?, ¿existe el tiempo realmente? Tu reacción más honesta sería...', options: [
+            { text: 'Me interesa si hay algo concreto que resolver, pero las preguntas que no llevan a ningún lado me frustran un poco', label: 'A' },
+            { text: 'Depende del momento y de con quién, a veces me engancha y a veces me parece una pérdida de tiempo', label: 'B' },
+            { text: 'Me encanta ese tipo de conversación, podría estar horas en ella aunque no lleguemos a ninguna conclusión', label: 'C' },
+            { text: 'Lo escucho con gusto pero no es algo que yo buscaría activamente', label: 'D' },
+          ]
+        },
+      ],
+      conscientiousness: [
+        {
+          text: 'Has empezado algo que a mitad del camino te das cuenta de que no era lo que esperabas o que ya no te motiva igual. ¿Qué haces?', options: [
+            { text: 'Lo termino igual, para mí dejar algo a medias no es una opción independientemente de cómo me sienta', label: 'A' },
+            { text: 'Evalúo si tiene sentido seguir, si la respuesta es no, lo dejo sin demasiado conflicto interno', label: 'B' },
+            { text: 'Lo termino pero con la sensación de estar cargando algo que ya no es mío, el compromiso pesa más que las ganas', label: 'C' },
+            { text: 'Depende de lo que haya en juego, si afecta a otros lo termino, si solo me afecta a mí lo valoro', label: 'D' },
+          ]
+        },
+        {
+          text: 'Cuando tienes varios pendientes encima, tu forma natural de gestionarlos es...', options: [
+            { text: 'Me siento, los organizo, les pongo orden y prioridad antes de empezar cualquiera', label: 'A' },
+            { text: 'Voy resolviendo según lo que me pide el cuerpo o lo que se presenta primero', label: 'B' },
+            { text: 'Hago una lista mental pero no siempre la sigo, a veces el orden se rompe solo', label: 'C' },
+            { text: 'Me cuesta arrancar cuando hay mucho, pero una vez que empiezo no paro hasta terminar', label: 'D' },
+          ]
+        },
+        {
+          text: 'Piensa en la última vez que cumplir un compromiso te costó de verdad, tiempo, energía o incomodidad. ¿Qué pasó?', options: [
+            { text: 'Lo cumplí, un compromiso es un compromiso y eso no cambia según cómo me sienta', label: 'A' },
+            { text: 'Lo cumplí pero necesité recordarme por qué lo había asumido para no dejarlo', label: 'B' },
+            { text: 'Busqué la forma de cumplirlo de manera que me costara lo menos posible', label: 'C' },
+            { text: 'Reconozco que hubo momentos en que estuve cerca de soltarlo', label: 'D' },
+          ]
+        },
+        {
+          text: 'Cuando entregas algo, ya sea un trabajo, un favor o cualquier tarea, ¿cómo sabes que está listo?', options: [
+            { text: 'Cuando cumple con lo que se pedía, si el resultado es el esperado está bien', label: 'A' },
+            { text: 'Cuando he revisado cada detalle y estoy seguro de que no hay nada que mejorar', label: 'B' },
+            { text: 'Cuando siento que di lo mejor que podía dar en ese momento, aunque sé que siempre hay algo más', label: 'C' },
+            { text: 'Cuando el tiempo se acaba, la fecha límite es la que marca el punto final', label: 'D' },
+          ]
+        },
+        {
+          text: '¿Cómo describirías tu relación con los plazos y fechas límite?', options: [
+            { text: 'Los respeto siempre, organizarme para llegar a tiempo es algo que no negocio', label: 'A' },
+            { text: 'Casi siempre llego, aunque a veces el último empujón lo da la presión del plazo', label: 'B' },
+            { text: 'Funcionan mejor como referencia que como límite real, si necesito más tiempo lo tomo', label: 'C' },
+            { text: 'Me generan bastante estrés, pero ese mismo estrés es lo que me hace moverme', label: 'D' },
+          ]
+        },
+      ],
+      extraversion: [
+        {
+          text: 'Llevas varios días seguidos con mucha actividad social, reuniones, planes, gente. Cuando por fin tienes un día libre, lo primero que sientes es...', options: [
+            { text: 'Alivio genuino, necesito ese silencio y ese espacio para mí', label: 'A' },
+            { text: 'Satisfacción por todo lo vivido, pero con ganas de que alguien te proponga algo más', label: 'B' },
+            { text: 'Casi no sabes qué hacer solo, tu instinto es llamar a alguien o buscar un plan', label: 'C' },
+            { text: 'Depende completamente de cómo hayan ido esos días, no hay una respuesta fija', label: 'D' },
+          ]
+        },
+        {
+          text: 'Estás en una reunión o evento donde no conoces a casi nadie. ¿Qué pasa normalmente?', options: [
+            { text: 'El silencio no me incomoda, prefiero quedarme en mi espacio antes que forzar una conversación con alguien que no conozco', label: 'A' },
+            { text: 'Si alguien me habla me suelto enseguida, pero raramente soy yo quien arranca', label: 'B' },
+            { text: 'Busco activamente a alguien con quien hablar, la incomodidad del silencio me mueve más que el miedo al rechazo', label: 'C' },
+            { text: 'Depende del contexto, en algunos entornos arranco solo y en otros prefiero quedarme en segundo plano', label: 'D' },
+          ]
+        },
+        {
+          text: 'Cuando tienes que tomar una decisión importante, ¿qué necesitas?', options: [
+            { text: 'Tiempo a solas para pensarlo, las opiniones externas me confunden más que me ayudan', label: 'A' },
+            { text: 'Hablar con una o dos personas de confianza, no necesito más', label: 'B' },
+            { text: 'Contrastar con varias personas, escuchar perspectivas distintas me ayuda a ordenar mis ideas', label: 'C' },
+            { text: 'Primero lo proceso solo y luego lo valido con alguien cercano', label: 'D' },
+          ]
+        },
+        {
+          text: '¿Cómo describirías tu energía en una conversación que se alarga más de lo esperado?', options: [
+            { text: 'En algún punto empiezo a desconectarme, necesito mis momentos de silencio', label: 'A' },
+            { text: 'Si la conversación es buena me quedo, pero hay un límite natural que noto claramente', label: 'B' },
+            { text: 'Me activo con las conversaciones largas, cuanto más se extienden más me enganchan', label: 'C' },
+            { text: 'Depende de con quién, hay personas que me dan energía y otras que me la quitan', label: 'D' },
+          ]
+        },
+        {
+          text: 'Si pudieras elegir cómo pasar un fin de semana sin compromisos ni obligaciones, elegirías...', options: [
+            { text: 'Tiempo completamente para ti, silencio, tu espacio, tus cosas', label: 'A' },
+            { text: 'Un plan tranquilo con una o dos personas cercanas, sin mucha gente ni mucho ruido', label: 'B' },
+            { text: 'Algo con bastante gente, un evento, una salida, cuantos más mejor', label: 'C' },
+            { text: 'Una mezcla, algo de tiempo solo y algo de tiempo con gente, necesitas las dos cosas', label: 'D' },
+          ]
+        },
+      ],
+      agreeableness: [
+        {
+          text: 'Alguien cercano te pide ayuda en un momento en que tú también estás justo de tiempo y energía. ¿Qué pasa?', options: [
+            { text: 'Le ayudo sin pensarlo demasiado, si me necesita estoy, ya me reorganizo yo', label: 'A' },
+            { text: 'Le ayudo pero soy honesto sobre lo que puedo dar en ese momento, no me comprometo a más', label: 'B' },
+            { text: 'Valoro primero si realmente me necesita a mí o si puede resolverlo de otra forma', label: 'C' },
+            { text: 'Me cuesta decir que no aunque sepa que debería, termino ayudando aunque me pese', label: 'D' },
+          ]
+        },
+        {
+          text: 'Alguien toma una decisión que te parece claramente equivocada y que además le va a traer consecuencias. ¿Qué haces?', options: [
+            { text: 'Se lo digo directamente aunque no me lo haya pedido, prefiero ser honesto a quedarme callado', label: 'A' },
+            { text: 'Si me pregunta le doy mi opinión sin filtros, si no me pregunta respeto su decisión', label: 'B' },
+            { text: 'Busco la forma de decírselo sin que duela demasiado, me importa tanto el mensaje como cómo llega', label: 'C' },
+            { text: 'Me lo guardo, cada uno es responsable de sus propias decisiones y no es mi lugar opinar', label: 'D' },
+          ]
+        },
+        {
+          text: 'Piensa en una situación en la que alguien te trató de forma injusta o te falló. ¿Cómo lo gestionaste?', options: [
+            { text: 'Lo hablé, lo resolví y lo solté, no tiene sentido cargar con eso más tiempo del necesario', label: 'A' },
+            { text: 'Me costó pero terminé perdonando, aunque el proceso no fue rápido ni sencillo', label: 'B' },
+            { text: 'Soy de los que recuerdan, no necesariamente con rencor pero sí con memoria', label: 'C' },
+            { text: 'Depende de la gravedad y de quién fuera, no hay una respuesta única para eso', label: 'D' },
+          ]
+        },
+        {
+          text: 'Estás en un grupo y surge un conflicto entre dos personas. ¿Cuál es tu papel natural?', options: [
+            { text: 'Intento mediar, me incomoda el conflicto abierto y busco que las cosas se resuelvan', label: 'A' },
+            { text: 'Me mantengo al margen a menos que me involucren directamente', label: 'B' },
+            { text: 'Si tengo una opinión clara la expreso aunque eso signifique tomar partido', label: 'C' },
+            { text: 'Escucho a ambas partes por separado pero evito posicionarme en público', label: 'D' },
+          ]
+        },
+        {
+          text: '¿Cómo reaccionas cuando alguien que apenas conoces está pasando por un momento difícil y se nota?', options: [
+            { text: 'Me acerco, no necesito conocer bien a alguien para ofrecerle algo', label: 'A' },
+            { text: 'Lo noto y me importa, pero espero a que esa persona dé alguna señal antes de acercarme', label: 'B' },
+            { text: 'Lo observo pero no intervengo, no quiero entrometerme en algo que no me han pedido', label: 'C' },
+            { text: 'Depende de la situación, a veces me acerco y a veces prefiero respetar su espacio', label: 'D' },
+          ]
+        },
+      ],
+      neuroticism: [
+        {
+          text: 'Tienes algo importante pendiente que no depende completamente de ti, una respuesta, una decisión ajena, un resultado. ¿Cómo vives ese tiempo de espera?', options: [
+            { text: 'Lo gestiono con relativa calma, me digo que no puedo controlarlo y eso me ayuda a soltarlo', label: 'A' },
+            { text: 'Pienso en ello más de lo que me gustaría pero puedo seguir funcionando con normalidad', label: 'B' },
+            { text: 'Me cuesta mucho desconectar, ese pensamiento aparece constantemente aunque intente alejarlo', label: 'C' },
+            { text: 'Lo racionalizo bien pero mi cuerpo lo nota, tensión, sueño alterado, energía diferente', label: 'D' },
+          ]
+        },
+        {
+          text: 'Acaba de pasar algo que salió mal, un error tuyo, un plan que se torció, algo que esperabas y no llegó. ¿Qué pasa dentro de ti en las horas siguientes?', options: [
+            { text: 'Lo proceso, entiendo qué pasó y lo suelto con relativa rapidez, no tiene sentido darle más vueltas', label: 'A' },
+            { text: 'Le doy vueltas un tiempo pero en algún punto algo hace clic y paso página', label: 'B' },
+            { text: 'Me quedo enganchado en ello más tiempo del que me gustaría, me cuesta salir de ese bucle', label: 'C' },
+            { text: 'Depende de la magnitud, hay cosas que suelto fácil y otras que me persiguen durante días', label: 'D' },
+          ]
+        },
+        {
+          text: 'Estás en medio de una situación que se complica, hay presión, incertidumbre y varias cosas a la vez. ¿Cómo respondes?', options: [
+            { text: 'Me centro, la presión me aclara más que me paraliza, funciono bien en ese tipo de situaciones', label: 'A' },
+            { text: 'Noto el estrés pero encuentro la forma de seguir, no me desborda aunque me pese', label: 'B' },
+            { text: 'Me cuesta mantener la claridad cuando hay demasiado a la vez, siento que pierdo el hilo', label: 'C' },
+            { text: 'Mi primer impulso es el caos interno, aunque por fuera pueda parecer que lo llevo bien', label: 'D' },
+          ]
+        },
+        {
+          text: '¿Cómo describirías tu estado emocional a lo largo de una semana normal, sin grandes eventos ni crisis?', options: [
+            { text: 'Bastante estable, mi estado de ánimo no varía demasiado de un día a otro', label: 'A' },
+            { text: 'Con altibajos normales, hay días mejores y peores pero nada que me descoloque', label: 'B' },
+            { text: 'Bastante variable, pequeñas cosas pueden cambiar mucho cómo me siento ese día', label: 'C' },
+            { text: 'Noto que mi estado cambia pero no siempre encuentro una razón clara, simplemente hay días en que todo pesa más', label: 'D' },
+          ]
+        },
+        {
+          text: 'Piensa en una decisión importante que tomaste sabiendo que podía salir mal. ¿Cómo viviste ese momento?', options: [
+            { text: 'Lo valoré, tomé la decisión y no miré atrás, la incertidumbre forma parte de cualquier elección', label: 'A' },
+            { text: 'Me costó decidir pero una vez que lo hice intenté no alimentar el miedo', label: 'B' },
+            { text: 'Estuve dándole vueltas mucho tiempo antes de decidir y después también, el peso no desaparece fácil', label: 'C' },
+            { text: 'Lo decidí pero conviviendo con una tensión de fondo que no se fue hasta ver el resultado', label: 'D' },
+          ]
+        },
+      ],
+    };
+
+    let state = {
+      nickname: '', email: '', avatar: null,
+      currentIsland: 0, currentQuestion: 0,
+      answers: { openness: [], conscientiousness: [], extraversion: [], agreeableness: [], neuroticism: [] },
+      completedIslands: [],
+    };
+
+    function init() { renderAvatars(); setupFormListeners(); }
+
+    function renderAvatars() {
+      const grid = document.getElementById('avatar-grid');
+      grid.innerHTML = AVATARS.map(a => `
+        <div class="avatar-option" data-avatar="${a.id}" onclick="selectAvatar('${a.id}')">
+          <img class="avatar-img" src="avatars/${a.id}.png" alt="${a.name}" draggable="false">
+          <span class="avatar-name">${a.name}</span>
+        </div>
+      `).join('');
+    }
+
+    function selectAvatar(id) {
+      state.avatar = id;
+      document.querySelectorAll('.avatar-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.avatar === id);
+      });
+      checkFormValid();
+    }
+
+    function setupFormListeners() {
+      document.getElementById('nickname').addEventListener('input', checkFormValid);
+      document.getElementById('email').addEventListener('input', checkFormValid);
+    }
+
+    function checkFormValid() {
+      const nickname = document.getElementById('nickname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const valid = nickname.length > 0 && email.includes('@') && email.includes('.') && state.avatar;
+      document.getElementById('btn-start').disabled = !valid;
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startJourney() {
+      state.nickname = document.getElementById('nickname').value.trim();
+      state.email = document.getElementById('email').value.trim();
+      showScreen('screen-map');
+    }
+
+    function updateMap() {
+      const spots = document.querySelectorAll('.island-spot');
+      spots.forEach((el, i) => {
+        el.className = 'island-spot';
+        if (state.completedIslands.includes(i)) {
+          el.classList.add('completed');
+          el.querySelector('.spot-status').textContent = 'Completada';
+        } else if (i === state.currentIsland) {
+          el.classList.add('current');
+          el.querySelector('.spot-status').textContent = 'Explorar';
+        } else {
+          el.classList.add('locked');
+          el.querySelector('.spot-status').textContent = '🔒';
+        }
+      });
+      if (state.completedIslands.length > 0) {
+        document.getElementById('map-subtitle').textContent =
+          `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
+      }
+    }
+
+    function enterIsland(index) {
+      if (index !== state.currentIsland || state.completedIslands.includes(index)) return;
+      const island = ISLANDS[index];
+      const questions = QUESTIONS[island.key];
+      if (questions.length === 0) { alert('⏳ Las preguntas de esta isla aún no están disponibles.'); return; }
+      state.currentQuestion = 0;
+      renderQuiz();
+      showScreen('screen-quiz');
+    }
+
+    function renderQuiz() {
+      const island = ISLANDS[state.currentIsland];
+      const questions = QUESTIONS[island.key];
+      const q = questions[state.currentQuestion];
+
+      const badge = document.getElementById('quiz-badge');
+      badge.textContent = `${island.icon} ${island.name}`;
+      badge.style.background = island.badgeColor;
+
+      document.getElementById('quiz-progress').innerHTML = questions.map((_, i) => {
+        let cls = 'dot';
+        if (i < state.currentQuestion) cls += ' done';
+        if (i === state.currentQuestion) cls += ' active';
+        return `<div class="${cls}"></div>`;
+      }).join('');
+
+      document.getElementById('question-text').textContent = q.text;
+
+      const list = document.getElementById('options-list');
+      const saved = state.answers[island.key][state.currentQuestion];
+      list.innerHTML = q.options.map((opt, i) => `
+        <button class="option-btn ${saved === i ? 'selected' : ''}" onclick="selectOption(${i})">${opt.text}</button>
+      `).join('');
+
+      document.getElementById('btn-prev').style.visibility = state.currentQuestion === 0 ? 'hidden' : 'visible';
+      const isLast = state.currentQuestion === questions.length - 1;
+      const btnNext = document.getElementById('btn-next');
+      btnNext.textContent = isLast ? 'Completar isla ✦' : 'Siguiente →';
+      btnNext.disabled = saved === undefined;
+    }
+
+    function selectOption(index) {
+      const island = ISLANDS[state.currentIsland];
+      state.answers[island.key][state.currentQuestion] = index;
+      document.querySelectorAll('.option-btn').forEach((btn, i) => btn.classList.toggle('selected', i === index));
+      document.getElementById('btn-next').disabled = false;
+    }
+
+    function nextQuestion() {
+      const island = ISLANDS[state.currentIsland];
+      const questions = QUESTIONS[island.key];
+      if (state.currentQuestion < questions.length - 1) { state.currentQuestion++; renderQuiz(); }
+      else { completeIsland(); }
+    }
+
+    function prevQuestion() {
+      if (state.currentQuestion > 0) { state.currentQuestion--; renderQuiz(); }
+    }
+
+    function completeIsland() {
+      state.completedIslands.push(state.currentIsland);
+      if (state.completedIslands.length === 5) { submitResults(); }
+      else { state.currentIsland++; updateMap(); showScreen('screen-map'); }
+    }
+
+    function buildRawAnswers() {
+      const raw = {};
+      for (const island of ISLANDS) {
+        const key = island.key;
+        const questions = QUESTIONS[key];
+        const answers = state.answers[key];
+        raw[key] = answers.map((answerIndex, qIndex) => ({
+          question: qIndex + 1,
+          selected: questions[qIndex].options[answerIndex].label,
+        }));
+      }
+      return raw;
+    }
+
+    // ═══════════ APPWRITE CONFIG ═══════════
+    const APPWRITE_ENDPOINT = 'https://fra.cloud.appwrite.io/v1';
+    const APPWRITE_PROJECT_ID = '6a578e76001d493c9459';
+    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7'; // ID de la base "quiz_ghibli"
+    const APPWRITE_TABLE_ID = 'resultados'; // ID de la tabla "resultados"
+
+    const client = new Appwrite.Client()
+      .setEndpoint(APPWRITE_ENDPOINT)
+      .setProject(APPWRITE_PROJECT_ID);
+
+    const tablesDB = new Appwrite.TablesDB(client);
+
+    async function submitResults() {
+      const loading = document.getElementById('loading');
+      loading.classList.add('active');
+
+      const payload = {
+        Nickname: state.nickname,
+        email: state.email,
+        respuestas: JSON.stringify(buildRawAnswers()),
+        arquetipo: '', // se completa después, vía la Appwrite Function
+        email_enviado: false,
+      };
+
+      console.log('📊 Enviando a Appwrite:', payload);
+
+      try {
+        await tablesDB.createRow({
+          databaseId: APPWRITE_DATABASE_ID,
+          tableId: APPWRITE_TABLE_ID,
+          rowId: Appwrite.ID.unique(),
+          data: payload,
+        });
+      } catch (err) {
+        console.error('Error guardando en Appwrite:', err);
+      }
+
+      setTimeout(() => { loading.classList.remove('active'); showScreen('screen-final'); }, 1500);
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
