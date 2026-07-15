@@ -80,7 +80,6 @@
     .screen {
       display: none;
       min-height: 100vh;
-      min-height: 100dvh;
       padding: 2rem;
       position: relative;
       z-index: 1;
@@ -588,9 +587,15 @@
     }
 
     .final-icon {
-      font-size: 4rem;
       margin-bottom: 1rem;
       animation: float 3s ease-in-out infinite;
+    }
+
+    .final-icon img {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     @keyframes float {
@@ -642,9 +647,8 @@
       }
 
       .avatar-option .avatar-img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1 / 1;
+        width: 56px;
+        height: 56px;
       }
 
       .avatar-option .avatar-name {
@@ -810,7 +814,7 @@
   <!-- ═══════════ SCREEN 8: FINAL ═══════════ -->
   <div id="screen-final" class="screen">
     <div class="final-content">
-      <div class="final-icon">🏝️</div>
+      <div class="final-icon"><img src="totoro_despedida.png" alt="Totoro despidiéndose"></div>
       <h1>¡Viaje <em>completado</em>!</h1>
       <p class="subtitle">Has explorado las cinco islas del archipiélago y tu espíritu ha sido cartografiado.</p>
       <div class="final-quote">
