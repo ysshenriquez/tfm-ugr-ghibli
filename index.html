@@ -24,6 +24,7 @@
       --gold: #c9a84c;
       --gold-light: #e8d48b;
       --gold-glow: rgba(201, 168, 76, 0.4);
+      --gold-shine: rgba(232, 212, 139, 0.85);
       --warm-white: #fdf8ef;
       --parchment: #f5eed6;
       --text: #2d3436;
@@ -37,6 +38,14 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     body {
@@ -323,6 +332,385 @@
       transform: none;
     }
 
+    /* ─── PARTÍCULAS DORADAS DE FONDO (polvo de hadas) ─── */
+    .particles-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, var(--gold-shine) 0%, var(--gold) 40%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp 14s ease-in infinite;
+      filter: blur(0.3px);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(0, 100vh) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.9;
+        transform: translate(10px, 90vh) scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: translate(-20px, 50vh) scale(1.1);
+      }
+      90% {
+        opacity: 0.5;
+        transform: translate(15px, 10vh) scale(0.9);
+      }
+      100% {
+        transform: translate(0, -10vh) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* ─── PULSO DEL BOTÓN PRIMARIO (activo) ─── */
+    .btn-primary:not(:disabled) {
+      position: relative;
+      overflow: visible;
+    }
+
+    .btn-primary:not(:disabled)::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 65%);
+      opacity: 0;
+      z-index: -1;
+      animation: btnPulse 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes btnPulse {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.08);
+      }
+    }
+
+    /* ─── BRILLO RECORRIENDO LAS OPCIONES DEL QUIZ ─── */
+    .option-btn {
+      overflow: hidden;
+    }
+
+    .option-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -60%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(232, 212, 139, 0.35) 50%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      transition: none;
+      pointer-events: none;
+    }
+
+    .option-btn:hover::after {
+      animation: shimmer 1.4s ease-out;
+    }
+
+    @keyframes shimmer {
+      0% { left: -60%; }
+      100% { left: 130%; }
+    }
+
+    /* Partículas al seleccionar una opción */
+    .option-btn.selected {
+      animation: optionSparkle 0.6s ease-out;
+    }
+
+    @keyframes optionSparkle {
+      0% {
+        box-shadow: 0 0 0 rgba(201, 168, 76, 0), 0 3px 16px rgba(74, 143, 168, 0.18);
+      }
+      40% {
+        box-shadow: 0 0 24px rgba(201, 168, 76, 0.55), 0 3px 16px rgba(74, 143, 168, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 rgba(201, 168, 76, 0), 0 3px 16px rgba(74, 143, 168, 0.18);
+      }
+    }
+
+    .option-sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .option-sparkles .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, var(--gold-shine) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .option-btn.selected .option-sparkles .sparkle {
+      animation: sparkleBurst 0.8s ease-out forwards;
+    }
+
+    @keyframes sparkleBurst {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx, 30px), var(--dy, -30px)) scale(1.2);
+      }
+    }
+
+    /* ─── TRANSICIONES ENTRE PREGUNTAS ─── */
+    .quiz-body {
+      position: relative;
+      min-height: 200px;
+    }
+
+    .quiz-body.transitioning-out .question-text,
+    .quiz-body.transitioning-out .options-list {
+      animation: questionOut 0.35s ease-in forwards;
+    }
+
+    .quiz-body.transitioning-in .question-text,
+    .quiz-body.transitioning-in .options-list {
+      animation: questionIn 0.45s ease-out forwards;
+    }
+
+    @keyframes questionOut {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-30px);
+        filter: blur(3px);
+      }
+    }
+
+    @keyframes questionIn {
+      0% {
+        opacity: 0;
+        transform: translateX(30px);
+        filter: blur(3px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+      }
+    }
+
+    /* ─── PUERTA MÁGICA (transición al entrar a una isla) ─── */
+    .magic-door-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      pointer-events: none;
+      background: rgba(20, 25, 30, 0);
+      transition: background 0.3s ease;
+    }
+
+    .magic-door-overlay.active {
+      display: block;
+      pointer-events: all;
+    }
+
+    .magic-door-overlay.active.opening {
+      background: rgba(20, 25, 30, 0.85);
+    }
+
+    .door-panel {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 50%;
+      background:
+        linear-gradient(180deg,
+          #6b4423 0%,
+          #8b5a2b 30%,
+          #6b4423 60%,
+          #4a2f18 100%);
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+      transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .door-panel.left { left: 0; transform: translateX(-100%); }
+    .door-panel.right { right: 0; transform: translateX(100%); }
+
+    .magic-door-overlay.closed .door-panel.left { transform: translateX(0); }
+    .magic-door-overlay.closed .door-panel.right { transform: translateX(0); }
+
+    .magic-door-overlay.opening .door-panel.left { transform: translateX(-105%); }
+    .magic-door-overlay.opening .door-panel.right { transform: translateX(105%); }
+
+    .door-panel svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .door-flash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      transform: translate(-50%, -50%) scale(0);
+      background: radial-gradient(circle,
+        var(--gold-shine) 0%,
+        var(--gold) 20%,
+        rgba(201, 168, 76, 0.3) 40%,
+        transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .magic-door-overlay.opening .door-flash {
+      animation: doorFlash 1.1s ease-out;
+    }
+
+    @keyframes doorFlash {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3);
+      }
+    }
+
+    /* ─── PIEZAS DE ROMPECABEZAS EN EL MAPA ─── */
+    .puzzle-tracker {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem auto 1.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      box-shadow: 0 2px 12px rgba(45, 52, 54, 0.06);
+      max-width: fit-content;
+    }
+
+    .puzzle-tracker .puzzle-piece {
+      width: 34px;
+      height: 34px;
+      opacity: 0.28;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: scale(0.85);
+    }
+
+    .puzzle-tracker .puzzle-piece.unlocked {
+      opacity: 1;
+      transform: scale(1);
+      animation: piecePop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes piecePop {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-15deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.25) rotate(8deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    .puzzle-tracker .puzzle-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      color: var(--forest-deep);
+      font-size: 0.95rem;
+      margin-left: 0.35rem;
+    }
+
+    /* ─── CELEBRACIÓN FINAL ─── */
+    .celebration-burst {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      display: none;
+      pointer-events: none;
+    }
+
+    .celebration-burst.active {
+      display: block;
+      animation: celebrationFade 2.5s ease-out;
+    }
+
+    .celebration-burst .burst-particle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, var(--gold-shine) 0%, var(--gold) 40%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .celebration-burst.active .burst-particle {
+      animation: burstOut 1.8s ease-out forwards;
+    }
+
+    @keyframes burstOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--bx, 0px)), calc(-50% + var(--by, 0px))) scale(1.4);
+      }
+    }
+
+    @keyframes celebrationFade {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
     /* ─── MAP ─── */
     .map-container {
       max-width: 1100px;
@@ -561,6 +949,13 @@
       color: var(--nausicaa-blue);
       font-size: 0.85rem;
       opacity: 0.7;
+      z-index: 2;
+    }
+
+    .option-btn .option-text {
+      position: relative;
+      z-index: 2;
+      display: block;
     }
 
     .quiz-nav {
@@ -678,6 +1073,24 @@
       .island-spot .spot-status {
         font-size: 0.45rem;
       }
+
+      .puzzle-tracker {
+        padding: 0.55rem 0.9rem;
+        gap: 0.4rem;
+      }
+
+      .puzzle-tracker .puzzle-piece {
+        width: 28px;
+        height: 28px;
+      }
+
+      .puzzle-tracker .puzzle-label {
+        font-size: 0.85rem;
+      }
+
+      .door-panel svg { transform-origin: center; }
+
+      .particle { width: 3px; height: 3px; }
     }
 
     .loading-overlay {
@@ -755,6 +1168,61 @@
     <p class="subtitle" id="map-subtitle">Explora cada isla en orden. Cada una revelará una dimensión de tu espíritu.
     </p>
 
+    <div class="puzzle-tracker" id="puzzle-tracker">
+      <svg class="puzzle-piece" data-piece="0" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8fbf7e"/>
+            <stop offset="100%" stop-color="#4a7a49"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradLeaf)" stroke="#3a5a40" stroke-width="1"/>
+        <path d="M12 20 Q17 15 22 20" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.6"/>
+      </svg>
+      <svg class="puzzle-piece" data-piece="1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradWind" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#c8e0ea"/>
+            <stop offset="100%" stop-color="#5a9cb5"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradWind)" stroke="#3a7a93" stroke-width="1"/>
+        <path d="M11 16 Q17 14 23 16 M11 22 Q17 20 23 22" fill="none" stroke="#3a7a93" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+      <svg class="puzzle-piece" data-piece="2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradSpirit" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#c9a4d8"/>
+            <stop offset="100%" stop-color="#7a5a99"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradSpirit)" stroke="#4a3a5e" stroke-width="1"/>
+        <circle cx="17" cy="20" r="4" fill="#fdf8ef" opacity="0.8"/>
+        <circle cx="17" cy="20" r="1.8" fill="#4a3a5e"/>
+      </svg>
+      <svg class="puzzle-piece" data-piece="3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradCity" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f0c9d8"/>
+            <stop offset="100%" stop-color="#c47498"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradCity)" stroke="#8a4a68" stroke-width="1"/>
+        <path d="M17 12 L18 17 L23 17 L19 20 L21 25 L17 22 L13 25 L15 20 L11 17 L16 17 Z" fill="#fdf8ef" opacity="0.85"/>
+      </svg>
+      <svg class="puzzle-piece" data-piece="4" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradStorm" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7a8898"/>
+            <stop offset="100%" stop-color="#3a4658"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradStorm)" stroke="#252d38" stroke-width="1"/>
+        <path d="M17 10 L14 20 L18 20 L15 30" fill="none" stroke="#e8d48b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="puzzle-label" id="puzzle-label">0 / 5</span>
+    </div>
+
     <div class="map-container">
       <div class="map-wrapper" id="island-map">
         <img src="mapa.png" alt="Mapa del Archipiélago del Espíritu">
@@ -804,8 +1272,10 @@
         <div class="island-badge" id="quiz-badge">🌬️ Las Tierras del Viento</div>
         <div class="quiz-progress" id="quiz-progress"></div>
       </div>
-      <p class="question-text" id="question-text"></p>
-      <div class="options-list" id="options-list"></div>
+      <div class="quiz-body" id="quiz-body">
+        <p class="question-text" id="question-text"></p>
+        <div class="options-list" id="options-list"></div>
+      </div>
       <div class="quiz-nav">
         <button class="btn btn-back" id="btn-prev" onclick="prevQuestion()">← Atrás</button>
         <button class="btn btn-primary" id="btn-next" disabled onclick="nextQuestion()">Siguiente →</button>
@@ -820,7 +1290,7 @@
       <h1>¡Viaje <em>completado</em>!</h1>
       <p class="subtitle">Has explorado las cinco islas del archipiélago y tu espíritu ha sido cartografiado.</p>
       <div class="final-quote">
-        "Siempre creeré en ti, aunque no pueda ir contigo."<br>
+        "Nada de lo que sucede se olvida jamás, aunque no puedas recordarlo."<br>
         <small style="color: var(--text-soft); font-family: 'Quicksand', sans-serif; font-size: 0.85rem;">— El viaje de
           Chihiro</small>
       </div>
@@ -830,6 +1300,55 @@
       </p>
     </div>
   </div>
+
+  <!-- ═══════════ CAPAS MÁGICAS ═══════════ -->
+  <div class="particles-layer" id="particles-layer"></div>
+
+  <div class="magic-door-overlay closed" id="magic-door">
+    <div class="door-panel left">
+      <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="woodGrainL" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.7"/>
+            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.5"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainL)"/>
+        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7" rx="2"/>
+        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5" rx="2"/>
+        <!-- vetas de madera -->
+        <path d="M20 40 Q30 100 25 180 Q22 260 28 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5"/>
+        <path d="M55 30 Q60 120 58 200 Q56 280 60 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4"/>
+        <path d="M78 45 Q75 130 80 220 Q83 310 78 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5"/>
+        <!-- pomo dorado -->
+        <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1"/>
+        <circle cx="90" cy="200" r="1.5" fill="#8a6f2e"/>
+      </svg>
+    </div>
+    <div class="door-panel right">
+      <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="woodGrainR" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.5"/>
+            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.7"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainR)"/>
+        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7" rx="2"/>
+        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5" rx="2"/>
+        <path d="M22 45 Q28 130 24 220 Q20 310 26 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5"/>
+        <path d="M45 30 Q42 120 46 200 Q48 280 44 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4"/>
+        <path d="M75 40 Q72 100 78 180 Q80 260 74 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5"/>
+        <circle cx="10" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1"/>
+        <circle cx="10" cy="200" r="1.5" fill="#8a6f2e"/>
+      </svg>
+    </div>
+    <div class="door-flash"></div>
+  </div>
+
+  <div class="celebration-burst" id="celebration"></div>
 
   <!-- ═══════════ LOADING ═══════════ -->
   <div class="loading-overlay" id="loading">
@@ -1082,7 +1601,89 @@
       completedIslands: [],
     };
 
-    function init() { renderAvatars(); setupFormListeners(); }
+    function init() {
+      renderAvatars();
+      setupFormListeners();
+      generateParticles();
+      updatePuzzleTracker();
+    }
+
+    // ═══════════ PARTÍCULAS DORADAS DE FONDO ═══════════
+    function generateParticles() {
+      const layer = document.getElementById('particles-layer');
+      if (!layer) return;
+      const count = window.innerWidth < 700 ? 14 : 22;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 14 + 's';
+        p.style.animationDuration = (10 + Math.random() * 8) + 's';
+        const scale = 0.6 + Math.random() * 1.2;
+        p.style.transform = `scale(${scale})`;
+        layer.appendChild(p);
+      }
+    }
+
+    // ═══════════ ROMPECABEZAS ═══════════
+    function updatePuzzleTracker() {
+      const pieces = document.querySelectorAll('.puzzle-piece');
+      const done = state.completedIslands.length;
+      pieces.forEach((piece, i) => {
+        // Cada pieza corresponde a una dimensión (por orden de islas visitadas)
+        const wasUnlocked = piece.classList.contains('unlocked');
+        const shouldBeUnlocked = i < done;
+        if (shouldBeUnlocked && !wasUnlocked) {
+          piece.classList.add('unlocked');
+        } else if (!shouldBeUnlocked) {
+          piece.classList.remove('unlocked');
+        }
+      });
+      const label = document.getElementById('puzzle-label');
+      if (label) label.textContent = `${done} / 5`;
+    }
+
+    // ═══════════ PUERTA MÁGICA ═══════════
+    function openMagicDoor(onOpen) {
+      const overlay = document.getElementById('magic-door');
+      // Estado inicial: puertas visibles cerradas
+      overlay.classList.remove('opening');
+      overlay.classList.add('active', 'closed');
+      // Frame siguiente para que aplique el estado inicial antes de abrir
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          overlay.classList.remove('closed');
+          overlay.classList.add('opening');
+          // Cuando termine la animación de las puertas, cambio de pantalla
+          setTimeout(() => {
+            if (onOpen) onOpen();
+          }, 750);
+          // Y ocultamos la capa después de que se abran del todo
+          setTimeout(() => {
+            overlay.classList.remove('active', 'opening');
+          }, 1200);
+        }, 30);
+      });
+    }
+
+    // ═══════════ CELEBRACIÓN FINAL ═══════════
+    function celebrationBurst() {
+      const burst = document.getElementById('celebration');
+      burst.innerHTML = '';
+      const count = 40;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'burst-particle';
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3;
+        const distance = 180 + Math.random() * 220;
+        p.style.setProperty('--bx', Math.cos(angle) * distance + 'px');
+        p.style.setProperty('--by', Math.sin(angle) * distance + 'px');
+        p.style.animationDelay = Math.random() * 0.4 + 's';
+        burst.appendChild(p);
+      }
+      burst.classList.add('active');
+      setTimeout(() => burst.classList.remove('active'), 2500);
+    }
 
     function renderAvatars() {
       const grid = document.getElementById('avatar-grid');
@@ -1145,6 +1746,7 @@
         document.getElementById('map-subtitle').textContent =
           `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
       }
+      updatePuzzleTracker();
     }
 
     function enterIsland(index) {
@@ -1154,7 +1756,10 @@
       if (questions.length === 0) { alert('⏳ Las preguntas de esta isla aún no están disponibles.'); return; }
       state.currentQuestion = 0;
       renderQuiz();
-      showScreen('screen-quiz');
+      // Puerta mágica: se cierra visualmente, cambio de pantalla, y luego se abre
+      openMagicDoor(() => {
+        showScreen('screen-quiz');
+      });
     }
 
     function renderQuiz() {
@@ -1178,7 +1783,15 @@
       const list = document.getElementById('options-list');
       const saved = state.answers[island.key][state.currentQuestion];
       list.innerHTML = q.options.map((opt, i) => `
-        <button class="option-btn ${saved === i ? 'selected' : ''}" onclick="selectOption(${i})">${opt.text}</button>
+        <button class="option-btn ${saved === i ? 'selected' : ''}" onclick="selectOption(${i})">
+          <span class="option-sparkles">
+            <span class="sparkle" style="top:15%; left:20%; --dx:-25px; --dy:-25px;"></span>
+            <span class="sparkle" style="top:50%; left:85%; --dx:30px; --dy:-15px;"></span>
+            <span class="sparkle" style="top:80%; left:35%; --dx:-15px; --dy:25px;"></span>
+            <span class="sparkle" style="top:30%; left:65%; --dx:20px; --dy:-30px;"></span>
+          </span>
+          <span class="option-text">${opt.text}</span>
+        </button>
       `).join('');
 
       document.getElementById('btn-prev').style.visibility = state.currentQuestion === 0 ? 'hidden' : 'visible';
@@ -1191,25 +1804,66 @@
     function selectOption(index) {
       const island = ISLANDS[state.currentIsland];
       state.answers[island.key][state.currentQuestion] = index;
-      document.querySelectorAll('.option-btn').forEach((btn, i) => btn.classList.toggle('selected', i === index));
+      document.querySelectorAll('.option-btn').forEach((btn, i) => {
+        const isSelected = i === index;
+        // Reset primero para que la animación de sparkles se relance
+        btn.classList.remove('selected');
+        if (isSelected) {
+          // eslint-disable-next-line no-unused-expressions
+          void btn.offsetWidth; // forzar reflow para reiniciar animación
+          btn.classList.add('selected');
+        }
+      });
       document.getElementById('btn-next').disabled = false;
+    }
+
+    function transitionQuestion(direction, doAfter) {
+      const body = document.getElementById('quiz-body');
+      body.classList.remove('transitioning-in', 'transitioning-out');
+      // eslint-disable-next-line no-unused-expressions
+      void body.offsetWidth;
+      body.classList.add('transitioning-out');
+      setTimeout(() => {
+        doAfter();
+        body.classList.remove('transitioning-out');
+        // eslint-disable-next-line no-unused-expressions
+        void body.offsetWidth;
+        body.classList.add('transitioning-in');
+        setTimeout(() => body.classList.remove('transitioning-in'), 450);
+      }, 350);
     }
 
     function nextQuestion() {
       const island = ISLANDS[state.currentIsland];
       const questions = QUESTIONS[island.key];
-      if (state.currentQuestion < questions.length - 1) { state.currentQuestion++; renderQuiz(); }
-      else { completeIsland(); }
+      if (state.currentQuestion < questions.length - 1) {
+        transitionQuestion('forward', () => {
+          state.currentQuestion++;
+          renderQuiz();
+        });
+      } else {
+        completeIsland();
+      }
     }
 
     function prevQuestion() {
-      if (state.currentQuestion > 0) { state.currentQuestion--; renderQuiz(); }
+      if (state.currentQuestion > 0) {
+        transitionQuestion('back', () => {
+          state.currentQuestion--;
+          renderQuiz();
+        });
+      }
     }
 
     function completeIsland() {
       state.completedIslands.push(state.currentIsland);
-      if (state.completedIslands.length === 5) { submitResults(); }
-      else { state.currentIsland++; updateMap(); showScreen('screen-map'); }
+      if (state.completedIslands.length === 5) {
+        submitResults();
+      } else {
+        state.currentIsland++;
+        updateMap();
+        showScreen('screen-map');
+      }
     }
 
     // ═══════════ TABLA DE PESOS OCEAN (según TFM, Anexo I) ═══════════
@@ -1309,7 +1963,12 @@
         console.error('Error guardando en Appwrite:', err);
       }
 
-      setTimeout(() => { loading.classList.remove('active'); showScreen('screen-final'); }, 1500);
+      setTimeout(() => {
+        loading.classList.remove('active');
+        showScreen('screen-final');
+        // Celebración justo al aterrizar en la pantalla final
+        setTimeout(() => celebrationBurst(), 200);
+      }, 1500);
     }
 
     init();
