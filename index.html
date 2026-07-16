@@ -665,6 +665,211 @@
       margin-left: 0.35rem;
     }
 
+    /* ─── PANTALLA DE RECOMPENSA (pieza ganada) ─── */
+    #screen-reward {
+      overflow: hidden;
+    }
+
+    .reward-halo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400px;
+      height: 400px;
+      transform: translate(-50%, -50%) scale(0);
+      background: radial-gradient(circle,
+        var(--gold-shine) 0%,
+        rgba(232, 212, 139, 0.5) 20%,
+        rgba(201, 168, 76, 0.25) 40%,
+        transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    #screen-reward.active .reward-halo {
+      animation: haloRise 1.6s ease-out forwards;
+    }
+
+    @keyframes haloRise {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      40% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1.4);
+      }
+    }
+
+    .reward-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 560px;
+      padding: 0 1rem;
+    }
+
+    .reward-piece-container {
+      display: inline-block;
+      margin: 0.5rem auto 1.75rem;
+      position: relative;
+    }
+
+    .reward-piece {
+      width: 180px;
+      height: 180px;
+      display: block;
+      filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35))
+              drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
+      opacity: 0;
+      transform: scale(0.3) rotate(-25deg);
+    }
+
+    #screen-reward.active .reward-piece {
+      animation: piecePresent 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards,
+                 pieceBreathe 3s ease-in-out 1.6s infinite;
+    }
+
+    @keyframes piecePresent {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-25deg);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.15) rotate(6deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    @keyframes pieceBreathe {
+      0%, 100% {
+        filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35))
+                drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.55))
+                drop-shadow(0 0 35px rgba(232, 212, 139, 0.7));
+        transform: scale(1.04);
+      }
+    }
+
+    .reward-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+    }
+
+    #screen-reward.active .reward-title {
+      animation: fadeInSoft 0.7s ease-out 0.9s forwards;
+    }
+
+    .reward-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.15rem, 3vw, 1.4rem);
+      color: var(--forest-deep);
+      line-height: 1.7;
+      margin: 0.5rem auto 0.75rem;
+      max-width: 480px;
+      opacity: 0;
+    }
+
+    #screen-reward.active .reward-quote {
+      animation: fadeInSoft 0.8s ease-out 1.1s forwards;
+    }
+
+    .reward-movie {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+
+    #screen-reward.active .reward-movie {
+      animation: fadeInSoft 0.8s ease-out 1.3s forwards;
+    }
+
+    .reward-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--forest-deep);
+      background: rgba(255, 255, 255, 0.7);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+
+    #screen-reward.active .reward-counter {
+      animation: fadeInSoft 0.6s ease-out 1.5s forwards;
+    }
+
+    .reward-counter .counter-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.25);
+    }
+
+    .reward-counter .counter-dot.on {
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold-glow);
+    }
+
+    #btn-reward-continue {
+      opacity: 0;
+    }
+
+    #screen-reward.active #btn-reward-continue {
+      animation: fadeInSoft 0.7s ease-out 1.7s forwards;
+    }
+
+    @keyframes fadeInSoft {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Pieza volando desde la pantalla de recompensa al tracker */
+    .flying-piece {
+      position: fixed;
+      width: 180px;
+      height: 180px;
+      z-index: 300;
+      pointer-events: none;
+      filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.55));
+      transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1),
+                  opacity 0.3s ease-out 0.85s;
+    }
+
     /* ─── CELEBRACIÓN FINAL ─── */
     .celebration-burst {
       position: fixed;
@@ -747,11 +952,12 @@
     }
 
     .island-spot .spot-label {
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.72);
       backdrop-filter: blur(4px);
-      padding: 0.4rem 0.9rem;
-      border-radius: 20px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      padding: 0.5rem 1.05rem;
+      border-radius: 22px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
       transition: var(--transition);
     }
 
@@ -818,33 +1024,33 @@
     }
 
     .island-spot:nth-child(1) {
-      left: 2%;
-      top: 72%;
+      left: 8%;
+      top: 68%;
     }
 
     .island-spot:nth-child(2) {
-      left: 9%;
-      top: 58%;
+      left: 18%;
+      top: 52%;
     }
 
     .island-spot:nth-child(3) {
-      left: 37%;
-      top: 51%;
+      left: 40%;
+      top: 46%;
     }
 
     .island-spot:nth-child(4) {
-      left: 46%;
-      top: 37%;
+      left: 52%;
+      top: 30%;
     }
 
     .island-spot:nth-child(5) {
-      left: 55%;
-      top: 9%;
+      left: 58%;
+      top: 14%;
     }
 
     .island-spot:nth-child(6) {
-      left: 75%;
-      top: 25%;
+      left: 72%;
+      top: 28%;
     }
 
     /* ─── QUIZ ─── */
@@ -1088,6 +1294,21 @@
         font-size: 0.85rem;
       }
 
+      .reward-piece {
+        width: 130px;
+        height: 130px;
+      }
+
+      .flying-piece {
+        width: 130px;
+        height: 130px;
+      }
+
+      .reward-halo {
+        width: 300px;
+        height: 300px;
+      }
+
       .door-panel svg { transform-origin: center; }
 
       .particle { width: 3px; height: 3px; }
@@ -1169,56 +1390,64 @@
     </p>
 
     <div class="puzzle-tracker" id="puzzle-tracker">
+      <!-- Pieza 1: Apertura (viento) - azul cielo -->
       <svg class="puzzle-piece" data-piece="0" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="gradLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#8fbf7e"/>
-            <stop offset="100%" stop-color="#4a7a49"/>
-          </linearGradient>
-        </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradLeaf)" stroke="#3a5a40" stroke-width="1"/>
-        <path d="M12 20 Q17 15 22 20" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.6"/>
-      </svg>
-      <svg class="puzzle-piece" data-piece="1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="gradWind" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="gradOpen" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#c8e0ea"/>
             <stop offset="100%" stop-color="#5a9cb5"/>
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradWind)" stroke="#3a7a93" stroke-width="1"/>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradOpen)" stroke="#3a7a93" stroke-width="1"/>
         <path d="M11 16 Q17 14 23 16 M11 22 Q17 20 23 22" fill="none" stroke="#3a7a93" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
       </svg>
-      <svg class="puzzle-piece" data-piece="2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pieza 2: Responsabilidad (ancla/hoja madera) - marrón tierra -->
+      <svg class="puzzle-piece" data-piece="1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="gradSpirit" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#c9a4d8"/>
-            <stop offset="100%" stop-color="#7a5a99"/>
+          <linearGradient id="gradCons" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d4b98e"/>
+            <stop offset="100%" stop-color="#8b5a2b"/>
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradSpirit)" stroke="#4a3a5e" stroke-width="1"/>
-        <circle cx="17" cy="20" r="4" fill="#fdf8ef" opacity="0.8"/>
-        <circle cx="17" cy="20" r="1.8" fill="#4a3a5e"/>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradCons)" stroke="#4a2f18" stroke-width="1"/>
+        <!-- ancla simplificada -->
+        <circle cx="17" cy="13" r="2.2" fill="none" stroke="#3a2410" stroke-width="1.3"/>
+        <line x1="17" y1="15" x2="17" y2="26" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M11 24 Q11 28 17 28 Q23 28 23 24" fill="none" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round"/>
       </svg>
-      <svg class="puzzle-piece" data-piece="3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pieza 3: Extraversión (estrella/luz) - rosa cálido -->
+      <svg class="puzzle-piece" data-piece="2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="gradCity" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="gradExtra" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#f0c9d8"/>
             <stop offset="100%" stop-color="#c47498"/>
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradCity)" stroke="#8a4a68" stroke-width="1"/>
-        <path d="M17 12 L18 17 L23 17 L19 20 L21 25 L17 22 L13 25 L15 20 L11 17 L16 17 Z" fill="#fdf8ef" opacity="0.85"/>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradExtra)" stroke="#8a4a68" stroke-width="1"/>
+        <path d="M17 11 L18.5 17 L24 17 L19.5 20 L21 26 L17 22.5 L13 26 L14.5 20 L10 17 L15.5 17 Z" fill="#fdf8ef" opacity="0.9"/>
       </svg>
+      <!-- Pieza 4: Amabilidad (hoja/espíritu bosque) - verde bosque -->
+      <svg class="puzzle-piece" data-piece="3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradAgree" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#a3ce8f"/>
+            <stop offset="100%" stop-color="#4a7a49"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradAgree)" stroke="#3a5a40" stroke-width="1"/>
+        <path d="M17 11 Q11 15 11 22 Q11 27 17 27 Q23 27 23 22 Q23 15 17 11 Z" fill="#fdf8ef" opacity="0.35"/>
+        <path d="M17 14 Q17 22 17 27" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.7"/>
+      </svg>
+      <!-- Pieza 5: Neuroticismo (rayo/tormenta) - gris tormenta -->
       <svg class="puzzle-piece" data-piece="4" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="gradStorm" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#7a8898"/>
+          <linearGradient id="gradNeur" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8a97a8"/>
             <stop offset="100%" stop-color="#3a4658"/>
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradStorm)" stroke="#252d38" stroke-width="1"/>
-        <path d="M17 10 L14 20 L18 20 L15 30" fill="none" stroke="#e8d48b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradNeur)" stroke="#252d38" stroke-width="1"/>
+        <path d="M18 9 L13 20 L17 20 L14 30" fill="none" stroke="#e8d48b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span class="puzzle-label" id="puzzle-label">0 / 5</span>
     </div>
@@ -1229,28 +1458,28 @@
 
         <div class="island-spot current" data-island="0" onclick="enterIsland(0)">
           <div class="spot-label">
-            <span class="spot-name">El Puerto de los<br>Compromisos</span>
+            <span class="spot-name">Las Tierras<br>del Viento</span>
             <span class="spot-status">Explorar</span>
           </div>
         </div>
 
         <div class="island-spot locked" data-island="1" onclick="enterIsland(1)">
           <div class="spot-label">
-            <span class="spot-name">Las Tierras<br>del Viento</span>
+            <span class="spot-name">El Puerto de los<br>Compromisos</span>
             <span class="spot-status">🔒</span>
           </div>
         </div>
 
         <div class="island-spot locked" data-island="2" onclick="enterIsland(2)">
           <div class="spot-label">
-            <span class="spot-name">El Bosque de<br>los Espíritus</span>
+            <span class="spot-name">La Ciudad<br>de las Luces</span>
             <span class="spot-status">🔒</span>
           </div>
         </div>
 
         <div class="island-spot locked" data-island="3" onclick="enterIsland(3)">
           <div class="spot-label">
-            <span class="spot-name">La Ciudad<br>de las Luces</span>
+            <span class="spot-name">El Bosque de<br>los Espíritus</span>
             <span class="spot-status">🔒</span>
           </div>
         </div>
@@ -1279,6 +1508,25 @@
       <div class="quiz-nav">
         <button class="btn btn-back" id="btn-prev" onclick="prevQuestion()">← Atrás</button>
         <button class="btn btn-primary" id="btn-next" disabled onclick="nextQuestion()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCREEN REWARD: pieza ganada ═══════════ -->
+  <div id="screen-reward" class="screen">
+    <div class="reward-halo"></div>
+    <div class="reward-content">
+      <div class="reward-piece-container" id="reward-piece-container">
+        <!-- La pieza SVG se inyecta aquí desde JS -->
+      </div>
+      <p class="reward-title">Has recuperado una pieza</p>
+      <p class="reward-quote" id="reward-quote"></p>
+      <p class="reward-movie" id="reward-movie"></p>
+      <div class="reward-counter" id="reward-counter"></div>
+      <div>
+        <button class="btn btn-primary" id="btn-reward-continue" onclick="continueFromReward()">
+          Continuar el viaje →
+        </button>
       </div>
     </div>
   </div>
@@ -1374,221 +1622,256 @@
     ];
 
     const ISLANDS = [
-      { key: 'conscientiousness', name: 'El Puerto de los Compromisos', icon: '⚓', badgeColor: '#b8845a' },
-      { key: 'openness', name: 'Las Tierras del Viento', icon: '🌬️', badgeColor: '#5a9cb5' },
-      { key: 'agreeableness', name: 'El Bosque de los Espíritus', icon: '🌿', badgeColor: '#4a7a49' },
-      { key: 'extraversion', name: 'La Ciudad de las Luces', icon: '✨', badgeColor: '#d07ca3' },
-      { key: 'neuroticism', name: 'La Tormenta Interior', icon: '⛈️', badgeColor: '#4a5568' },
+      {
+        key: 'openness',
+        name: 'Las Tierras del Viento',
+        icon: '🌬️',
+        badgeColor: '#5a9cb5',
+        quote: 'Es divertido despertarse cada día sin saber si será uno de esos que cambian tu vida para siempre.',
+        movie: 'Arrietty y el mundo de los diminutos',
+      },
+      {
+        key: 'conscientiousness',
+        name: 'El Puerto de los Compromisos',
+        icon: '⚓',
+        badgeColor: '#b8845a',
+        quote: 'No hay mañana para la gente que anhela el futuro y olvida el pasado.',
+        movie: 'La colina de las amapolas',
+      },
+      {
+        key: 'extraversion',
+        name: 'La Ciudad de las Luces',
+        icon: '✨',
+        badgeColor: '#d07ca3',
+        quote: 'Sólo tienes que seguir a tu corazón y mantener la sonrisa.',
+        movie: 'Kiki, la aprendiz de bruja',
+      },
+      {
+        key: 'agreeableness',
+        name: 'El Bosque de los Espíritus',
+        icon: '🌿',
+        badgeColor: '#4a7a49',
+        quote: 'Cada vez que creas algo con corazón, esa creación tiene alma.',
+        movie: 'El reino de los gatos',
+      },
+      {
+        key: 'neuroticism',
+        name: 'La Tormenta Interior',
+        icon: '⛈️',
+        badgeColor: '#4a5568',
+        quote: 'No puedes cambiar tu destino, pero puedes acudir a su encuentro.',
+        movie: 'La princesa Mononoke',
+      },
     ];
 
     const QUESTIONS = {
       openness: [
         {
-          text: 'Cuando te enfrentas a un problema que no tiene una solución clara, tu reacción más honesta es...', options: [
-            { text: 'Me incomoda no tener un camino definido, prefiero buscar referencias de cómo otros lo han resuelto', label: 'A' },
-            { text: 'Lo analizo desde distintos ángulos aunque tarde más, me gusta entender el problema antes de actuar', label: 'B' },
-            { text: 'Es justo el tipo de situación que me activa, la ambigüedad me parece un espacio interesante', label: 'C' },
-            { text: 'Busco la solución más práctica y eficiente aunque no sea original, lo importante es resolver', label: 'D' },
+          text: 'Cuando te enfrentas a un problema sin una solución clara, ¿cuál es tu reacción más honesta?', options: [
+            { text: 'Me incomoda no tener un camino definido. Prefiero buscar referencias de cómo otras personas lo han resuelto.', label: 'A' },
+            { text: 'Lo analizo desde distintos ángulos, aunque tarde más. Me gusta entender el problema antes de actuar.', label: 'B' },
+            { text: 'Es justo el tipo de situación que me activa. La ambigüedad me parece un espacio interesante.', label: 'C' },
+            { text: 'Busco la solución más práctica y eficiente, aunque no sea la más original. Lo importante es resolver el problema.', label: 'D' },
           ]
         },
         {
-          text: 'Cuando escuchas música, ves una película o lees algo, lo que más valoras es...', options: [
-            { text: 'Que te entretenga y te haga desconectar, no necesito más que eso', label: 'A' },
-            { text: 'Que tenga algo que decir, una historia bien contada o una idea que te haga pensar', label: 'B' },
-            { text: 'La experiencia en sí misma, el cómo está hecho, la estética, lo que evoca más allá del argumento', label: 'C' },
-            { text: 'Que sea bueno en lo que es, ya sea acción, humor o emoción, sin necesidad de que sea profundo', label: 'D' },
+          text: 'Cuando escuchas música, ves una película o lees un libro, ¿qué es lo que más valoras?', options: [
+            { text: 'Que me entretenga y me ayude a desconectar. No necesito mucho más que eso.', label: 'A' },
+            { text: 'Que tenga algo que decir, una historia bien contada o una idea que me haga pensar.', label: 'B' },
+            { text: 'La experiencia en sí misma: cómo está hecha, su estética y lo que me hace sentir más allá del argumento.', label: 'C' },
+            { text: 'Que sea buena en lo que pretende ser, ya sea acción, humor o emoción, sin necesidad de ser profunda.', label: 'D' },
           ]
         },
         {
           text: 'Si tuvieras que describir tu relación con las rutinas, dirías que...', options: [
-            { text: 'Las necesito, me dan estructura y sin ellas siento que pierdo el control', label: 'A' },
-            { text: 'Me ayudan a moverme mejor, puedo cambiarlas o ajustarlas, pero siempre vuelvo a tener alguna', label: 'B' },
-            { text: 'Me aburren bastante, prefiero que cada día tenga algo diferente aunque sea pequeño', label: 'C' },
-            { text: 'Tengo algunas rutinas muy fijas y otras áreas de mi vida donde las evito completamente', label: 'D' },
+            { text: 'Las necesito. Me dan estructura y, sin ellas, siento que pierdo el control.', label: 'A' },
+            { text: 'Me ayudan a organizarme. Puedo cambiarlas o ajustarlas, pero siempre termino teniendo alguna.', label: 'B' },
+            { text: 'Me aburren con facilidad. Prefiero que cada día tenga algo diferente, aunque sea un pequeño cambio.', label: 'C' },
+            { text: 'Tengo algunas rutinas muy marcadas y, al mismo tiempo, otras áreas de mi vida donde prefiero evitarlas.', label: 'D' },
           ]
         },
         {
-          text: 'Cuando piensas en viajar a un lugar que no conoces, lo que más te motiva es...', options: [
-            { text: 'Descansar y desconectar en un entorno diferente al habitual', label: 'A' },
-            { text: 'Poder conocer cómo vive y piensa la gente de ese lugar, su cultura, su historia, su forma de ver el mundo', label: 'B' },
-            { text: 'Algo específico de ese destino te llama la atención sin que puedas explicarlo del todo racionalmente', label: 'C' },
-            { text: 'Tener una experiencia nueva que contar, ampliar el mapa de lugares que has vivido', label: 'D' },
+          text: 'Cuando piensas en viajar a un lugar que no conoces, ¿qué es lo que más te motiva?', options: [
+            { text: 'Descansar y desconectar en un entorno diferente al de siempre.', label: 'A' },
+            { text: 'Conocer cómo vive la gente de ese lugar, su cultura, su historia y su forma de ver el mundo.', label: 'B' },
+            { text: 'Hay algo de ese destino que me llama la atención, aunque no pueda explicar exactamente por qué.', label: 'C' },
+            { text: 'Vivir una experiencia nueva y ampliar la lista de lugares que he conocido.', label: 'D' },
           ]
         },
         {
-          text: 'Imagina que alguien te propone una conversación sin respuesta correcta, del tipo ¿tenemos libre albedrío?, ¿qué es lo que hace que algo sea bello?, ¿existe el tiempo realmente? Tu reacción más honesta sería...', options: [
-            { text: 'Me interesa si hay algo concreto que resolver, pero las preguntas que no llevan a ningún lado me frustran un poco', label: 'A' },
-            { text: 'Depende del momento y de con quién, a veces me engancha y a veces me parece una pérdida de tiempo', label: 'B' },
-            { text: 'Me encanta ese tipo de conversación, podría estar horas en ella aunque no lleguemos a ninguna conclusión', label: 'C' },
-            { text: 'Lo escucho con gusto pero no es algo que yo buscaría activamente', label: 'D' },
+          text: 'Imagina que alguien te propone una conversación sin una respuesta correcta, como: "¿tenemos libre albedrío?", "¿qué hace que algo sea bello?" o "¿existe realmente el tiempo?". ¿Cuál sería tu reacción más honesta?', options: [
+            { text: 'Me interesa si hay algo concreto que resolver, pero las preguntas sin una respuesta clara suelen frustrarme un poco.', label: 'A' },
+            { text: 'Depende del momento y de con quién esté. A veces me enganchan y otras veces me parecen una pérdida de tiempo.', label: 'B' },
+            { text: 'Me encantan ese tipo de conversaciones. Podría pasar horas hablando de ellas, aunque nunca lleguemos a una conclusión.', label: 'C' },
+            { text: 'Las escucho con gusto, pero no son conversaciones que yo buscaría por iniciativa propia.', label: 'D' },
           ]
         },
       ],
       conscientiousness: [
         {
-          text: 'Has empezado algo que a mitad del camino te das cuenta de que no era lo que esperabas o que ya no te motiva igual. ¿Qué haces?', options: [
-            { text: 'Lo termino igual, para mí dejar algo a medias no es una opción independientemente de cómo me sienta', label: 'A' },
-            { text: 'Evalúo si tiene sentido seguir, si la respuesta es no, lo dejo sin demasiado conflicto interno', label: 'B' },
-            { text: 'Lo termino pero con la sensación de estar cargando algo que ya no es mío, el compromiso pesa más que las ganas', label: 'C' },
-            { text: 'Depende de lo que haya en juego, si afecta a otros lo termino, si solo me afecta a mí lo valoro', label: 'D' },
+          text: 'Has empezado algo y, a mitad del camino, te das cuenta de que ya no era lo que esperabas o que ha dejado de motivarte. ¿Qué haces?', options: [
+            { text: 'Lo termino igual. Para mí, dejar algo a medias no es una opción, independientemente de cómo me sienta.', label: 'A' },
+            { text: 'Evalúo si realmente tiene sentido seguir. Si la respuesta es no, lo dejo sin demasiado conflicto interno.', label: 'B' },
+            { text: 'Lo termino, pero con la sensación de estar cargando con algo que ya no siento mío. El compromiso pesa más que las ganas.', label: 'C' },
+            { text: 'Depende de lo que haya en juego. Si afecta a otras personas, lo termino; si solo me afecta a mí, valoro si merece la pena continuar.', label: 'D' },
           ]
         },
         {
-          text: 'Cuando tienes varios pendientes encima, tu forma natural de gestionarlos es...', options: [
-            { text: 'Me siento, los organizo, les pongo orden y prioridad antes de empezar cualquiera', label: 'A' },
-            { text: 'Voy resolviendo según lo que me pide el cuerpo o lo que se presenta primero', label: 'B' },
-            { text: 'Hago una lista mental pero no siempre la sigo, a veces el orden se rompe solo', label: 'C' },
-            { text: 'Me cuesta arrancar cuando hay mucho, pero una vez que empiezo no paro hasta terminar', label: 'D' },
+          text: 'Cuando tienes varios pendientes al mismo tiempo, ¿cómo los gestionas normalmente?', options: [
+            { text: 'Me siento, los organizo y les doy un orden de prioridad antes de empezar.', label: 'A' },
+            { text: 'Voy resolviéndolos según lo que me apetece en ese momento o según van apareciendo.', label: 'B' },
+            { text: 'Hago una lista mental, aunque no siempre la sigo. A veces el orden cambia sobre la marcha.', label: 'C' },
+            { text: 'Me cuesta empezar cuando tengo demasiadas cosas, pero una vez que arranco no paro hasta terminar.', label: 'D' },
           ]
         },
         {
-          text: 'Piensa en la última vez que cumplir un compromiso te costó de verdad, tiempo, energía o incomodidad. ¿Qué pasó?', options: [
-            { text: 'Lo cumplí, un compromiso es un compromiso y eso no cambia según cómo me sienta', label: 'A' },
-            { text: 'Lo cumplí pero necesité recordarme por qué lo había asumido para no dejarlo', label: 'B' },
-            { text: 'Busqué la forma de cumplirlo de manera que me costara lo menos posible', label: 'C' },
-            { text: 'Reconozco que hubo momentos en que estuve cerca de soltarlo', label: 'D' },
+          text: 'Piensa en la última vez que cumplir un compromiso te costó de verdad, ya fuera por tiempo, energía o incomodidad. ¿Qué hiciste?', options: [
+            { text: 'Lo cumplí. Un compromiso es un compromiso y eso no cambia según cómo me sienta.', label: 'A' },
+            { text: 'Lo cumplí, pero necesité recordarme por qué lo había asumido para no dejarlo.', label: 'B' },
+            { text: 'Busqué la forma de cumplirlo haciendo que me costara lo menos posible.', label: 'C' },
+            { text: 'Reconozco que hubo momentos en los que estuve a punto de dejarlo.', label: 'D' },
           ]
         },
         {
-          text: 'Cuando entregas algo, ya sea un trabajo, un favor o cualquier tarea, ¿cómo sabes que está listo?', options: [
-            { text: 'Cuando cumple con lo que se pedía, si el resultado es el esperado está bien', label: 'A' },
-            { text: 'Cuando he revisado cada detalle y estoy seguro de que no hay nada que mejorar', label: 'B' },
-            { text: 'Cuando siento que di lo mejor que podía dar en ese momento, aunque sé que siempre hay algo más', label: 'C' },
-            { text: 'Cuando el tiempo se acaba, la fecha límite es la que marca el punto final', label: 'D' },
+          text: 'Cuando entregas un trabajo, haces un favor o terminas una tarea, ¿cómo sabes que está lista?', options: [
+            { text: 'Cuando cumple con lo que se esperaba. Si el resultado es el adecuado, doy la tarea por terminada.', label: 'A' },
+            { text: 'Cuando he revisado cada detalle y estoy seguro de que no queda nada por mejorar.', label: 'B' },
+            { text: 'Cuando siento que di lo mejor de mí en ese momento, aunque sé que siempre podría hacerse algo más.', label: 'C' },
+            { text: 'Cuando se acaba el tiempo. La fecha límite marca el final.', label: 'D' },
           ]
         },
         {
-          text: '¿Cómo describirías tu relación con los plazos y fechas límite?', options: [
-            { text: 'Los respeto siempre, organizarme para llegar a tiempo es algo que no negocio', label: 'A' },
-            { text: 'Casi siempre llego, aunque a veces el último empujón lo da la presión del plazo', label: 'B' },
-            { text: 'Funcionan mejor como referencia que como límite real, si necesito más tiempo lo tomo', label: 'C' },
-            { text: 'Me generan bastante estrés, pero ese mismo estrés es lo que me hace moverme', label: 'D' },
+          text: '¿Cómo describirías tu relación con los plazos y las fechas límite?', options: [
+            { text: 'Los respeto siempre. Organizarme para llegar a tiempo es algo que no negocio.', label: 'A' },
+            { text: 'Casi siempre llego a tiempo, aunque a veces necesito el impulso que da la presión del plazo.', label: 'B' },
+            { text: 'Los veo más como una referencia que como un límite estricto. Si necesito más tiempo, suelo tomarlo.', label: 'C' },
+            { text: 'Me generan bastante estrés, pero ese mismo estrés es el que termina haciéndome actuar.', label: 'D' },
           ]
         },
       ],
       extraversion: [
         {
-          text: 'Llevas varios días seguidos con mucha actividad social, reuniones, planes, gente. Cuando por fin tienes un día libre, lo primero que sientes es...', options: [
-            { text: 'Alivio genuino, necesito ese silencio y ese espacio para mí', label: 'A' },
-            { text: 'Satisfacción por todo lo vivido, pero con ganas de que alguien te proponga algo más', label: 'B' },
-            { text: 'Casi no sabes qué hacer solo, tu instinto es llamar a alguien o buscar un plan', label: 'C' },
-            { text: 'Depende completamente de cómo hayan ido esos días, no hay una respuesta fija', label: 'D' },
+          text: 'Después de varios días con mucha actividad social, reuniones y planes, por fin llega un día completamente libre. ¿Cómo sueles sentirte?', options: [
+            { text: 'Siento un alivio genuino. Necesito ese silencio y ese espacio para mí.', label: 'A' },
+            { text: 'Me siento satisfecho por todo lo vivido, pero también con ganas de que alguien me proponga otro plan.', label: 'B' },
+            { text: 'Casi no sé qué hacer estando solo. Mi primer impulso es llamar a alguien o buscar un plan.', label: 'C' },
+            { text: 'Depende completamente de cómo hayan sido esos días. No siempre reacciono igual.', label: 'D' },
           ]
         },
         {
-          text: 'Estás en una reunión o evento donde no conoces a casi nadie. ¿Qué pasa normalmente?', options: [
-            { text: 'El silencio no me incomoda, prefiero quedarme en mi espacio antes que forzar una conversación con alguien que no conozco', label: 'A' },
-            { text: 'Si alguien me habla me suelto enseguida, pero raramente soy yo quien arranca', label: 'B' },
-            { text: 'Busco activamente a alguien con quien hablar, la incomodidad del silencio me mueve más que el miedo al rechazo', label: 'C' },
-            { text: 'Depende del contexto, en algunos entornos arranco solo y en otros prefiero quedarme en segundo plano', label: 'D' },
+          text: 'Estás en una reunión o en un evento donde no conoces a casi nadie. ¿Cómo reaccionas normalmente?', options: [
+            { text: 'El silencio no me incomoda. Prefiero quedarme en mi espacio antes que forzar una conversación con alguien que no conozco.', label: 'A' },
+            { text: 'Si alguien me habla, entro en conversación enseguida, pero rara vez soy yo quien da el primer paso.', label: 'B' },
+            { text: 'Busco activamente a alguien con quien hablar. El silencio me incomoda más que la posibilidad de ser rechazado.', label: 'C' },
+            { text: 'Depende del contexto. En algunos lugares tomo la iniciativa y, en otros, prefiero mantenerme en un segundo plano.', label: 'D' },
           ]
         },
         {
-          text: 'Cuando tienes que tomar una decisión importante, ¿qué necesitas?', options: [
-            { text: 'Tiempo a solas para pensarlo, las opiniones externas me confunden más que me ayudan', label: 'A' },
-            { text: 'Hablar con una o dos personas de confianza, no necesito más', label: 'B' },
-            { text: 'Contrastar con varias personas, escuchar perspectivas distintas me ayuda a ordenar mis ideas', label: 'C' },
-            { text: 'Primero lo proceso solo y luego lo valido con alguien cercano', label: 'D' },
+          text: 'Cuando tienes que tomar una decisión importante, ¿cómo suele ser tu proceso antes de decidir?', options: [
+            { text: 'Necesito tiempo a solas para pensarlo. Las opiniones de otras personas suelen confundirme más de lo que me ayudan.', label: 'A' },
+            { text: 'Me gusta hablarlo con una o dos personas de confianza. Escuchar otro punto de vista suele ser suficiente.', label: 'B' },
+            { text: 'Necesito comentarlo con varias personas. Hablarlo y escuchar diferentes perspectivas me ayuda a ordenar mis ideas.', label: 'C' },
+            { text: 'Primero lo pienso por mi cuenta y, después, lo comento con alguien cercano para confirmar mi decisión.', label: 'D' },
           ]
         },
         {
-          text: '¿Cómo describirías tu energía en una conversación que se alarga más de lo esperado?', options: [
-            { text: 'En algún punto empiezo a desconectarme, necesito mis momentos de silencio', label: 'A' },
-            { text: 'Si la conversación es buena me quedo, pero hay un límite natural que noto claramente', label: 'B' },
-            { text: 'Me activo con las conversaciones largas, cuanto más se extienden más me enganchan', label: 'C' },
-            { text: 'Depende de con quién, hay personas que me dan energía y otras que me la quitan', label: 'D' },
+          text: '¿Cómo suele cambiar tu energía cuando una conversación se alarga más de lo esperado?', options: [
+            { text: 'Llega un momento en el que empiezo a desconectarme. Necesito mis momentos de silencio.', label: 'A' },
+            { text: 'Si la conversación es buena, me quedo con gusto, aunque noto claramente que tengo un límite.', label: 'B' },
+            { text: 'Me activo con las conversaciones largas. Cuanto más se alargan, más disfruto de ellas.', label: 'C' },
+            { text: 'Depende de con quién esté. Hay personas que me llenan de energía y otras que me la agotan.', label: 'D' },
           ]
         },
         {
-          text: 'Si pudieras elegir cómo pasar un fin de semana sin compromisos ni obligaciones, elegirías...', options: [
-            { text: 'Tiempo completamente para ti, silencio, tu espacio, tus cosas', label: 'A' },
-            { text: 'Un plan tranquilo con una o dos personas cercanas, sin mucha gente ni mucho ruido', label: 'B' },
-            { text: 'Algo con bastante gente, un evento, una salida, cuantos más mejor', label: 'C' },
-            { text: 'Una mezcla, algo de tiempo solo y algo de tiempo con gente, necesitas las dos cosas', label: 'D' },
+          text: 'Si tuvieras un fin de semana completamente libre, ¿cómo preferirías pasarlo?', options: [
+            { text: 'Pasar tiempo completamente a solas: disfrutar del silencio, mi espacio y mis propios planes.', label: 'A' },
+            { text: 'Un plan tranquilo con una o dos personas cercanas, sin mucha gente ni demasiado ruido.', label: 'B' },
+            { text: 'Un plan con bastante gente: un evento, una salida o cualquier actividad donde haya muchas personas.', label: 'C' },
+            { text: 'Una combinación de ambas cosas: un tiempo para mí y otro para compartir con otras personas.', label: 'D' },
           ]
         },
       ],
       agreeableness: [
         {
-          text: 'Alguien cercano te pide ayuda en un momento en que tú también estás justo de tiempo y energía. ¿Qué pasa?', options: [
-            { text: 'Le ayudo sin pensarlo demasiado, si me necesita estoy, ya me reorganizo yo', label: 'A' },
-            { text: 'Le ayudo pero soy honesto sobre lo que puedo dar en ese momento, no me comprometo a más', label: 'B' },
-            { text: 'Valoro primero si realmente me necesita a mí o si puede resolverlo de otra forma', label: 'C' },
-            { text: 'Me cuesta decir que no aunque sepa que debería, termino ayudando aunque me pese', label: 'D' },
+          text: 'Alguien cercano te pide ayuda justo en un momento en el que tú también vas justo de tiempo y energía. ¿Qué haces?', options: [
+            { text: 'Le ayudo sin pensarlo demasiado. Si me necesita, ahí estoy; ya encontraré la forma de reorganizarme.', label: 'A' },
+            { text: 'Le ayudo, pero soy sincero sobre lo que puedo dar en ese momento. No me comprometo a más de lo que puedo cumplir.', label: 'B' },
+            { text: 'Primero valoro si realmente me necesita a mí o si puede resolverlo de otra manera.', label: 'C' },
+            { text: 'Me cuesta decir que no, aunque sepa que debería. Al final termino ayudando, incluso cuando me supone un esfuerzo.', label: 'D' },
           ]
         },
         {
-          text: 'Alguien toma una decisión que te parece claramente equivocada y que además le va a traer consecuencias. ¿Qué haces?', options: [
-            { text: 'Se lo digo directamente aunque no me lo haya pedido, prefiero ser honesto a quedarme callado', label: 'A' },
-            { text: 'Si me pregunta le doy mi opinión sin filtros, si no me pregunta respeto su decisión', label: 'B' },
-            { text: 'Busco la forma de decírselo sin que duela demasiado, me importa tanto el mensaje como cómo llega', label: 'C' },
-            { text: 'Me lo guardo, cada uno es responsable de sus propias decisiones y no es mi lugar opinar', label: 'D' },
+          text: 'Alguien toma una decisión que te parece claramente equivocada y sabes que puede traerle consecuencias. ¿Cómo reaccionas?', options: [
+            { text: 'Se lo digo directamente, aunque no me haya pedido mi opinión. Prefiero ser honesto antes que quedarme callado.', label: 'A' },
+            { text: 'Si me pregunta, le doy mi opinión con sinceridad. Si no me la pide, respeto su decisión.', label: 'B' },
+            { text: 'Busco la mejor forma de decírselo. Me importa tanto el mensaje como la manera en que lo recibe.', label: 'C' },
+            { text: 'Prefiero no intervenir. Cada persona es responsable de sus propias decisiones y no siento que sea mi lugar opinar.', label: 'D' },
           ]
         },
         {
-          text: 'Piensa en una situación en la que alguien te trató de forma injusta o te falló. ¿Cómo lo gestionaste?', options: [
-            { text: 'Lo hablé, lo resolví y lo solté, no tiene sentido cargar con eso más tiempo del necesario', label: 'A' },
-            { text: 'Me costó pero terminé perdonando, aunque el proceso no fue rápido ni sencillo', label: 'B' },
-            { text: 'Soy de los que recuerdan, no necesariamente con rencor pero sí con memoria', label: 'C' },
-            { text: 'Depende de la gravedad y de quién fuera, no hay una respuesta única para eso', label: 'D' },
+          text: 'Piensa en una ocasión en la que alguien te trató de forma injusta o te falló. ¿Cómo lo gestionaste?', options: [
+            { text: 'Lo hablé, lo resolví y lo dejé atrás. No tiene sentido cargar con eso más tiempo del necesario.', label: 'A' },
+            { text: 'Me costó, pero con el tiempo conseguí perdonarlo, aunque el proceso no fue rápido ni sencillo.', label: 'B' },
+            { text: 'Suelo recordarlo. No necesariamente con rencor, pero sí con cierta memoria de lo ocurrido.', label: 'C' },
+            { text: 'Depende de la gravedad de lo ocurrido y de quién se trate. No creo que exista una única forma de reaccionar.', label: 'D' },
           ]
         },
         {
-          text: 'Estás en un grupo y surge un conflicto entre dos personas. ¿Cuál es tu papel natural?', options: [
-            { text: 'Intento mediar, me incomoda el conflicto abierto y busco que las cosas se resuelvan', label: 'A' },
-            { text: 'Me mantengo al margen a menos que me involucren directamente', label: 'B' },
-            { text: 'Si tengo una opinión clara la expreso aunque eso signifique tomar partido', label: 'C' },
-            { text: 'Escucho a ambas partes por separado pero evito posicionarme en público', label: 'D' },
+          text: 'Surge un conflicto entre dos personas dentro de un grupo. ¿Cuál suele ser tu papel?', options: [
+            { text: 'Intento mediar. Me incomoda el conflicto abierto y procuro que las cosas puedan resolverse.', label: 'A' },
+            { text: 'Prefiero mantenerme al margen, a menos que me involucren directamente.', label: 'B' },
+            { text: 'Si tengo una opinión clara, la expreso, aunque eso signifique tomar partido.', label: 'C' },
+            { text: 'Escucho a ambas partes por separado, pero procuro no posicionarme públicamente.', label: 'D' },
           ]
         },
         {
-          text: '¿Cómo reaccionas cuando alguien que apenas conoces está pasando por un momento difícil y se nota?', options: [
-            { text: 'Me acerco, no necesito conocer bien a alguien para ofrecerle algo', label: 'A' },
-            { text: 'Lo noto y me importa, pero espero a que esa persona dé alguna señal antes de acercarme', label: 'B' },
-            { text: 'Lo observo pero no intervengo, no quiero entrometerme en algo que no me han pedido', label: 'C' },
-            { text: 'Depende de la situación, a veces me acerco y a veces prefiero respetar su espacio', label: 'D' },
+          text: 'Cuando notas que alguien a quien apenas conoces está pasando por un momento difícil, ¿cómo reaccionas?', options: [
+            { text: 'Me acerco. No necesito conocer bien a alguien para ofrecerle apoyo o ayudar en lo que pueda.', label: 'A' },
+            { text: 'Me doy cuenta de lo que está pasando y me importa, pero espero alguna señal antes de acercarme.', label: 'B' },
+            { text: 'Lo noto, pero prefiero no intervenir. No quiero entrometerme en algo que no me han pedido.', label: 'C' },
+            { text: 'Depende de la situación. A veces me acerco y otras prefiero respetar su espacio.', label: 'D' },
           ]
         },
       ],
       neuroticism: [
         {
-          text: 'Tienes algo importante pendiente que no depende completamente de ti, una respuesta, una decisión ajena, un resultado. ¿Cómo vives ese tiempo de espera?', options: [
-            { text: 'Lo gestiono con relativa calma, me digo que no puedo controlarlo y eso me ayuda a soltarlo', label: 'A' },
-            { text: 'Pienso en ello más de lo que me gustaría pero puedo seguir funcionando con normalidad', label: 'B' },
-            { text: 'Me cuesta mucho desconectar, ese pensamiento aparece constantemente aunque intente alejarlo', label: 'C' },
-            { text: 'Lo racionalizo bien pero mi cuerpo lo nota, tensión, sueño alterado, energía diferente', label: 'D' },
+          text: 'Tienes algo importante pendiente que no depende completamente de ti: una respuesta, una decisión ajena o un resultado. ¿Cómo sueles vivir ese tiempo de espera?', options: [
+            { text: 'Lo llevo con relativa calma. Me recuerdo que hay cosas que no puedo controlar y eso me ayuda a soltarlo.', label: 'A' },
+            { text: 'Pienso en ello más de lo que me gustaría, pero consigo seguir con mi rutina sin que me bloquee.', label: 'B' },
+            { text: 'Me cuesta mucho desconectar. Ese pensamiento vuelve una y otra vez, aunque intente apartarlo.', label: 'C' },
+            { text: 'Mentalmente lo gestiono bastante bien, pero mi cuerpo lo nota: tensión, peor descanso o una energía diferente.', label: 'D' },
           ]
         },
         {
-          text: 'Acaba de pasar algo que salió mal, un error tuyo, un plan que se torció, algo que esperabas y no llegó. ¿Qué pasa dentro de ti en las horas siguientes?', options: [
-            { text: 'Lo proceso, entiendo qué pasó y lo suelto con relativa rapidez, no tiene sentido darle más vueltas', label: 'A' },
-            { text: 'Le doy vueltas un tiempo pero en algún punto algo hace clic y paso página', label: 'B' },
-            { text: 'Me quedo enganchado en ello más tiempo del que me gustaría, me cuesta salir de ese bucle', label: 'C' },
-            { text: 'Depende de la magnitud, hay cosas que suelto fácil y otras que me persiguen durante días', label: 'D' },
+          text: 'Algo ha salido mal: un error tuyo, un plan que no funcionó o algo que esperabas y no ocurrió. ¿Qué suele pasar dentro de ti durante las horas siguientes?', options: [
+            { text: 'Lo proceso, entiendo qué pasó y consigo dejarlo atrás con relativa rapidez. No tiene sentido darle más vueltas.', label: 'A' },
+            { text: 'Le doy vueltas durante un tiempo, pero llega un momento en el que consigo pasar página.', label: 'B' },
+            { text: 'Me quedo enganchado en ello mucho más tiempo del que me gustaría. Me cuesta salir de ese bucle.', label: 'C' },
+            { text: 'Depende de lo importante que haya sido. Hay cosas que dejo ir fácilmente y otras que me acompañan durante días.', label: 'D' },
           ]
         },
         {
-          text: 'Estás en medio de una situación que se complica, hay presión, incertidumbre y varias cosas a la vez. ¿Cómo respondes?', options: [
-            { text: 'Me centro, la presión me aclara más que me paraliza, funciono bien en ese tipo de situaciones', label: 'A' },
-            { text: 'Noto el estrés pero encuentro la forma de seguir, no me desborda aunque me pese', label: 'B' },
-            { text: 'Me cuesta mantener la claridad cuando hay demasiado a la vez, siento que pierdo el hilo', label: 'C' },
-            { text: 'Mi primer impulso es el caos interno, aunque por fuera pueda parecer que lo llevo bien', label: 'D' },
+          text: 'Estás en medio de una situación complicada: hay presión, incertidumbre y varias cosas ocurriendo al mismo tiempo. ¿Cómo reaccionas?', options: [
+            { text: 'Me centro. La presión suele ayudarme a pensar con más claridad que a bloquearme.', label: 'A' },
+            { text: 'Noto el estrés, pero encuentro la forma de seguir adelante. No me desborda, aunque me cueste.', label: 'B' },
+            { text: 'Me cuesta mantener la claridad cuando se acumulan demasiadas cosas. Siento que pierdo el hilo.', label: 'C' },
+            { text: 'Por dentro siento un auténtico caos, aunque por fuera pueda parecer que lo llevo bien.', label: 'D' },
           ]
         },
         {
-          text: '¿Cómo describirías tu estado emocional a lo largo de una semana normal, sin grandes eventos ni crisis?', options: [
-            { text: 'Bastante estable, mi estado de ánimo no varía demasiado de un día a otro', label: 'A' },
-            { text: 'Con altibajos normales, hay días mejores y peores pero nada que me descoloque', label: 'B' },
-            { text: 'Bastante variable, pequeñas cosas pueden cambiar mucho cómo me siento ese día', label: 'C' },
-            { text: 'Noto que mi estado cambia pero no siempre encuentro una razón clara, simplemente hay días en que todo pesa más', label: 'D' },
+          text: '¿Cómo describirías tu estado emocional durante una semana normal, sin grandes acontecimientos ni crisis?', options: [
+            { text: 'Bastante estable. Mi estado de ánimo no suele cambiar demasiado de un día para otro.', label: 'A' },
+            { text: 'Tengo altibajos normales. Hay días mejores y peores, pero nada que me descoloque demasiado.', label: 'B' },
+            { text: 'Es bastante variable. Pequeñas cosas pueden cambiar mucho cómo me siento ese día.', label: 'C' },
+            { text: 'Noto cambios en mi estado de ánimo, pero muchas veces no encuentro una razón clara. Simplemente hay días en los que todo pesa más.', label: 'D' },
           ]
         },
         {
           text: 'Piensa en una decisión importante que tomaste sabiendo que podía salir mal. ¿Cómo viviste ese momento?', options: [
-            { text: 'Lo valoré, tomé la decisión y no miré atrás, la incertidumbre forma parte de cualquier elección', label: 'A' },
-            { text: 'Me costó decidir pero una vez que lo hice intenté no alimentar el miedo', label: 'B' },
-            { text: 'Estuve dándole vueltas mucho tiempo antes de decidir y después también, el peso no desaparece fácil', label: 'C' },
-            { text: 'Lo decidí pero conviviendo con una tensión de fondo que no se fue hasta ver el resultado', label: 'D' },
+            { text: 'Valoré la situación, tomé la decisión y seguí adelante. La incertidumbre forma parte de cualquier elección.', label: 'A' },
+            { text: 'Me costó decidir, pero una vez que lo hice intenté no alimentar el miedo.', label: 'B' },
+            { text: 'Le di muchas vueltas antes de decidir y seguí haciéndolo después. Esa sensación tarda mucho en desaparecer.', label: 'C' },
+            { text: 'Tomé la decisión, pero conviví con una tensión de fondo que no desapareció hasta conocer el resultado.', label: 'D' },
           ]
         },
       ],
@@ -1626,16 +1909,20 @@
     }
 
     // ═══════════ ROMPECABEZAS ═══════════
-    function updatePuzzleTracker() {
+    function updatePuzzleTracker(excludeIndex) {
       const pieces = document.querySelectorAll('.puzzle-piece');
       const done = state.completedIslands.length;
       pieces.forEach((piece, i) => {
-        // Cada pieza corresponde a una dimensión (por orden de islas visitadas)
         const wasUnlocked = piece.classList.contains('unlocked');
         const shouldBeUnlocked = i < done;
-        if (shouldBeUnlocked && !wasUnlocked) {
-          piece.classList.add('unlocked');
-        } else if (!shouldBeUnlocked) {
+        if (shouldBeUnlocked) {
+          if (i === excludeIndex) {
+            // Esta pieza la maneja la animación de vuelo, no la desbloqueamos aún
+            piece.classList.remove('unlocked');
+          } else {
+            piece.classList.add('unlocked');
+          }
+        } else {
           piece.classList.remove('unlocked');
         }
       });
@@ -1727,7 +2014,7 @@
       showScreen('screen-map');
     }
 
-    function updateMap() {
+    function updateMap(excludePieceIndex) {
       const spots = document.querySelectorAll('.island-spot');
       spots.forEach((el, i) => {
         el.className = 'island-spot';
@@ -1746,7 +2033,7 @@
         document.getElementById('map-subtitle').textContent =
           `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
       }
-      updatePuzzleTracker();
+      updatePuzzleTracker(excludePieceIndex);
     }
 
     function enterIsland(index) {
@@ -1856,8 +2143,146 @@
     }
 
     function completeIsland() {
-      state.completedIslands.push(state.currentIsland);
+      const justCompleted = state.currentIsland;
+      state.completedIslands.push(justCompleted);
       if (state.completedIslands.length === 5) {
+        // Última isla: en vez de recompensa intermedia, mostramos también la recompensa
+        // y desde ella disparamos submitResults
+        showRewardScreen(justCompleted, /* isLast */ true);
+      } else {
+        showRewardScreen(justCompleted, /* isLast */ false);
+      }
+    }
+
+    // ═══════════ PANTALLA DE RECOMPENSA ═══════════
+    let pendingRewardIndex = null;
+    let pendingRewardIsLast = false;
+
+    function showRewardScreen(islandIndex, isLast) {
+      pendingRewardIndex = islandIndex;
+      pendingRewardIsLast = isLast;
+
+      const island = ISLANDS[islandIndex];
+
+      // Clonar la pieza SVG correspondiente del tracker
+      const sourcePiece = document.querySelector(`.puzzle-piece[data-piece="${islandIndex}"]`);
+      const container = document.getElementById('reward-piece-container');
+      container.innerHTML = '';
+      if (sourcePiece) {
+        const clone = sourcePiece.cloneNode(true);
+        clone.classList.remove('puzzle-piece');
+        clone.classList.add('reward-piece');
+        clone.removeAttribute('data-piece');
+        container.appendChild(clone);
+      }
+
+      // Frase de la película y nombre de la película
+      document.getElementById('reward-quote').textContent = `"${island.quote}"`;
+      document.getElementById('reward-movie').textContent = `— ${island.movie}`;
+
+      // Contador de piezas (dots visuales)
+      const counter = document.getElementById('reward-counter');
+      const done = state.completedIslands.length;
+      counter.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'counter-dot' + (i < done ? ' on' : '');
+        counter.appendChild(dot);
+      }
+      const label = document.createElement('span');
+      label.textContent = `${done} de 5`;
+      label.style.marginLeft = '0.4rem';
+      counter.appendChild(label);
+
+      // Actualizar el botón según si es la última o no
+      const btn = document.getElementById('btn-reward-continue');
+      btn.textContent = isLast ? 'Recibir mi resultado ✦' : 'Continuar el viaje →';
+
+      showScreen('screen-reward');
+    }
+
+    function continueFromReward() {
+      const rewardScreen = document.getElementById('screen-reward');
+      const sourceEl = rewardScreen.querySelector('.reward-piece');
+
+      if (!sourceEl) {
+        // fallback si algo raro pasa
+        finishRewardTransition();
+        return;
+      }
+
+      // Posición inicial (donde está ahora en la pantalla)
+      const startRect = sourceEl.getBoundingClientRect();
+
+      // Necesitamos calcular la posición destino en el tracker.
+      // Como el tracker está en la pantalla del mapa (no visible aún), lo mostraremos
+      // primero visualmente para poder medir. Truco: mostrar el mapa detrás con opacity 0
+      // y medir. Alternativamente hacemos el switch primero y luego animamos.
+      // Vamos por lo simple: cambiamos de pantalla, medimos, y hacemos la pieza volar.
+
+      // Creamos el clon volador antes de cambiar de pantalla, con posición inicial fija
+      const flyer = sourceEl.cloneNode(true);
+      flyer.classList.remove('reward-piece');
+      flyer.classList.add('flying-piece');
+      flyer.style.top = startRect.top + 'px';
+      flyer.style.left = startRect.left + 'px';
+      flyer.style.width = startRect.width + 'px';
+      flyer.style.height = startRect.height + 'px';
+      flyer.style.opacity = '1';
+      document.body.appendChild(flyer);
+
+      // Ocultamos la pieza original para que solo se vea la voladora
+      sourceEl.style.opacity = '0';
+
+      if (pendingRewardIsLast) {
+        // Última isla: activar la pieza en el tracker, ocultar pantalla de recompensa
+        // y disparar el envío. El vuelo lleva la pieza al centro con celebracion.
+        rewardScreen.classList.remove('active');
+        // Animar la voladora hacia el centro y desvanecerla como parte de la celebración
+        requestAnimationFrame(() => {
+          const centerX = window.innerWidth / 2 - startRect.width / 2;
+          const centerY = window.innerHeight / 2 - startRect.height / 2;
+          flyer.style.transform =
+            `translate(${centerX - startRect.left}px, ${centerY - startRect.top}px) scale(0.6) rotate(360deg)`;
+          flyer.style.opacity = '0';
+        });
+        setTimeout(() => {
+          if (flyer.parentNode) flyer.parentNode.removeChild(flyer);
+          submitResults();
+        }, 1100);
+      } else {
+        // Isla intermedia: mostrar mapa detrás, marcar la pieza como desbloqueada
+        // y animar la voladora hasta la posición de esa pieza
+        state.currentIsland++;
+        updateMap(pendingRewardIndex); // excluye la pieza recien ganada (la maneja la voladora)
+        showScreen('screen-map');
+
+        // Medir posición destino ahora que el mapa está visible
+        requestAnimationFrame(() => {
+          const trackerPiece = document.querySelector(`.puzzle-piece[data-piece="${pendingRewardIndex}"]`);
+          if (!trackerPiece) {
+            if (flyer.parentNode) flyer.parentNode.removeChild(flyer);
+            return;
+          }
+          const endRect = trackerPiece.getBoundingClientRect();
+          const scale = endRect.width / startRect.width;
+          const dx = endRect.left - startRect.left;
+          const dy = endRect.top - startRect.top;
+          // Al principio la pieza del tracker está semi-oculta; el vuelo la sustituye visualmente
+          trackerPiece.style.opacity = '0';
+          flyer.style.transform = `translate(${dx}px, ${dy}px) scale(${scale}) rotate(-8deg)`;
+          setTimeout(() => {
+            // Al aterrizar, mostrar la pieza real ya desbloqueada y quitar la voladora
+            trackerPiece.style.opacity = '';
+            trackerPiece.classList.add('unlocked');
+            if (flyer.parentNode) flyer.parentNode.removeChild(flyer);
+          }, 1050);
+        });
+      }
+    }
+
+    function finishRewardTransition() {
+      if (pendingRewardIsLast) {
         submitResults();
       } else {
         state.currentIsland++;
