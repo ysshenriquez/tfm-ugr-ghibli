@@ -2451,39 +2451,55 @@ updateMap();
       return raw;
     }
 
-    // ═══════════ APPWRITE CONFIG ═══════════
+// ═══════════ APPWRITE CONFIG ═══════════
     const APPWRITE_ENDPOINT = 'https://fra.cloud.appwrite.io/v1';
     const APPWRITE_PROJECT_ID = '6a578e76001d493c9459';
-    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7'; // ID de la base "quiz_ghibli"
-    const APPWRITE_TABLE_ID = 'resultados'; // ID de la tabla "resultados"
+    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7'; 
+    const APPWRITE_COLLECTION_ID = 'resultados'; 
 
     const client = new Appwrite.Client()
       .setEndpoint(APPWRITE_ENDPOINT)
       .setProject(APPWRITE_PROJECT_ID);
 
-    const tablesDB = new Appwrite.TablesDB(client);
+    const databases = new Appwrite.Databases(client);
+    const account = new Appwrite.Account(client); // <-- 1. Añadimos el gestor de cuentas
+
+    // <-- 2. Nueva función: Crea un pase de invitado si no tienen uno
+    async function loginAnonymous() {
+      try {
+        await account.get(); // Intenta ver si ya tienen sesión (tú, por ejemplo)
+      } catch (err) {
+        try {
+          await account.createAnonymousSession(); // Si son nuevos, les crea una sesión anónima
+        } catch (e) {
+          console.error("Error creando sesión anónima:", e);
+        }
+      }
+    }
 
     async function submitResults() {
       const loading = document.getElementById('loading');
       loading.classList.add('active');
 
+      await loginAnonymous(); // <-- 3. Pedimos el pase justo antes de enviar los datos
+
       const payload = {
         Nickname: state.nickname,
         email: state.email,
         respuestas: JSON.stringify(buildRawAnswers()),
-        arquetipo: '', // se completa después, vía la Appwrite Function
+        arquetipo: '', 
         email_enviado: false,
       };
 
       console.log('📊 Enviando a Appwrite:', payload);
 
       try {
-        await tablesDB.createRow({
-          databaseId: APPWRITE_DATABASE_ID,
-          tableId: APPWRITE_TABLE_ID,
-          rowId: Appwrite.ID.unique(),
-          data: payload,
-        });
+        await databases.createDocument(
+          APPWRITE_DATABASE_ID,
+          APPWRITE_COLLECTION_ID,
+          Appwrite.ID.unique(),
+          payload
+        );
       } catch (err) {
         console.error('Error guardando en Appwrite:', err);
       }
