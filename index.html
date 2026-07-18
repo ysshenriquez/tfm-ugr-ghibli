@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -41,7 +42,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -357,18 +361,22 @@
         transform: translate(0, 100vh) scale(0);
         opacity: 0;
       }
+
       10% {
         opacity: 0.9;
         transform: translate(10px, 90vh) scale(1);
       }
+
       50% {
         opacity: 0.7;
         transform: translate(-20px, 50vh) scale(1.1);
       }
+
       90% {
         opacity: 0.5;
         transform: translate(15px, 10vh) scale(0.9);
       }
+
       100% {
         transform: translate(0, -10vh) scale(0);
         opacity: 0;
@@ -394,10 +402,13 @@
     }
 
     @keyframes btnPulse {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: 0;
         transform: scale(0.95);
       }
+
       50% {
         opacity: 0.8;
         transform: scale(1.08);
@@ -416,12 +427,10 @@
       left: -60%;
       width: 40%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(232, 212, 139, 0.35) 50%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(232, 212, 139, 0.35) 50%,
+          transparent 100%);
       transform: skewX(-20deg);
       transition: none;
       pointer-events: none;
@@ -432,8 +441,13 @@
     }
 
     @keyframes shimmer {
-      0% { left: -60%; }
-      100% { left: 130%; }
+      0% {
+        left: -60%;
+      }
+
+      100% {
+        left: 130%;
+      }
     }
 
     /* Partículas al seleccionar una opción */
@@ -445,9 +459,11 @@
       0% {
         box-shadow: 0 0 0 rgba(201, 168, 76, 0), 0 3px 16px rgba(74, 143, 168, 0.18);
       }
+
       40% {
         box-shadow: 0 0 24px rgba(201, 168, 76, 0.55), 0 3px 16px rgba(74, 143, 168, 0.3);
       }
+
       100% {
         box-shadow: 0 0 0 rgba(201, 168, 76, 0), 0 3px 16px rgba(74, 143, 168, 0.18);
       }
@@ -478,6 +494,7 @@
         opacity: 1;
         transform: translate(0, 0) scale(0);
       }
+
       100% {
         opacity: 0;
         transform: translate(var(--dx, 30px), var(--dy, -30px)) scale(1.2);
@@ -506,6 +523,7 @@
         transform: translateX(0);
         filter: blur(0);
       }
+
       100% {
         opacity: 0;
         transform: translateX(-30px);
@@ -519,6 +537,7 @@
         transform: translateX(30px);
         filter: blur(3px);
       }
+
       100% {
         opacity: 1;
         transform: translateX(0);
@@ -561,14 +580,31 @@
       transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    .door-panel.left { left: 0; transform: translateX(-100%); }
-    .door-panel.right { right: 0; transform: translateX(100%); }
+    .door-panel.left {
+      left: 0;
+      transform: translateX(-100%);
+    }
 
-    .magic-door-overlay.closed .door-panel.left { transform: translateX(0); }
-    .magic-door-overlay.closed .door-panel.right { transform: translateX(0); }
+    .door-panel.right {
+      right: 0;
+      transform: translateX(100%);
+    }
 
-    .magic-door-overlay.opening .door-panel.left { transform: translateX(-105%); }
-    .magic-door-overlay.opening .door-panel.right { transform: translateX(105%); }
+    .magic-door-overlay.closed .door-panel.left {
+      transform: translateX(0);
+    }
+
+    .magic-door-overlay.closed .door-panel.right {
+      transform: translateX(0);
+    }
+
+    .magic-door-overlay.opening .door-panel.left {
+      transform: translateX(-105%);
+    }
+
+    .magic-door-overlay.opening .door-panel.right {
+      transform: translateX(105%);
+    }
 
     .door-panel svg {
       width: 100%;
@@ -584,10 +620,10 @@
       height: 200px;
       transform: translate(-50%, -50%) scale(0);
       background: radial-gradient(circle,
-        var(--gold-shine) 0%,
-        var(--gold) 20%,
-        rgba(201, 168, 76, 0.3) 40%,
-        transparent 70%);
+          var(--gold-shine) 0%,
+          var(--gold) 20%,
+          rgba(201, 168, 76, 0.3) 40%,
+          transparent 70%);
       border-radius: 50%;
       opacity: 0;
       pointer-events: none;
@@ -602,10 +638,12 @@
         opacity: 0;
         transform: translate(-50%, -50%) scale(0);
       }
+
       30% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.5);
       }
+
       100% {
         opacity: 0;
         transform: translate(-50%, -50%) scale(3);
@@ -647,10 +685,12 @@
         opacity: 0;
         transform: scale(0.3) rotate(-15deg);
       }
+
       50% {
         opacity: 1;
         transform: scale(1.25) rotate(8deg);
       }
+
       100% {
         opacity: 1;
         transform: scale(1) rotate(0);
@@ -678,10 +718,10 @@
       height: 400px;
       transform: translate(-50%, -50%) scale(0);
       background: radial-gradient(circle,
-        var(--gold-shine) 0%,
-        rgba(232, 212, 139, 0.5) 20%,
-        rgba(201, 168, 76, 0.25) 40%,
-        transparent 70%);
+          var(--gold-shine) 0%,
+          rgba(232, 212, 139, 0.5) 20%,
+          rgba(201, 168, 76, 0.25) 40%,
+          transparent 70%);
       border-radius: 50%;
       opacity: 0;
       pointer-events: none;
@@ -697,10 +737,12 @@
         opacity: 0;
         transform: translate(-50%, -50%) scale(0);
       }
+
       40% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
       }
+
       100% {
         opacity: 0.4;
         transform: translate(-50%, -50%) scale(1.4);
@@ -725,15 +767,14 @@
       width: 180px;
       height: 180px;
       display: block;
-      filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35))
-              drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
+      filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35)) drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
       opacity: 0;
       transform: scale(0.3) rotate(-25deg);
     }
 
     #screen-reward.active .reward-piece {
       animation: piecePresent 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards,
-                 pieceBreathe 3s ease-in-out 1.6s infinite;
+        pieceBreathe 3s ease-in-out 1.6s infinite;
     }
 
     @keyframes piecePresent {
@@ -741,10 +782,12 @@
         opacity: 0;
         transform: scale(0.3) rotate(-25deg);
       }
+
       70% {
         opacity: 1;
         transform: scale(1.15) rotate(6deg);
       }
+
       100% {
         opacity: 1;
         transform: scale(1) rotate(0);
@@ -752,14 +795,15 @@
     }
 
     @keyframes pieceBreathe {
-      0%, 100% {
-        filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35))
-                drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
+
+      0%,
+      100% {
+        filter: drop-shadow(0 8px 24px rgba(201, 168, 76, 0.35)) drop-shadow(0 0 20px rgba(232, 212, 139, 0.4));
         transform: scale(1);
       }
+
       50% {
-        filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.55))
-                drop-shadow(0 0 35px rgba(232, 212, 139, 0.7));
+        filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.55)) drop-shadow(0 0 35px rgba(232, 212, 139, 0.7));
         transform: scale(1.04);
       }
     }
@@ -852,6 +896,7 @@
         opacity: 0;
         transform: translateY(10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -867,7 +912,7 @@
       pointer-events: none;
       filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.55));
       transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1),
-                  opacity 0.3s ease-out 0.85s;
+        opacity 0.3s ease-out 0.85s;
     }
 
     /* ─── CELEBRACIÓN FINAL ─── */
@@ -904,6 +949,7 @@
         opacity: 1;
         transform: translate(-50%, -50%) scale(0.5);
       }
+
       100% {
         opacity: 0;
         transform: translate(calc(-50% + var(--bx, 0px)), calc(-50% + var(--by, 0px))) scale(1.4);
@@ -911,9 +957,17 @@
     }
 
     @keyframes celebrationFade {
-      0% { opacity: 1; }
-      70% { opacity: 1; }
-      100% { opacity: 0; }
+      0% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
     }
 
     /* ─── MAP ─── */
@@ -1321,9 +1375,14 @@
         height: 300px;
       }
 
-      .door-panel svg { transform-origin: center; }
+      .door-panel svg {
+        transform-origin: center;
+      }
 
-      .particle { width: 3px; height: 3px; }
+      .particle {
+        width: 3px;
+        height: 3px;
+      }
     }
 
     .loading-overlay {
@@ -1406,59 +1465,73 @@
       <svg class="puzzle-piece" data-piece="0" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradOpen" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#c8e0ea"/>
-            <stop offset="100%" stop-color="#5a9cb5"/>
+            <stop offset="0%" stop-color="#c8e0ea" />
+            <stop offset="100%" stop-color="#5a9cb5" />
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradOpen)" stroke="#3a7a93" stroke-width="1"/>
-        <path d="M11 16 Q17 14 23 16 M11 22 Q17 20 23 22" fill="none" stroke="#3a7a93" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+        <path
+          d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z"
+          fill="url(#gradOpen)" stroke="#3a7a93" stroke-width="1" />
+        <path d="M11 16 Q17 14 23 16 M11 22 Q17 20 23 22" fill="none" stroke="#3a7a93" stroke-width="1"
+          stroke-linecap="round" opacity="0.7" />
       </svg>
       <!-- Pieza 1: Extraversión (estrella/luz) - rosa cálido → Isla Ciudad -->
       <svg class="puzzle-piece" data-piece="1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradExtra" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f0c9d8"/>
-            <stop offset="100%" stop-color="#c47498"/>
+            <stop offset="0%" stop-color="#f0c9d8" />
+            <stop offset="100%" stop-color="#c47498" />
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradExtra)" stroke="#8a4a68" stroke-width="1"/>
-        <path d="M17 11 L18.5 17 L24 17 L19.5 20 L21 26 L17 22.5 L13 26 L14.5 20 L10 17 L15.5 17 Z" fill="#fdf8ef" opacity="0.9"/>
+        <path
+          d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z"
+          fill="url(#gradExtra)" stroke="#8a4a68" stroke-width="1" />
+        <path d="M17 11 L18.5 17 L24 17 L19.5 20 L21 26 L17 22.5 L13 26 L14.5 20 L10 17 L15.5 17 Z" fill="#fdf8ef"
+          opacity="0.9" />
       </svg>
       <!-- Pieza 2: Responsabilidad (ancla) - marrón tierra → Isla Puerto -->
       <svg class="puzzle-piece" data-piece="2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradCons" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#d4b98e"/>
-            <stop offset="100%" stop-color="#8b5a2b"/>
+            <stop offset="0%" stop-color="#d4b98e" />
+            <stop offset="100%" stop-color="#8b5a2b" />
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradCons)" stroke="#4a2f18" stroke-width="1"/>
-        <circle cx="17" cy="13" r="2.2" fill="none" stroke="#3a2410" stroke-width="1.3"/>
-        <line x1="17" y1="15" x2="17" y2="26" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round"/>
-        <path d="M11 24 Q11 28 17 28 Q23 28 23 24" fill="none" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round"/>
+        <path
+          d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z"
+          fill="url(#gradCons)" stroke="#4a2f18" stroke-width="1" />
+        <circle cx="17" cy="13" r="2.2" fill="none" stroke="#3a2410" stroke-width="1.3" />
+        <line x1="17" y1="15" x2="17" y2="26" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round" />
+        <path d="M11 24 Q11 28 17 28 Q23 28 23 24" fill="none" stroke="#3a2410" stroke-width="1.3"
+          stroke-linecap="round" />
       </svg>
       <!-- Pieza 3: Neuroticismo (rayo/tormenta) - gris tormenta → Isla Tormenta -->
       <svg class="puzzle-piece" data-piece="3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradNeur" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#8a97a8"/>
-            <stop offset="100%" stop-color="#3a4658"/>
+            <stop offset="0%" stop-color="#8a97a8" />
+            <stop offset="100%" stop-color="#3a4658" />
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradNeur)" stroke="#252d38" stroke-width="1"/>
-        <path d="M18 9 L13 20 L17 20 L14 30" fill="none" stroke="#e8d48b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z"
+          fill="url(#gradNeur)" stroke="#252d38" stroke-width="1" />
+        <path d="M18 9 L13 20 L17 20 L14 30" fill="none" stroke="#e8d48b" stroke-width="1.9" stroke-linecap="round"
+          stroke-linejoin="round" />
       </svg>
       <!-- Pieza 4: Amabilidad (espíritu bosque) - verde bosque → Isla Bosque -->
       <svg class="puzzle-piece" data-piece="4" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradAgree" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#a3ce8f"/>
-            <stop offset="100%" stop-color="#4a7a49"/>
+            <stop offset="0%" stop-color="#a3ce8f" />
+            <stop offset="100%" stop-color="#4a7a49" />
           </linearGradient>
         </defs>
-        <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradAgree)" stroke="#3a5a40" stroke-width="1"/>
-        <path d="M17 11 Q11 15 11 22 Q11 27 17 27 Q23 27 23 22 Q23 15 17 11 Z" fill="#fdf8ef" opacity="0.35"/>
-        <path d="M17 14 Q17 22 17 27" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.7"/>
+        <path
+          d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z"
+          fill="url(#gradAgree)" stroke="#3a5a40" stroke-width="1" />
+        <path d="M17 11 Q11 15 11 22 Q11 27 17 27 Q23 27 23 22 Q23 15 17 11 Z" fill="#fdf8ef" opacity="0.35" />
+        <path d="M17 14 Q17 22 17 27" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.7" />
       </svg>
       <span class="puzzle-label" id="puzzle-label">0 / 5</span>
     </div>
@@ -1568,40 +1641,44 @@
       <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="woodGrainL" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.7"/>
-            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.5"/>
+            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.7" />
+            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0" />
+            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.5" />
           </linearGradient>
         </defs>
-        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainL)"/>
-        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7" rx="2"/>
-        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5" rx="2"/>
+        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainL)" />
+        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"
+          rx="2" />
+        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"
+          rx="2" />
         <!-- vetas de madera -->
-        <path d="M20 40 Q30 100 25 180 Q22 260 28 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5"/>
-        <path d="M55 30 Q60 120 58 200 Q56 280 60 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4"/>
-        <path d="M78 45 Q75 130 80 220 Q83 310 78 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5"/>
+        <path d="M20 40 Q30 100 25 180 Q22 260 28 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5" />
+        <path d="M55 30 Q60 120 58 200 Q56 280 60 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4" />
+        <path d="M78 45 Q75 130 80 220 Q83 310 78 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5" />
         <!-- pomo dorado -->
-        <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1"/>
-        <circle cx="90" cy="200" r="1.5" fill="#8a6f2e"/>
+        <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1" />
+        <circle cx="90" cy="200" r="1.5" fill="#8a6f2e" />
       </svg>
     </div>
     <div class="door-panel right">
       <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="woodGrainR" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.5"/>
-            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.7"/>
+            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.5" />
+            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0" />
+            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.7" />
           </linearGradient>
         </defs>
-        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainR)"/>
-        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7" rx="2"/>
-        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5" rx="2"/>
-        <path d="M22 45 Q28 130 24 220 Q20 310 26 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5"/>
-        <path d="M45 30 Q42 120 46 200 Q48 280 44 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4"/>
-        <path d="M75 40 Q72 100 78 180 Q80 260 74 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5"/>
-        <circle cx="10" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1"/>
-        <circle cx="10" cy="200" r="1.5" fill="#8a6f2e"/>
+        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainR)" />
+        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"
+          rx="2" />
+        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"
+          rx="2" />
+        <path d="M22 45 Q28 130 24 220 Q20 310 26 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5" />
+        <path d="M45 30 Q42 120 46 200 Q48 280 44 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4" />
+        <path d="M75 40 Q72 100 78 180 Q80 260 74 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5" />
+        <circle cx="10" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1" />
+        <circle cx="10" cy="200" r="1.5" fill="#8a6f2e" />
       </svg>
     </div>
     <div class="door-flash"></div>
@@ -1632,13 +1709,16 @@
       { id: 'haku', name: 'Haku' },
     ];
 
-    const ISLANDS = [
-      // Isla 0: Las Tierras del Viento → Apertura
-      {
-        key: 'openness',
-        name: 'Las Tierras del Viento',
-        icon: '🌬️',
-        badgeColor: '#5a9cb5',
+   const ISLAND_PROGRESS = [0, 2, 1, 4, 3]; // <-- Cierra el array aquí
+
+const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
+  // Isla 0: Las Tierras del Viento → Apertura
+  {
+    key: 'openness',
+    name: 'Las Tierras del Viento',
+    icon: '🌬️',
+    badgeColor: '#5a9cb5',
+// ...
         quote: 'Es divertido despertarse cada día sin saber si será uno de esos que cambian tu vida para siempre.',
         movie: 'Arrietty y el mundo de los diminutos',
       },
@@ -2030,27 +2110,35 @@
       showScreen('screen-map');
     }
 
-    function updateMap(excludePieceIndex) {
-      const spots = document.querySelectorAll('.island-spot');
-      spots.forEach((el, i) => {
-        el.className = 'island-spot';
-        if (state.completedIslands.includes(i)) {
-          el.classList.add('completed');
-          el.querySelector('.spot-status').textContent = 'Completada';
-        } else if (i === state.currentIsland) {
-          el.classList.add('current');
-          el.querySelector('.spot-status').textContent = 'Explorar';
-        } else {
-          el.classList.add('locked');
-          el.querySelector('.spot-status').textContent = '🔒';
-        }
-      });
-      if (state.completedIslands.length > 0) {
-        document.getElementById('map-subtitle').textContent =
-          `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
-      }
-      updatePuzzleTracker(excludePieceIndex);
+  function updateMap(excludePieceIndex) {
+  const spots = document.querySelectorAll('.island-spot');
+
+  spots.forEach((el) => {
+    const islandIndex = parseInt(el.dataset.island);
+
+    el.className = 'island-spot';
+
+    if (state.completedIslands.includes(islandIndex)) {
+      el.classList.add('completed');
+      el.querySelector('.spot-status').textContent = 'Completada';
+
+    } else if (islandIndex === state.currentIsland) {
+      el.classList.add('current');
+      el.querySelector('.spot-status').textContent = 'Explorar';
+
+    } else {
+      el.classList.add('locked');
+      el.querySelector('.spot-status').textContent = '🔒';
     }
+  });
+
+  if (state.completedIslands.length > 0) {
+    document.getElementById('map-subtitle').textContent =
+      `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
+  }
+
+  updatePuzzleTracker(excludePieceIndex);
+}
 
     function enterIsland(index) {
       if (index !== state.currentIsland || state.completedIslands.includes(index)) return;
@@ -2269,7 +2357,8 @@
       } else {
         // Isla intermedia: mostrar mapa detrás, marcar la pieza como desbloqueada
         // y animar la voladora hasta la posición de esa pieza
-        state.currentIsland++;
+       const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
+state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
         updateMap(pendingRewardIndex); // excluye la pieza recien ganada (la maneja la voladora)
         showScreen('screen-map');
 
@@ -2301,8 +2390,9 @@
       if (pendingRewardIsLast) {
         submitResults();
       } else {
-        state.currentIsland++;
-        updateMap();
+const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
+state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
+updateMap();
         showScreen('screen-map');
       }
     }
