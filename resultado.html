@@ -298,34 +298,34 @@
       font-family: 'Quicksand', sans-serif;
       font-weight: 700;
       font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .streaming-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(201, 168, 76, 0.25);
+    }
       color: var(--text);
       box-shadow: 0 2px 8px rgba(45, 52, 54, 0.06);
     }
 
     .streaming-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-    /* ─── Soundtrack ─── */
-    .soundtrack-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
+    /* ─── Soundtrack embebido ─── */
+    .soundtrack-embed {
+      border-radius: 12px;
+      overflow: hidden;
       margin-top: 0.5rem;
-      padding: 0.85rem 2rem;
-      border-radius: 50px;
-      background: linear-gradient(135deg, #3a5a40, #2d4632);
-      color: white;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 4px 18px rgba(58, 90, 64, 0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .soundtrack-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(58, 90, 64, 0.4);
+    .soundtrack-embed iframe {
+      display: block;
+      width: 100%;
+      border: none;
     }
-
-    .soundtrack-btn svg { width: 20px; height: 20px; }
 
     /* ─── Botón de compartir (copiar link) ─── */
     .cta {
@@ -437,7 +437,7 @@
   <div class="container" id="content">
     <p class="eyebrow">Tu brújula habla</p>
     <h1 id="greeting">Hola, <em>viajera</em></h1>
-    <p class="subtitle">El archipiélago ha reconocido tu espíritu. Este es tu reflejo.</p>
+    <p class="subtitle">El archipiélago ha reconocido tu espíritu.</p>
     <div class="divider">✦</div>
 
     <div class="card">
@@ -469,10 +469,7 @@
     <div class="card">
       <p class="section-title">Disfruta del soundtrack</p>
       <p class="section-hint" id="soundtrack-hint">La banda sonora de <span id="soundtrack-movie"></span></p>
-      <a class="soundtrack-btn" id="soundtrack-link" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.6 14.4c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.2-2.7c-.2.4-.7.5-1.1.3-2.9-1.8-7.3-2.3-10.7-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.9-1.2 8.7-.6 12.1 1.4.4.2.5.7.2 1zm.1-2.8C14.3 9 7.9 8.8 4.8 9.7c-.5.1-1-.2-1.1-.6-.1-.5.2-1 .6-1.1 3.6-1.1 10.6-.9 14.7 1.5.4.3.6.9.3 1.3-.3.4-.9.5-1.3.3z"/></svg>
-          Escuchar en Spotify
-      </a>
+      <div class="soundtrack-embed" id="soundtrack-embed"></div>
     </div>
 
     <div class="card">
@@ -484,8 +481,8 @@
     </div>
 
     <p class="footer-quote">
-      "Nada de lo que sucede se olvida jamás, aunque no puedas recordarlo."
-      <small>— El viaje de Chihiro</small>
+      "Once you've met someone you never really forget them. It just takes a while for your memories to return."
+      <small>— Spirited Away</small>
     </p>
   </div>
 
@@ -738,11 +735,11 @@
 
         // Streaming (movie title en inglés)
         document.getElementById('streaming-movie').textContent = character.movie;
-        renderStreamingBadges();
+        renderStreamingBadges(character.movie);
 
         // Soundtrack
         document.getElementById('soundtrack-movie').textContent = character.movie;
-        document.getElementById('soundtrack-link').href = character.spotify;
+        renderSpotifyEmbed(character.spotify);
 
         // Radar
         const userVector = vectorFromRespuestas(row.respuestas);
@@ -759,14 +756,65 @@
       }
     }
 
-    // ═══════════ PLATAFORMAS DE STREAMING (íconos vintage) ═══════════
-    function renderStreamingBadges() {
+    // ═══════════ PLATAFORMAS DE STREAMING (links reales por película) ═══════════
+    const STREAMING_LINKS = {
+      'Spirited Away': {
+        netflix: 'https://www.netflix.com/es/title/60023642',
+        prime: 'https://www.primevideo.com/-/es/detail/0ND9X825YGEN1TG3OGRT284YZT',
+      },
+      "Howl's Moving Castle": {
+        netflix: 'https://www.netflix.com/es/title/70028883',
+        prime: 'https://www.primevideo.com/-/es/detail/0U8HCQZLK6RB02PIA2698C17NV',
+      },
+      "Kiki's Delivery Service": {
+        netflix: 'https://www.netflix.com/es/title/60027106',
+      },
+      'Princess Mononoke': {
+        netflix: 'https://www.netflix.com/es/title/28630857',
+        prime: 'https://www.primevideo.com/-/es/detail/0TADPS6R25ARFPOBAPNV8L9QFV',
+      },
+      'My Neighbor Totoro': {
+        netflix: 'https://www.netflix.com/es/title/60032294',
+        prime: 'https://www.primevideo.com/-/es/detail/0T1VL1U8CWSNT6OS33CWUMB3F5',
+      },
+      'Porco Rosso': {
+        netflix: 'https://www.netflix.com/es/title/70019060',
+        prime: 'https://www.primevideo.com/-/es/detail/0RE794OXF2XM8HDV6PWA07MUEG',
+      },
+      'The Secret World of Arrietty': {
+        netflix: 'https://www.netflix.com/es/title/70216227',
+        prime: 'https://www.primevideo.com/-/es/detail/0MW79A2DISJNLY9LVP2KV2VZJW',
+      },
+    };
+
+    // ═══════════ SOUNDTRACK EMBEBIDO (Spotify) ═══════════
+    function renderSpotifyEmbed(spotifyUrl) {
+      const container = document.getElementById('soundtrack-embed');
+      const match = spotifyUrl.match(/album\/([a-zA-Z0-9]+)/);
+      if (!match) {
+        container.innerHTML = `<a href="${spotifyUrl}" target="_blank" rel="noopener">Escuchar en Spotify</a>`;
+        return;
+      }
+      const albumId = match[1];
+      container.innerHTML = `
+        <iframe src="https://open.spotify.com/embed/album/${albumId}?utm_source=generator&theme=0"
+          width="100%" height="152" frameborder="0" allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>`;
+    }
+
+    function renderStreamingBadges(movie) {
       const netflixIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v18M19 3v18M5 3l14 18M19 3L5 21"/></svg>`;
-      const maxIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V4l9 9 9-9v16"/></svg>`;
-      document.getElementById('streaming-badges').innerHTML = `
-        <span class="streaming-badge">${netflixIcon} Netflix</span>
-        <span class="streaming-badge">${maxIcon} Max</span>
-      `;
+      const primeIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7V5z"/></svg>`;
+      const links = STREAMING_LINKS[movie] || {};
+      let html = '';
+      if (links.netflix) {
+        html += `<a class="streaming-badge" href="${links.netflix}" target="_blank" rel="noopener">${netflixIcon} Netflix</a>`;
+      }
+      if (links.prime) {
+        html += `<a class="streaming-badge" href="${links.prime}" target="_blank" rel="noopener">${primeIcon} Prime Video</a>`;
+      }
+      document.getElementById('streaming-badges').innerHTML = html || '<p class="section-hint">Consulta tu plataforma habitual</p>';
     }
 
     // ═══════════ COMPARTIR: copiar link al portapapeles ═══════════
