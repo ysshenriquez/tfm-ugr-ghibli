@@ -2184,7 +2184,11 @@
       document.getElementById('btn-next').disabled = false;
     }
 
+    let isTransitioning = false;
+
     function transitionQuestion(direction, doAfter) {
+      if (isTransitioning) return; // evita doble ejecución durante la animación
+      isTransitioning = true;
       const body = document.getElementById('quiz-body');
       body.classList.remove('transitioning-in', 'transitioning-out');
       void body.offsetWidth;
@@ -2194,11 +2198,15 @@
         body.classList.remove('transitioning-out');
         void body.offsetWidth;
         body.classList.add('transitioning-in');
-        setTimeout(() => body.classList.remove('transitioning-in'), 450);
+        setTimeout(() => {
+          body.classList.remove('transitioning-in');
+          isTransitioning = false; // libera el seguro al terminar la animación
+        }, 450);
       }, 350);
     }
 
     function nextQuestion() {
+      if (isTransitioning) return;
       const island = ISLANDS[state.currentIsland];
       const questions = QUESTIONS[island.key];
       if (state.currentQuestion < questions.length - 1) {
@@ -2212,6 +2220,7 @@
     }
 
     function prevQuestion() {
+      if (isTransitioning) return;
       if (state.currentQuestion > 0) {
         transitionQuestion('back', () => {
           state.currentQuestion--;
@@ -2392,14 +2401,18 @@
         const key = island.key;
         const questions = QUESTIONS[key];
         const answers = state.answers[key];
-        raw[key] = answers.map((answerIndex, qIndex) => {
+        const built = [];
+        for (let qIndex = 0; qIndex < questions.length; qIndex++) {
+          const answerIndex = answers[qIndex];
+          if (answerIndex === undefined || answerIndex === null) continue; // salta huecos en vez de generar null
           const label = questions[qIndex].options[answerIndex].label;
-          return {
+          built.push({
             question: qIndex + 1,
             selected: label,
             weight: WEIGHTS[key][qIndex][label],
-          };
-        });
+          });
+        }
+        raw[key] = built;
       }
       return raw;
     }
