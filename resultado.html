@@ -233,8 +233,105 @@
     .dot.user { background: var(--gold); }
     .dot.character { background: var(--nausicaa-blue); }
 
+    /* ─── Whisper box (frase final de cada descripcion) ─── */
+    .whisper-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(201, 168, 76, 0.07);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      text-align: left;
+    }
+
+    .whisper-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .whisper-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--forest-deep);
+      line-height: 1.6;
+    }
+
+    .archetype-paragraphs {
+      text-align: left;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .archetype-paragraphs p {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .archetype-paragraphs p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    /* ─── Streaming badges ─── */
+    .streaming-badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      margin: 1rem 0 0.75rem;
+    }
+
+    .streaming-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1.5px solid rgba(201, 168, 76, 0.3);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(45, 52, 54, 0.06);
+    }
+
+    .streaming-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ─── Soundtrack ─── */
+    .soundtrack-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #3a5a40, #2d4632);
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(58, 90, 64, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .soundtrack-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(58, 90, 64, 0.4);
+    }
+
+    .soundtrack-btn svg { width: 20px; height: 20px; }
+
+    /* ─── Botón de compartir (copiar link) ─── */
     .cta {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       margin-top: 0.5rem;
       padding: 0.9rem 2.4rem;
       border-radius: 50px;
@@ -242,13 +339,21 @@
       color: white;
       font-weight: 700;
       text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
       box-shadow: 0 4px 18px rgba(74, 143, 168, 0.35);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     }
 
     .cta:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 24px rgba(74, 143, 168, 0.45);
+    }
+
+    .cta.copied {
+      background: linear-gradient(135deg, var(--forest), var(--forest-deep));
     }
 
     .footer-quote {
@@ -338,7 +443,11 @@
     <div class="card">
       <img class="archetype-img" id="archetype-img" src="" alt="Arquetipo asignado">
       <p class="archetype-name" id="archetype-name"></p>
-      <p class="archetype-desc" id="archetype-desc"></p>
+      <div class="archetype-paragraphs" id="archetype-paragraphs"></div>
+      <div class="whisper-box">
+        <p class="whisper-label">A whisper for your journey</p>
+        <p class="whisper-text" id="archetype-whisper"></p>
+      </div>
     </div>
 
     <div class="card">
@@ -352,9 +461,26 @@
     </div>
 
     <div class="card">
+      <p class="section-title">¿Te gustó tu personaje?</p>
+      <p class="section-hint" id="streaming-hint">Descubre dónde ver <span id="streaming-movie"></span></p>
+      <div class="streaming-badges" id="streaming-badges"></div>
+    </div>
+
+    <div class="card">
+      <p class="section-title">Disfruta del soundtrack</p>
+      <p class="section-hint" id="soundtrack-hint">La banda sonora de <span id="soundtrack-movie"></span></p>
+      <a class="soundtrack-btn" id="soundtrack-link" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.6 14.4c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.2-2.7c-.2.4-.7.5-1.1.3-2.9-1.8-7.3-2.3-10.7-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.9-1.2 8.7-.6 12.1 1.4.4.2.5.7.2 1zm.1-2.8C14.3 9 7.9 8.8 4.8 9.7c-.5.1-1-.2-1.1-.6-.1-.5.2-1 .6-1.1 3.6-1.1 10.6-.9 14.7 1.5.4.3.6.9.3 1.3-.3.4-.9.5-1.3.3z"/></svg>
+          Escuchar en Spotify
+      </a>
+    </div>
+
+    <div class="card">
       <p class="section-title">¿Conoces a alguien con espíritu de viajero?</p>
-      <p class="section-hint">Compártele el archipiélago y descubran juntos sus brújulas</p>
-      <a class="cta" href="index.html">Explorar el archipiélago ✦</a>
+      <p class="section-hint">Comparte el archipiélago y descubran juntos sus brújulas</p>
+      <button class="cta" id="share-btn" onclick="copyShareLink()">
+        <span id="share-btn-text">Copiar link ✦</span>
+      </button>
     </div>
 
     <p class="footer-quote">
@@ -377,57 +503,127 @@
       chihiro: {
         name: 'Chihiro',
         vector: [3, 5, 2, 5, 3],
-        desc: 'Tu espíritu crece en la adversidad. Como Chihiro, la responsabilidad y el cariño por los tuyos te transforman: no naciste valiente, te haces valiente cada vez que alguien te necesita.',
+        movie: 'Spirited Away',
+        spotify: 'https://open.spotify.com/album/766a5fKJYFy9ii4Kz2bQy9',
+        paragraphs: [
+          'Chihiro nunca buscó convertirse en una heroína. Su viaje comenzó con miedo, incertidumbre y un mundo completamente desconocido. Sin embargo, aquello que parecía su mayor debilidad terminó convirtiéndose en su mayor fortaleza: la capacidad de aprender, adaptarse y seguir adelante sin perder la bondad que la define.',
+          'A lo largo de su historia demuestra que el coraje no siempre hace ruido. A veces se encuentra en los pequeños actos de honestidad, en cumplir una promesa o en extender la mano a quien lo necesita. Su crecimiento no ocurre de un momento a otro; florece poco a poco, con cada decisión que toma.',
+          'Si tu personaje es Chihiro, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su manera de crecer, relacionarse con los demás y enfrentar lo desconocido es la que mejor refleja el resultado de tu personalidad.',
+        ],
+        whisper: 'The bravest journeys often begin with the quietest steps.',
       },
       howl: {
         name: 'Howl',
         vector: [5, 1, 4, 2, 5],
-        desc: 'Brillante, magnético y tormentoso. Como Howl, vives entre la belleza y el caos: tu imaginación no tiene puertas, aunque a veces el corazón te pese más que el castillo entero.',
+        movie: "Howl's Moving Castle",
+        spotify: 'https://open.spotify.com/album/5fqlZFKYqvkIe2jdDGt2nl',
+        paragraphs: [
+          'Howl es tan brillante como contradictorio. Su carisma, creatividad y extraordinario talento para la magia hacen que resulte imposible pasar desapercibido, pero detrás de esa apariencia segura existe alguien que también aprende, duda y cambia. Su historia demuestra que incluso quienes parecen tenerlo todo siguen buscando un lugar al que realmente pertenecer.',
+          'A lo largo de la película descubre que la verdadera fortaleza no nace del poder, sino de las personas por las que decidimos permanecer. Su viaje es el de alguien que aprende que el amor, la responsabilidad y la vulnerabilidad pueden ser tan valientes como cualquier hechizo.',
+          'Si tu personaje es Howl, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su creatividad, sensibilidad y manera de crecer son las que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Even the brightest magic longs for a place to belong.',
       },
       sophie: {
         name: 'Sophie',
         vector: [3, 4, 2, 5, 3],
-        desc: 'Tu fuerza es silenciosa. Como Sophie, cuidas, ordenas y sostienes el mundo de quienes amas — y en ese acto cotidiano de ternura está tu verdadera magia.',
+        movie: "Howl's Moving Castle",
+        spotify: 'https://open.spotify.com/album/5fqlZFKYqvkIe2jdDGt2nl',
+        paragraphs: [
+          'Sophie lleva una vida tranquila y sencilla hasta que un inesperado encuentro transforma por completo su destino. Aunque al principio duda de sí misma, descubre que la verdadera fortaleza siempre había estado en su interior. No necesita grandes gestos para cambiar el mundo; le basta con cuidar, comprender y actuar cuando los demás más lo necesitan.',
+          'Su historia nos recuerda que la valentía también puede expresarse con paciencia, constancia y una profunda bondad. Mientras otros buscan cambiar quiénes son, Sophie encuentra el valor para mostrarse tal y como siempre fue.',
+          'Si tu personaje es Sophie, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su serenidad, compromiso y manera de cuidar de quienes la rodean son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'The gentlest hands often carry the greatest strength.',
       },
       kiki: {
         name: 'Kiki',
         vector: [5, 4, 3, 5, 4],
-        desc: 'Curiosa, entregada y sensible. Como Kiki, te lanzas a lo desconocido con la escoba por delante, y aunque a veces dudes de tu don, siempre encuentras el viento de vuelta.',
+        movie: "Kiki's Delivery Service",
+        spotify: 'https://open.spotify.com/album/2NO5lYWs4aWpsmHOjF4JHk',
+        paragraphs: [
+          'Kiki emprende su viaje con entusiasmo, curiosidad y el deseo de encontrar su propio lugar en el mundo. Como toda aprendiz, descubre que crecer también implica equivocarse, perder la confianza por momentos y volver a encontrar aquello que la hace única.',
+          'Su historia celebra la independencia, el aprendizaje y la capacidad de seguir adelante incluso cuando las cosas no salen como se esperaba. Cada desafío la ayuda a comprender que el verdadero talento no consiste en hacerlo todo perfecto, sino en seguir intentándolo.',
+          'Si tu personaje es Kiki, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su curiosidad, optimismo y deseo constante de aprender son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Every new horizon begins with the courage to take off.',
       },
       san: {
         name: 'San',
         vector: [2, 5, 2, 2, 3],
-        desc: 'Lealtad feroz y principios de acero. Como San, defiendes lo tuyo sin pedir permiso: tu mundo es pequeño pero sagrado, y quien entra en él, entra para siempre.',
+        movie: 'Princess Mononoke',
+        spotify: 'https://open.spotify.com/album/2ZHxPDTCRU5STetdmXeW6p',
+        paragraphs: [
+          'San vive guiada por una profunda lealtad hacia aquello que ama y protege. Criada entre lobos, encuentra su identidad defendiendo el bosque y luchando por aquello que considera justo, incluso cuando el mundo parece empeñado en dividirlo todo entre vencedores y vencidos.',
+          'Su historia demuestra que la fuerza no está únicamente en combatir, sino también en descubrir que comprender al otro puede ser el primer paso hacia un futuro diferente. Sin dejar de ser fiel a sus principios, San aprende que incluso en medio del conflicto todavía existe espacio para la esperanza.',
+          'Si tu personaje es San, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su determinación, autenticidad y compromiso con aquello que considera valioso son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Protect what you love without losing who you are.',
       },
       ashitaka: {
         name: 'Ashitaka',
         vector: [4, 5, 3, 5, 1],
-        desc: 'Ves con ojos limpios de odio. Como Ashitaka, buscas el equilibrio donde otros ven bandos, y tu serenidad es el puente que otros no se atreven a cruzar.',
+        movie: 'Princess Mononoke',
+        spotify: 'https://open.spotify.com/album/2ZHxPDTCRU5STetdmXeW6p',
+        paragraphs: [
+          'Ashitaka emprende un viaje marcado por una maldición que jamás eligió, pero decide enfrentarlo sin dejar que el odio guíe sus pasos. Allí donde otros solo encuentran enemigos, él busca comprender las razones de cada lado y encontrar un camino que permita la convivencia.',
+          'Su historia representa el equilibrio, la compasión y la capacidad de actuar con serenidad incluso en medio del conflicto. Más que buscar una victoria, Ashitaka busca construir un futuro donde diferentes formas de vivir puedan coexistir.',
+          'Si tu personaje es Ashitaka, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su sentido de la justicia, empatía y búsqueda del equilibrio son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'True strength chooses understanding over hatred.',
       },
       totoro: {
         name: 'Totoro',
         vector: [2, 2, 1, 5, 1],
-        desc: 'Presencia que calma. Como Totoro, no necesitas grandes palabras: tu bondad tranquila hace que el mundo, a tu lado, se sienta un lugar seguro donde crecer.',
+        movie: 'My Neighbor Totoro',
+        spotify: 'https://open.spotify.com/album/2Dn4ABFUYJbrlMF7K12RT3',
+        paragraphs: [
+          'Totoro representa la calma, el asombro y la capacidad de encontrar magia en las cosas más sencillas. Su presencia transmite seguridad sin necesidad de palabras, recordándonos que algunos de los momentos más importantes de la vida ocurren en silencio y rodeados de naturaleza.',
+          'A través de su historia descubrimos que crecer también significa conservar la capacidad de maravillarnos, cuidar de quienes amamos y encontrar refugio incluso durante los días más difíciles.',
+          'Si tu personaje es Totoro, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su serenidad, generosidad y manera de inspirar confianza son las que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Some spirits protect without ever asking to be seen.',
       },
       porco: {
         name: 'Porco Rosso',
         vector: [2, 4, 1, 3, 4],
-        desc: 'Independiente y con cicatrices que no escondes. Como Porco, prefieres el cielo abierto a las multitudes, y bajo tu ironía vive un código de honor que jamás traicionas.',
+        movie: 'Porco Rosso',
+        spotify: 'https://open.spotify.com/album/6NhWTFHoOj5n0UhbBkq5G3',
+        paragraphs: [
+          'Porco Rosso es un piloto que ha aprendido a vivir siguiendo su propio código de honor. Prefiere la libertad del cielo a las convenciones del mundo y encuentra en la independencia una forma de mantenerse fiel a sí mismo, incluso cuando el pasado continúa acompañándolo.',
+          'Su historia habla sobre la dignidad, la valentía y la importancia de actuar de acuerdo con los propios principios. Bajo su humor irónico y su actitud despreocupada se esconde alguien dispuesto a hacer lo correcto cuando realmente importa.',
+          'Si tu personaje es Porco Rosso, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su independencia, autenticidad y firme sentido del honor son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Honor often flies higher than pride.',
       },
       arrietty: {
         name: 'Arrietty',
         vector: [5, 2, 3, 4, 2],
-        desc: 'El mundo enorme no te asusta: te llama. Como Arrietty, tu curiosidad es más grande que tu tamaño, y cada día es una expedición a lo desconocido.',
+        movie: 'The Secret World of Arrietty',
+        spotify: 'https://open.spotify.com/album/0ldESLoQyyP80ynVU2gych',
+        paragraphs: [
+          'Aunque el mundo que la rodea parece inmenso, Arrietty nunca deja que el miedo limite su curiosidad. Cada salida de su pequeño hogar se convierte en una oportunidad para descubrir algo nuevo, aprender y contemplar aquello que otros consideran cotidiano desde una perspectiva completamente distinta.',
+          'Su historia celebra la curiosidad, la valentía y la capacidad de encontrar belleza en los pequeños detalles. Arrietty demuestra que el tamaño nunca determina la grandeza de un espíritu dispuesto a explorar.',
+          'Si tu personaje es Arrietty, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su curiosidad, capacidad de asombro y deseo constante de descubrir son los que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Wonder begins where curiosity leads.',
       },
       haku: {
         name: 'Haku',
         vector: [2, 4, 2, 4, 3],
-        desc: 'Guardián de memoria y de ríos. Como Haku, proteges sin hacer ruido, recuerdas lo que otros olvidan, y tu serenidad esconde una corriente profunda.',
+        movie: 'Spirited Away',
+        spotify: 'https://open.spotify.com/album/766a5fKJYFy9ii4Kz2bQy9',
+        paragraphs: [
+          'Haku es un personaje marcado por la memoria, la lealtad y la esperanza. Aunque durante parte de su historia olvida quién es realmente, nunca deja de proteger aquello que considera importante. Su viaje nos recuerda que la identidad no solo se encuentra en los recuerdos, sino también en las decisiones que tomamos.',
+          'Su serenidad y determinación lo convierten en un guía silencioso, alguien que acompaña a otros incluso cuando atraviesa su propia búsqueda. Haku demuestra que recordar nuestras raíces también puede ser una forma de encontrar el camino de regreso.',
+          'Si tu personaje es Haku, es porque tu forma de afrontar el mundo comparte rasgos con la suya. Entre todos los personajes de Studio Ghibli, su lealtad, serenidad y capacidad de permanecer fiel a lo verdaderamente importante son las que mejor reflejan el resultado de tu personalidad.',
+        ],
+        whisper: 'Some promises become part of who we are.',
       },
     };
 
     const DIMENSIONS = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
-    const DIMENSION_LABELS = ['Apertura', 'Responsab.', 'Extraversión', 'Amabilidad', 'Neuroticismo'];
+    const DIMENSION_LABELS = ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism'];
 
     // ═══════════ PARTÍCULAS ═══════════
     (function particles() {
@@ -476,7 +672,7 @@
         axes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>`;
         const [lx, ly] = pt(i, 6.0);
         labels += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" dominant-baseline="middle"
-          font-family="Quicksand, sans-serif" font-size="13" font-weight="600" fill="#636e72">${DIMENSION_LABELS[i]}</text>`;
+          font-family="Quicksand, sans-serif" font-size="10.5" font-weight="600" fill="#636e72">${DIMENSION_LABELS[i]}</text>`;
       }
 
       const dots = userVector.map((v, i) => {
@@ -535,8 +731,18 @@
         document.getElementById('archetype-img').src = `avatars/${characterId}.png`;
         document.getElementById('archetype-img').alt = character.name;
         document.getElementById('archetype-name').textContent = character.name;
-        document.getElementById('archetype-desc').textContent = character.desc;
+        document.getElementById('archetype-paragraphs').innerHTML =
+          character.paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+        document.getElementById('archetype-whisper').textContent = character.whisper;
         document.getElementById('legend-character').textContent = character.name;
+
+        // Streaming (movie title en inglés)
+        document.getElementById('streaming-movie').textContent = character.movie;
+        renderStreamingBadges();
+
+        // Soundtrack
+        document.getElementById('soundtrack-movie').textContent = character.movie;
+        document.getElementById('soundtrack-link').href = character.spotify;
 
         // Radar
         const userVector = vectorFromRespuestas(row.respuestas);
@@ -551,6 +757,50 @@
           'No hemos podido encontrar tu resultado. Puede que aún se esté procesando: espera un minuto y recarga la página, o verifica que el enlace esté completo.';
         errorState.classList.remove('hidden');
       }
+    }
+
+    // ═══════════ PLATAFORMAS DE STREAMING (íconos vintage) ═══════════
+    function renderStreamingBadges() {
+      const netflixIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v18M19 3v18M5 3l14 18M19 3L5 21"/></svg>`;
+      const maxIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V4l9 9 9-9v16"/></svg>`;
+      document.getElementById('streaming-badges').innerHTML = `
+        <span class="streaming-badge">${netflixIcon} Netflix</span>
+        <span class="streaming-badge">${maxIcon} Max</span>
+      `;
+    }
+
+    // ═══════════ COMPARTIR: copiar link al portapapeles ═══════════
+    function copyShareLink() {
+      const btn = document.getElementById('share-btn');
+      const btnText = document.getElementById('share-btn-text');
+      const url = window.location.href;
+
+      const showCopied = () => {
+        btn.classList.add('copied');
+        btnText.textContent = '¡Link copiado! ✦';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btnText.textContent = 'Copiar link ✦';
+        }, 2200);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showCopied).catch(() => fallbackCopy(url, showCopied));
+      } else {
+        fallbackCopy(url, showCopied);
+      }
+    }
+
+    function fallbackCopy(text, onDone) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      try { document.execCommand('copy'); } catch (e) { /* noop */ }
+      document.body.removeChild(temp);
+      onDone();
     }
 
     function escapeHtml(s) {
