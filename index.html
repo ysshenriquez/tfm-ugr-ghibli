@@ -611,6 +611,12 @@
       display: block;
     }
 
+    .door-inner-mirror {
+      width: 100%;
+      height: 100%;
+      transform: scaleX(-1);
+    }
+
     .door-flash {
       position: absolute;
       top: 50%;
@@ -1460,7 +1466,7 @@
     </p>
 
     <div class="puzzle-tracker" id="puzzle-tracker">
-      <!-- Pieza 0: Apertura (viento) - azul cielo → Isla Viento -->
+      <!-- Pieza 0: Apertura (viento) — remolino de aire, a juego con la puerta del Viento -->
       <svg class="puzzle-piece" data-piece="0" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradOpen" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1469,10 +1475,12 @@
           </linearGradient>
         </defs>
         <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradOpen)" stroke="#3a7a93" stroke-width="1" />
-        <path d="M11 16 Q17 14 23 16 M11 22 Q17 20 23 22" fill="none" stroke="#3a7a93" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+        <path d="M12 14 Q19 10 24 15 Q27 18 22 20 Q17 22 20 26" fill="none" stroke="#fdf8ef" stroke-width="1.3" stroke-linecap="round" opacity="0.85" />
+        <circle cx="13" cy="27" r="1" fill="#fdf8ef" opacity="0.7" />
+        <circle cx="24" cy="12" r="0.8" fill="#fdf8ef" opacity="0.6" />
       </svg>
 
-      <!-- Pieza 2: Responsabilidad (ancla) - marrón tierra → Isla Puerto -->
+      <!-- Pieza 2: Responsabilidad (ancla + cuerda) — a juego con la puerta del Puerto -->
       <svg class="puzzle-piece" data-piece="2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradCons" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1481,12 +1489,14 @@
           </linearGradient>
         </defs>
         <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradCons)" stroke="#4a2f18" stroke-width="1" />
-        <circle cx="17" cy="13" r="2.2" fill="none" stroke="#3a2410" stroke-width="1.3" />
-        <line x1="17" y1="15" x2="17" y2="26" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round" />
-        <path d="M11 24 Q11 28 17 28 Q23 28 23 24" fill="none" stroke="#3a2410" stroke-width="1.3" stroke-linecap="round" />
+        <circle cx="17" cy="12" r="2" fill="none" stroke="#fdf8ef" stroke-width="1.2" opacity="0.9" />
+        <line x1="17" y1="14" x2="17" y2="27" stroke="#fdf8ef" stroke-width="1.2" stroke-linecap="round" opacity="0.9" />
+        <path d="M11 22 Q11 27 17 27 Q23 27 23 22" fill="none" stroke="#fdf8ef" stroke-width="1.2" stroke-linecap="round" opacity="0.9" />
+        <line x1="11" y1="20" x2="11" y2="24" stroke="#fdf8ef" stroke-width="1" opacity="0.8" />
+        <line x1="23" y1="20" x2="23" y2="24" stroke="#fdf8ef" stroke-width="1" opacity="0.8" />
       </svg>
 
-      <!-- Pieza 1: Extraversión (estrella/luz) - rosa cálido → Isla Ciudad -->
+      <!-- Pieza 1: Extraversión (farolillo) — a juego con la puerta de la Ciudad -->
       <svg class="puzzle-piece" data-piece="1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradExtra" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1495,10 +1505,13 @@
           </linearGradient>
         </defs>
         <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradExtra)" stroke="#8a4a68" stroke-width="1" />
-        <path d="M17 11 L18.5 17 L24 17 L19.5 20 L21 26 L17 22.5 L13 26 L14.5 20 L10 17 L15.5 17 Z" fill="#fdf8ef" opacity="0.9" />
+        <line x1="17" y1="9" x2="17" y2="12" stroke="#fdf8ef" stroke-width="1" opacity="0.85" />
+        <path d="M12 13 L22 13 L20 24 L14 24 Z" fill="#fdf8ef" opacity="0.85" stroke="#8a4a68" stroke-width="0.5" />
+        <line x1="14" y1="17" x2="20" y2="17" stroke="#c47498" stroke-width="0.8" opacity="0.6" />
+        <line x1="17" y1="24" x2="17" y2="28" stroke="#fdf8ef" stroke-width="1" opacity="0.7" />
       </svg>
 
-      <!-- Pieza 4: Amabilidad (espíritu bosque) - verde bosque → Isla Bosque -->
+      <!-- Pieza 4: Amabilidad (espíritu del bosque, ojitos entre hojas) — a juego con la puerta del Bosque -->
       <svg class="puzzle-piece" data-piece="4" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradAgree" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1507,11 +1520,13 @@
           </linearGradient>
         </defs>
         <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradAgree)" stroke="#3a5a40" stroke-width="1" />
-        <path d="M17 11 Q11 15 11 22 Q11 27 17 27 Q23 27 23 22 Q23 15 17 11 Z" fill="#fdf8ef" opacity="0.35" />
-        <path d="M17 14 Q17 22 17 27" fill="none" stroke="#3a5a40" stroke-width="0.8" opacity="0.7" />
+        <ellipse cx="17" cy="20" rx="6.5" ry="7.5" fill="#fdf8ef" opacity="0.55" />
+        <circle cx="14.5" cy="18" r="1" fill="#3a5a40" />
+        <circle cx="19.5" cy="18" r="1" fill="#3a5a40" />
+        <path d="M12 12 Q10 9 8 11 M22 12 Q24 9 26 11" fill="none" stroke="#3a5a40" stroke-width="0.9" stroke-linecap="round" opacity="0.7" />
       </svg>
 
-      <!-- Pieza 3: Neuroticismo (rayo/tormenta) - gris tormenta → Isla Tormenta -->
+      <!-- Pieza 3: Neuroticismo (rayo entre remaches) — a juego con la puerta de la Tormenta -->
       <svg class="puzzle-piece" data-piece="3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradNeur" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1520,7 +1535,9 @@
           </linearGradient>
         </defs>
         <path d="M6 8 Q6 3 11 3 L20 3 Q22 3 22 5 Q22 8 25 8 Q28 8 28 11 L28 20 Q28 22 30 22 Q35 22 35 27 Q35 32 30 32 Q28 32 28 34 L28 34 Q28 37 25 37 L11 37 Q6 37 6 32 Q6 30 4 30 Q1 30 1 27 Q1 22 6 22 Q8 22 8 20 L8 11 Q8 8 6 8 Z" fill="url(#gradNeur)" stroke="#252d38" stroke-width="1" />
-        <path d="M18 9 L13 20 L17 20 L14 30" fill="none" stroke="#e8d48b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="10" cy="10" r="1" fill="#fdf8ef" opacity="0.6" />
+        <circle cx="24" cy="10" r="1" fill="#fdf8ef" opacity="0.6" />
+        <path d="M19 8 L13 20 L17 20 L14 30 L23 16 L18 16 Z" fill="#fdf8ef" opacity="0.9" stroke="#252d38" stroke-width="0.4" />
       </svg>
 
       <span class="puzzle-label" id="puzzle-label">0 / 5</span>
@@ -1626,50 +1643,8 @@
   <div class="particles-layer" id="particles-layer"></div>
 
   <div class="magic-door-overlay closed" id="magic-door">
-    <div class="door-panel left">
-      <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="woodGrainL" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.7" />
-            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0" />
-            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.5" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainL)" />
-        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"
-          rx="2" />
-        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"
-          rx="2" />
-        <!-- vetas de madera -->
-        <path d="M20 40 Q30 100 25 180 Q22 260 28 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5" />
-        <path d="M55 30 Q60 120 58 200 Q56 280 60 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4" />
-        <path d="M78 45 Q75 130 80 220 Q83 310 78 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5" />
-        <!-- pomo dorado -->
-        <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1" />
-        <circle cx="90" cy="200" r="1.5" fill="#8a6f2e" />
-      </svg>
-    </div>
-    <div class="door-panel right">
-      <svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="woodGrainR" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#4a2f18" stop-opacity="0.5" />
-            <stop offset="50%" stop-color="#4a2f18" stop-opacity="0" />
-            <stop offset="100%" stop-color="#4a2f18" stop-opacity="0.7" />
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="100" height="400" fill="url(#woodGrainR)" />
-        <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7"
-          rx="2" />
-        <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5"
-          rx="2" />
-        <path d="M22 45 Q28 130 24 220 Q20 310 26 370" fill="none" stroke="#3a2410" stroke-width="0.7" opacity="0.5" />
-        <path d="M45 30 Q42 120 46 200 Q48 280 44 360" fill="none" stroke="#3a2410" stroke-width="0.6" opacity="0.4" />
-        <path d="M75 40 Q72 100 78 180 Q80 260 74 340" fill="none" stroke="#3a2410" stroke-width="0.8" opacity="0.5" />
-        <circle cx="10" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1" />
-        <circle cx="10" cy="200" r="1.5" fill="#8a6f2e" />
-      </svg>
-    </div>
+    <div class="door-panel left" id="door-panel-left"></div>
+    <div class="door-panel right" id="door-panel-right"></div>
     <div class="door-flash"></div>
   </div>
 
@@ -1706,40 +1681,40 @@
         name: 'Las Tierras del Viento',
         icon: '🌬️',
         badgeColor: '#5a9cb5',
-        quote: 'Es divertido despertarse cada día sin saber si será uno de esos que cambian tu vida para siempre.',
-        movie: 'Arrietty y el mundo de los diminutos',
+        quote: "It's funny how you wake up each day and never really know if it'll be one that will change your life forever.",
+        movie: 'The Secret World of Arrietty',
       },
       {
         key: 'extraversion',
         name: 'La Ciudad de las Luces',
         icon: '✨',
         badgeColor: '#d07ca3',
-        quote: 'Sólo tienes que seguir a tu corazón y mantener la sonrisa.',
-        movie: 'Kiki, la aprendiz de bruja',
+        quote: 'Just follow your heart, and keep smiling.',
+        movie: "Kiki's Delivery Service",
       },
       {
         key: 'conscientiousness',
         name: 'El Puerto de los Compromisos',
         icon: '⚓',
         badgeColor: '#b8845a',
-        quote: 'No hay mañana para la gente que anhela el futuro y olvida el pasado.',
-        movie: 'La colina de las amapolas',
+        quote: "There's no future for people who worship the future, and forget the past.",
+        movie: 'From Up on Poppy Hill',
       },
       {
         key: 'neuroticism',
         name: 'La Tormenta Interior',
         icon: '⛈️',
         badgeColor: '#4a5568',
-        quote: 'No puedes cambiar tu destino, pero puedes acudir a su encuentro.',
-        movie: 'La princesa Mononoke',
+        quote: 'You cannot change fate. However, you can rise to meet it, if you so choose.',
+        movie: 'Princess Mononoke',
       },
       {
         key: 'agreeableness',
         name: 'El Bosque de los Espíritus',
         icon: '🌿',
         badgeColor: '#4a7a49',
-        quote: 'Cada vez que creas algo con corazón, esa creación tiene alma.',
-        movie: 'El reino de los gatos',
+        quote: 'Whenever someone creates something with all of their heart, then that creation is given a soul.',
+        movie: 'The Cat Returns',
       },
     ];
 
@@ -2011,9 +1986,109 @@
       if (label) label.textContent = `${done} / 5`;
     }
 
+    // ═══════════ PUERTAS TEMÁTICAS (una por isla) ═══════════
+    function buildDoorSVG(themeKey) {
+      const g = `wood_${themeKey}`;
+      const themes = {
+        // 0: Las Tierras del Viento — puerta clara, cortinas de aire, plumas al viento
+        openness: `
+          <linearGradient id="${g}" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3a5a68" stop-opacity="0.55"/>
+            <stop offset="50%" stop-color="#7fa8b8" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#3a5a68" stop-opacity="0.5"/>
+          </linearGradient>
+          <rect x="0" y="0" width="100" height="400" fill="url(#${g})"/>
+          <rect x="8" y="20" width="84" height="360" fill="none" stroke="#e8d48b" stroke-width="1.5" opacity="0.75" rx="2"/>
+          <rect x="14" y="30" width="72" height="340" fill="none" stroke="#e8d48b" stroke-width="0.8" opacity="0.5" rx="2"/>
+          <path d="M20 50 Q35 70 22 100 Q10 130 28 155" fill="none" stroke="#f5f0e0" stroke-width="1.2" opacity="0.6" stroke-linecap="round"/>
+          <path d="M55 40 Q70 65 58 95 Q45 125 62 150" fill="none" stroke="#f5f0e0" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+          <path d="M25 200 Q40 220 28 250 Q18 278 34 305" fill="none" stroke="#f5f0e0" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+          <ellipse cx="35" cy="60" rx="9" ry="4" fill="#f5f0e0" opacity="0.35" transform="rotate(-20 35 60)"/>
+          <ellipse cx="60" cy="230" rx="8" ry="3.5" fill="#f5f0e0" opacity="0.3" transform="rotate(15 60 230)"/>
+          <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#8a6f2e" stroke-width="1"/>
+          <circle cx="90" cy="200" r="1.5" fill="#8a6f2e"/>`,
+        // 1: La Ciudad de las Luces — puerta calida con farolillos
+        extraversion: `
+          <linearGradient id="${g}" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5a3d1f" stop-opacity="0.75"/>
+            <stop offset="50%" stop-color="#8a5a2b" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#5a3d1f" stop-opacity="0.6"/>
+          </linearGradient>
+          <rect x="0" y="0" width="100" height="400" fill="url(#${g})"/>
+          <rect x="8" y="20" width="84" height="360" fill="none" stroke="#e8d48b" stroke-width="1.5" opacity="0.8" rx="2"/>
+          <rect x="14" y="30" width="72" height="340" fill="none" stroke="#e8d48b" stroke-width="0.8" opacity="0.55" rx="2"/>
+          <path d="M30 55 L38 70 L30 85 L22 70 Z" fill="#f0c96a" opacity="0.55" stroke="#c9a84c" stroke-width="0.6"/>
+          <path d="M60 100 L68 115 L60 130 L52 115 Z" fill="#f0c96a" opacity="0.5" stroke="#c9a84c" stroke-width="0.6"/>
+          <path d="M32 165 L40 180 L32 195 L24 180 Z" fill="#f0c96a" opacity="0.45" stroke="#c9a84c" stroke-width="0.6"/>
+          <path d="M62 235 L70 250 L62 265 L54 250 Z" fill="#f0c96a" opacity="0.5" stroke="#c9a84c" stroke-width="0.6"/>
+          <path d="M34 300 L42 315 L34 330 L26 315 Z" fill="#f0c96a" opacity="0.4" stroke="#c9a84c" stroke-width="0.6"/>
+          <circle cx="90" cy="200" r="4.5" fill="#f0d48b" stroke="#8a6f2e" stroke-width="1"/>
+          <circle cx="90" cy="200" r="2" fill="#c9a84c"/>`,
+        // 2: El Puerto de los Compromisos — puerta nautica con cuerda y ancla
+        conscientiousness: `
+          <linearGradient id="${g}" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3d2817" stop-opacity="0.75"/>
+            <stop offset="50%" stop-color="#6b4423" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#3d2817" stop-opacity="0.6"/>
+          </linearGradient>
+          <rect x="0" y="0" width="100" height="400" fill="url(#${g})"/>
+          <rect x="8" y="20" width="84" height="360" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.7" rx="2" stroke-dasharray="3 2"/>
+          <rect x="14" y="30" width="72" height="340" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.5" rx="2"/>
+          <circle cx="50" cy="120" r="18" fill="none" stroke="#e8d48b" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="50" cy="120" r="12" fill="none" stroke="#e8d48b" stroke-width="0.8" opacity="0.5"/>
+          <path d="M50 210 L50 260 M40 225 Q50 240 60 225 M35 250 Q50 265 65 250" fill="none" stroke="#e8d48b" stroke-width="1.8" opacity="0.6" stroke-linecap="round"/>
+          <circle cx="50" cy="200" r="4" fill="none" stroke="#e8d48b" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="90" cy="200" r="4" fill="#e8d48b" stroke="#5a3f1c" stroke-width="1"/>
+          <circle cx="90" cy="200" r="1.5" fill="#5a3f1c"/>`,
+        // 3: La Tormenta Interior — puerta metalica oscura con remaches y rayo
+        neuroticism: `
+          <linearGradient id="${g}" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#252d38" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#3a4658" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#252d38" stop-opacity="0.65"/>
+          </linearGradient>
+          <rect x="0" y="0" width="100" height="400" fill="url(#${g})"/>
+          <rect x="8" y="20" width="84" height="360" fill="none" stroke="#8a97a8" stroke-width="1.5" opacity="0.7" rx="2"/>
+          <rect x="14" y="30" width="72" height="340" fill="none" stroke="#8a97a8" stroke-width="0.8" opacity="0.5" rx="2"/>
+          <circle cx="16" cy="34" r="2" fill="#8a97a8" opacity="0.7"/>
+          <circle cx="84" cy="34" r="2" fill="#8a97a8" opacity="0.7"/>
+          <circle cx="16" cy="366" r="2" fill="#8a97a8" opacity="0.7"/>
+          <circle cx="84" cy="366" r="2" fill="#8a97a8" opacity="0.7"/>
+          <path d="M55 70 L38 190 L52 190 L42 320 L68 165 L52 165 Z" fill="#e8d48b" opacity="0.55" stroke="#c9a84c" stroke-width="0.8"/>
+          <circle cx="90" cy="200" r="4" fill="#8a97a8" stroke="#252d38" stroke-width="1"/>
+          <circle cx="90" cy="200" r="1.5" fill="#252d38"/>`,
+        // 4: El Bosque de los Espíritus — puerta cubierta de enredaderas con espiritus del bosque
+        agreeableness: `
+          <linearGradient id="${g}" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2e3d22" stop-opacity="0.75"/>
+            <stop offset="50%" stop-color="#4a7a49" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#2e3d22" stop-opacity="0.6"/>
+          </linearGradient>
+          <rect x="0" y="0" width="100" height="400" fill="url(#${g})"/>
+          <rect x="8" y="20" width="84" height="360" fill="none" stroke="#a3ce8f" stroke-width="1.5" opacity="0.65" rx="2"/>
+          <rect x="14" y="30" width="72" height="340" fill="none" stroke="#a3ce8f" stroke-width="0.8" opacity="0.45" rx="2"/>
+          <path d="M18 30 Q30 80 18 130 Q8 180 22 230 Q32 280 18 330 Q10 360 18 385" fill="none" stroke="#6ba05f" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+          <path d="M82 30 Q70 80 82 130 Q92 180 78 230 Q68 280 82 330 Q90 360 82 385" fill="none" stroke="#6ba05f" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+          <circle cx="24" cy="110" r="5" fill="#a3ce8f" opacity="0.5"/>
+          <circle cx="22" cy="108" r="0.9" fill="#2e3d22"/>
+          <circle cx="26" cy="108" r="0.9" fill="#2e3d22"/>
+          <circle cx="76" cy="250" r="5" fill="#a3ce8f" opacity="0.5"/>
+          <circle cx="74" cy="248" r="0.9" fill="#2e3d22"/>
+          <circle cx="78" cy="248" r="0.9" fill="#2e3d22"/>
+          <circle cx="90" cy="200" r="4" fill="#c9d8a3" stroke="#3a5a2e" stroke-width="1"/>
+          <circle cx="90" cy="200" r="1.5" fill="#3a5a2e"/>`,
+      };
+      return `<svg viewBox="0 0 100 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><defs></defs>${themes[themeKey] || themes.openness}</svg>`;
+    }
+
     // ═══════════ PUERTA MÁGICA ═══════════
-    function openMagicDoor(onOpen) {
+    function openMagicDoor(islandIndex, onOpen) {
       const overlay = document.getElementById('magic-door');
+      const themeKey = ISLANDS[islandIndex] ? ISLANDS[islandIndex].key : 'openness';
+      const svg = buildDoorSVG(themeKey);
+      document.getElementById('door-panel-left').innerHTML = svg;
+      document.getElementById('door-panel-right').innerHTML = `<div class="door-inner-mirror">${svg}</div>`;
+
       overlay.classList.remove('opening');
       overlay.classList.add('active', 'closed');
       requestAnimationFrame(() => {
@@ -2126,7 +2201,7 @@
       if (questions.length === 0) { alert('⏳ Las preguntas de esta isla aún no están disponibles.'); return; }
       state.currentQuestion = 0;
       renderQuiz();
-      openMagicDoor(() => {
+      openMagicDoor(index, () => {
         showScreen('screen-quiz');
       });
     }
