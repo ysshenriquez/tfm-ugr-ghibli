@@ -290,29 +290,21 @@
     .streaming-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.1rem;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1.5px solid rgba(201, 168, 76, 0.3);
-      font-family: 'Quicksand', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: var(--text);
       cursor: pointer;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 10px;
     }
 
     .streaming-badge:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 14px rgba(201, 168, 76, 0.25);
     }
-      color: var(--text);
-      box-shadow: 0 2px 8px rgba(45, 52, 54, 0.06);
-    }
 
-    .streaming-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .streaming-badge img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
 
     /* ─── Soundtrack embebido ─── */
     .soundtrack-embed {
@@ -768,6 +760,7 @@
       },
       "Kiki's Delivery Service": {
         netflix: 'https://www.netflix.com/es/title/60027106',
+        prime: 'https://www.primevideo.com/-/es/detail/0TIXEDQYZKLZ25G5ZOVTL75LQ9',
       },
       'Princess Mononoke': {
         netflix: 'https://www.netflix.com/es/title/28630857',
@@ -804,15 +797,13 @@
     }
 
     function renderStreamingBadges(movie) {
-      const netflixIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v18M19 3v18M5 3l14 18M19 3L5 21"/></svg>`;
-      const primeIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7V5z"/></svg>`;
       const links = STREAMING_LINKS[movie] || {};
       let html = '';
       if (links.netflix) {
-        html += `<a class="streaming-badge" href="${links.netflix}" target="_blank" rel="noopener">${netflixIcon} Netflix</a>`;
+        html += `<a class="streaming-badge" href="${links.netflix}" target="_blank" rel="noopener"><img src="netflix.png" alt="Netflix"></a>`;
       }
       if (links.prime) {
-        html += `<a class="streaming-badge" href="${links.prime}" target="_blank" rel="noopener">${primeIcon} Prime Video</a>`;
+        html += `<a class="streaming-badge" href="${links.prime}" target="_blank" rel="noopener"><img src="prime.png" alt="Prime Video"></a>`;
       }
       document.getElementById('streaming-badges').innerHTML = html || '<p class="section-hint">Consulta tu plataforma habitual</p>';
     }
