@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Brújula — La Brújula de lo Invisible</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Quicksand:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --sky: #a8d5e2;
+      --forest: #5b8c5a;
+      --forest-deep: #3a5a40;
+      --earth-light: #faedcd;
+      --nausicaa-blue: #4a8fa8;
+      --nausicaa-deep: #3a7a93;
+      --gold: #c9a84c;
+      --gold-light: #e8d48b;
+      --gold-glow: rgba(201, 168, 76, 0.4);
+      --gold-shine: rgba(232, 212, 139, 0.85);
+      --warm-white: #fdf8ef;
+      --parchment: #f5eed6;
+      --text: #2d3436;
+      --text-soft: #636e72;
+      --shadow: rgba(45, 52, 54, 0.12);
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--warm-white);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(168, 213, 226, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(212, 163, 115, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 40%, rgba(91, 140, 90, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particles-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, var(--gold-shine) 0%, var(--gold) 40%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp 14s ease-in infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(0, 100vh) scale(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.9;
+        transform: translate(10px, 90vh) scale(1);
+      }
+
+      50% {
+        opacity: 0.7;
+        transform: translate(-20px, 50vh) scale(1.1);
+      }
+
+      100% {
+        transform: translate(0, -10vh) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+      display: none;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .container.visible {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      font-weight: 600;
+      color: var(--forest-deep);
+      text-align: center;
+      line-height: 1.25;
+      margin-bottom: 0.4rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--forest);
+      font-weight: 500;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.6vw, 1.15rem);
+      color: var(--text-soft);
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 0 0 2rem;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      padding: 2.25rem 2rem;
+      box-shadow: 0 4px 24px var(--shadow);
+      border: 1px solid rgba(201, 168, 76, 0.15);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .archetype-img {
+      width: 160px;
+      height: 160px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin: 0 auto 1.25rem;
+      display: block;
+      box-shadow: 0 0 0 3px var(--gold-light), 0 8px 28px rgba(201, 168, 76, 0.35);
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .archetype-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 6vw, 2.6rem);
+      font-weight: 700;
+      color: var(--forest-deep);
+      margin-bottom: 0.75rem;
+    }
+
+    .archetype-desc {
+      font-size: 0.98rem;
+      color: var(--text-soft);
+      line-height: 1.75;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--forest-deep);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-hint {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      margin-bottom: 1.25rem;
+    }
+
+    .radar-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .radar-wrap svg {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.user {
+      background: var(--gold);
+    }
+
+    .dot.character {
+      background: var(--nausicaa-blue);
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.9rem 2.4rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--nausicaa-blue), var(--nausicaa-deep));
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(74, 143, 168, 0.35);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(74, 143, 168, 0.45);
+    }
+
+    .footer-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      text-align: center;
+      color: var(--forest);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-top: 2rem;
+    }
+
+    .footer-quote small {
+      display: block;
+      margin-top: 0.35rem;
+      font-family: 'Quicksand', sans-serif;
+      font-style: normal;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    /* ─── Estados de carga y error ─── */
+    .state {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .state.hidden {
+      display: none;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--earth-light);
+      border-top-color: var(--nausicaa-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .state p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--forest-deep);
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 1.6rem 1.25rem;
+      }
+
+      .archetype-img {
+        width: 130px;
+        height: 130px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles-layer" id="particles"></div>
+
+  <!-- Estado: cargando -->
+  <div class="state" id="state-loading">
+    <div class="spinner"></div>
+    <p>Consultando tu brújula...</p>
+  </div>
+
+  <!-- Estado: error -->
+  <div class="state hidden" id="state-error">
+    <p id="error-msg">No hemos podido encontrar tu resultado. Verifica que el enlace de tu correo esté completo.</p>
+    <a class="cta" href="index.html" style="margin-top:1.5rem;">Hacer el viaje ✦</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container" id="content">
+    <p class="eyebrow">Tu brújula habla</p>
+    <h1 id="greeting">Hola, <em>viajera</em></h1>
+    <p class="subtitle">El archipiélago ha reconocido tu espíritu. Este es tu reflejo.</p>
+    <div class="divider">✦</div>
+
+    <div class="card">
+      <img class="archetype-img" id="archetype-img" src="" alt="Arquetipo asignado">
+      <p class="archetype-name" id="archetype-name"></p>
+      <p class="archetype-desc" id="archetype-desc"></p>
+    </div>
+
+    <div class="card">
+      <p class="section-title">Tu mapa interior</p>
+      <p class="section-hint">Tu vector OCEAN comparado con el de tu arquetipo</p>
+      <div class="radar-wrap" id="radar"></div>
+      <div class="legend">
+        <span><span class="dot user"></span> Tú</span>
+        <span><span class="dot character"></span> <span id="legend-character">Arquetipo</span></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="section-title">¿Conoces a alguien con espíritu de viajero?</p>
+      <p class="section-hint">Compártele el archipiélago y descubran juntos sus brújulas</p>
+      <a class="cta" href="index.html">Explorar el archipiélago ✦</a>
+    </div>
+
+    <p class="footer-quote">
+      "Nada de lo que sucede se olvida jamás, aunque no puedas recordarlo."
+      <small>— El viaje de Chihiro</small>
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@26.1.0"></script>
+  <script>
+    // ═══════════ CONFIG APPWRITE (misma que index.html) ═══════════
+    const APPWRITE_ENDPOINT = 'https://fra.cloud.appwrite.io/v1';
+    const APPWRITE_PROJECT_ID = '6a578e76001d493c9459';
+    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7';
+    const APPWRITE_TABLE_ID = 'resultados';
+
+    // ═══════════ PERSONAJES: vectores (Tabla 18) + descripciones ═══════════
+    // NOTA: puedes reemplazar las descripciones por las fichas de tu Capítulo 4.
+    const CHARACTERS = {
+      chihiro: {
+        name: 'Chihiro',
+        vector: [3, 5, 2, 5, 3],
+        desc: 'Tu espíritu crece en la adversidad. Como Chihiro, la responsabilidad y el cariño por los tuyos te transforman: no naciste valiente, te haces valiente cada vez que alguien te necesita.',
+      },
+      howl: {
+        name: 'Howl',
+        vector: [5, 1, 4, 2, 5],
+        desc: 'Brillante, magnético y tormentoso. Como Howl, vives entre la belleza y el caos: tu imaginación no tiene puertas, aunque a veces el corazón te pese más que el castillo entero.',
+      },
+      sophie: {
+        name: 'Sophie',
+        vector: [3, 4, 2, 5, 3],
+        desc: 'Tu fuerza es silenciosa. Como Sophie, cuidas, ordenas y sostienes el mundo de quienes amas — y en ese acto cotidiano de ternura está tu verdadera magia.',
+      },
+      kiki: {
+        name: 'Kiki',
+        vector: [5, 4, 3, 5, 4],
+        desc: 'Curiosa, entregada y sensible. Como Kiki, te lanzas a lo desconocido con la escoba por delante, y aunque a veces dudes de tu don, siempre encuentras el viento de vuelta.',
+      },
+      san: {
+        name: 'San',
+        vector: [2, 5, 2, 2, 3],
+        desc: 'Lealtad feroz y principios de acero. Como San, defiendes lo tuyo sin pedir permiso: tu mundo es pequeño pero sagrado, y quien entra en él, entra para siempre.',
+      },
+      ashitaka: {
+        name: 'Ashitaka',
+        vector: [4, 5, 3, 5, 1],
+        desc: 'Ves con ojos limpios de odio. Como Ashitaka, buscas el equilibrio donde otros ven bandos, y tu serenidad es el puente que otros no se atreven a cruzar.',
+      },
+      totoro: {
+        name: 'Totoro',
+        vector: [2, 2, 1, 5, 1],
+        desc: 'Presencia que calma. Como Totoro, no necesitas grandes palabras: tu bondad tranquila hace que el mundo, a tu lado, se sienta un lugar seguro donde crecer.',
+      },
+      porco: {
+        name: 'Porco Rosso',
+        vector: [2, 4, 1, 3, 4],
+        desc: 'Independiente y con cicatrices que no escondes. Como Porco, prefieres el cielo abierto a las multitudes, y bajo tu ironía vive un código de honor que jamás traicionas.',
+      },
+      arrietty: {
+        name: 'Arrietty',
+        vector: [5, 2, 3, 4, 2],
+        desc: 'El mundo enorme no te asusta: te llama. Como Arrietty, tu curiosidad es más grande que tu tamaño, y cada día es una expedición a lo desconocido.',
+      },
+      haku: {
+        name: 'Haku',
+        vector: [2, 4, 2, 4, 3],
+        desc: 'Guardián de memoria y de ríos. Como Haku, proteges sin hacer ruido, recuerdas lo que otros olvidan, y tu serenidad esconde una corriente profunda.',
+      },
+    };
+
+    const DIMENSIONS = ['openness', 'conscientiousness', 'extraversion', 'agreeableness', 'neuroticism'];
+    const DIMENSION_LABELS = ['Apertura', 'Responsab.', 'Extraversión', 'Amabilidad', 'Neuroticismo'];
+
+    // ═══════════ PARTÍCULAS ═══════════
+    (function particles() {
+      const layer = document.getElementById('particles');
+      const count = window.innerWidth < 700 ? 10 : 16;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 14 + 's';
+        p.style.animationDuration = (10 + Math.random() * 8) + 's';
+        layer.appendChild(p);
+      }
+    })();
+
+    // ═══════════ CÁLCULO DEL VECTOR OCEAN (misma lógica que la Function) ═══════════
+    function vectorFromRespuestas(respuestasJson) {
+      const r = JSON.parse(respuestasJson);
+      return DIMENSIONS.map(dim => {
+        const answers = r[dim] || [];
+        if (!answers.length) return 0;
+        const sum = answers.reduce((acc, a) => acc + (a.weight || 0), 0);
+        return sum / answers.length;
+      });
+    }
+
+    // ═══════════ RADAR SVG (5 ejes, escala 1–5) ═══════════
+    function renderRadar(userVector, charVector) {
+      const size = 420, cx = size / 2, cy = size / 2 + 10, maxR = 150;
+      const angle = i => (Math.PI * 2 * i) / 5 - Math.PI / 2;
+      const pt = (i, value) => {
+        const r = (value / 5) * maxR;
+        return [cx + r * Math.cos(angle(i)), cy + r * Math.sin(angle(i))];
+      };
+      const poly = vec => vec.map((v, i) => pt(i, v).map(n => n.toFixed(1)).join(',')).join(' ');
+
+      let grid = '';
+      for (let level = 1; level <= 5; level++) {
+        const ring = [0, 1, 2, 3, 4].map(i => pt(i, level).map(n => n.toFixed(1)).join(',')).join(' ');
+        grid += `<polygon points="${ring}" fill="none" stroke="rgba(201,168,76,0.22)" stroke-width="1"/>`;
+      }
+
+      let axes = '', labels = '';
+      for (let i = 0; i < 5; i++) {
+        const [x, y] = pt(i, 5);
+        axes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(201,168,76,0.3)" stroke-width="1"/>`;
+        const [lx, ly] = pt(i, 6.0);
+        labels += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" dominant-baseline="middle"
+          font-family="Quicksand, sans-serif" font-size="13" font-weight="600" fill="#636e72">${DIMENSION_LABELS[i]}</text>`;
+      }
+
+      const dots = userVector.map((v, i) => {
+        const [x, y] = pt(i, v);
+        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="#c9a84c"/>`;
+      }).join('');
+
+      document.getElementById('radar').innerHTML = `
+        <svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparación del perfil OCEAN">
+          ${grid}${axes}
+          <polygon points="${poly(charVector)}" fill="rgba(74,143,168,0.18)" stroke="#4a8fa8" stroke-width="2"/>
+          <polygon points="${poly(userVector)}" fill="rgba(201,168,76,0.22)" stroke="#c9a84c" stroke-width="2.5"/>
+          ${dots}${labels}
+        </svg>`;
+    }
+
+    // ═══════════ CARGA DEL RESULTADO ═══════════
+    async function load() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+
+      const loading = document.getElementById('state-loading');
+      const errorState = document.getElementById('state-error');
+      const content = document.getElementById('content');
+
+      if (!id) {
+        loading.classList.add('hidden');
+        errorState.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const client = new Appwrite.Client()
+          .setEndpoint(APPWRITE_ENDPOINT)
+          .setProject(APPWRITE_PROJECT_ID);
+        const tablesDB = new Appwrite.TablesDB(client);
+
+        const row = await tablesDB.getRow({
+          databaseId: APPWRITE_DATABASE_ID,
+          tableId: APPWRITE_TABLE_ID,
+          rowId: id,
+        });
+
+        const characterId = (row.arquetipo || '').trim();
+        const character = CHARACTERS[characterId];
+
+        if (!character) {
+          throw new Error('Resultado aún en proceso o arquetipo desconocido');
+        }
+
+        // Saludo personalizado
+        document.getElementById('greeting').innerHTML =
+          `Hola, <em>${escapeHtml(row.Nickname || 'viajera')}</em>`;
+
+        // Arquetipo
+        document.getElementById('archetype-img').src = `avatars/${characterId}.png`;
+        document.getElementById('archetype-img').alt = character.name;
+        document.getElementById('archetype-name').textContent = character.name;
+        document.getElementById('archetype-desc').textContent = character.desc;
+        document.getElementById('legend-character').textContent = character.name;
+
+        // Radar
+        const userVector = vectorFromRespuestas(row.respuestas);
+        renderRadar(userVector, character.vector);
+
+        loading.classList.add('hidden');
+        content.classList.add('visible');
+      } catch (err) {
+        console.error('Error cargando el resultado:', err);
+        loading.classList.add('hidden');
+        document.getElementById('error-msg').textContent =
+          'No hemos podido encontrar tu resultado. Puede que aún se esté procesando: espera un minuto y recarga la página, o verifica que el enlace esté completo.';
+        errorState.classList.remove('hidden');
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    load();
+  </script>
+</body>
+
+</html>
