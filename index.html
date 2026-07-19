@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -1699,20 +1698,17 @@
       { id: 'haku', name: 'Haku' },
     ];
 
-   const ISLAND_PROGRESS = [0, 2, 1, 4, 3]; // <-- Cierra el array aquí
+    const ISLAND_PROGRESS = [0, 2, 1, 4, 3];
 
-const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
-  // Isla 0: Las Tierras del Viento → Apertura
-  {
-    key: 'openness',
-    name: 'Las Tierras del Viento',
-    icon: '🌬️',
-    badgeColor: '#5a9cb5',
-// ...
+    const ISLANDS = [
+      {
+        key: 'openness',
+        name: 'Las Tierras del Viento',
+        icon: '🌬️',
+        badgeColor: '#5a9cb5',
         quote: 'Es divertido despertarse cada día sin saber si será uno de esos que cambian tu vida para siempre.',
         movie: 'Arrietty y el mundo de los diminutos',
       },
-      // Isla 1: La Ciudad de las Luces → Extraversión
       {
         key: 'extraversion',
         name: 'La Ciudad de las Luces',
@@ -1721,7 +1717,6 @@ const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
         quote: 'Sólo tienes que seguir a tu corazón y mantener la sonrisa.',
         movie: 'Kiki, la aprendiz de bruja',
       },
-      // Isla 2: El Puerto de los Compromisos → Responsabilidad
       {
         key: 'conscientiousness',
         name: 'El Puerto de los Compromisos',
@@ -1730,7 +1725,6 @@ const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
         quote: 'No hay mañana para la gente que anhela el futuro y olvida el pasado.',
         movie: 'La colina de las amapolas',
       },
-      // Isla 3: La Tormenta Interior → Neuroticismo
       {
         key: 'neuroticism',
         name: 'La Tormenta Interior',
@@ -1739,7 +1733,6 @@ const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
         quote: 'No puedes cambiar tu destino, pero puedes acudir a su encuentro.',
         movie: 'La princesa Mononoke',
       },
-      // Isla 4: El Bosque de los Espíritus → Amabilidad
       {
         key: 'agreeableness',
         name: 'El Bosque de los Espíritus',
@@ -1995,18 +1988,16 @@ const ISLANDS = [ // <-- Declara la constante ISLANDS aquí
     }
 
     // ═══════════ ROMPECABEZAS ═══════════
-function updatePuzzleTracker(excludeIndex) {
+    function updatePuzzleTracker(excludeIndex) {
       const pieces = document.querySelectorAll('.puzzle-piece');
       const done = state.completedIslands.length;
 
       pieces.forEach((piece) => {
         const pieceIndex = parseInt(piece.dataset.piece);
-        // Verificamos si la isla correspondiente a esta pieza ya se completó en el state
         const shouldBeUnlocked = state.completedIslands.includes(pieceIndex);
 
         if (shouldBeUnlocked) {
           if (pieceIndex === excludeIndex) {
-            // Esta pieza la maneja la animación de vuelo, NO la encendemos aún
             piece.classList.remove('unlocked');
           } else {
             piece.classList.add('unlocked');
@@ -2023,19 +2014,15 @@ function updatePuzzleTracker(excludeIndex) {
     // ═══════════ PUERTA MÁGICA ═══════════
     function openMagicDoor(onOpen) {
       const overlay = document.getElementById('magic-door');
-      // Estado inicial: puertas visibles cerradas
       overlay.classList.remove('opening');
       overlay.classList.add('active', 'closed');
-      // Frame siguiente para que aplique el estado inicial antes de abrir
       requestAnimationFrame(() => {
         setTimeout(() => {
           overlay.classList.remove('closed');
           overlay.classList.add('opening');
-          // Cuando termine la animación de las puertas, cambio de pantalla
           setTimeout(() => {
             if (onOpen) onOpen();
           }, 750);
-          // Y ocultamos la capa después de que se abran del todo
           setTimeout(() => {
             overlay.classList.remove('active', 'opening');
           }, 1200);
@@ -2104,35 +2091,33 @@ function updatePuzzleTracker(excludeIndex) {
       showScreen('screen-map');
     }
 
-  function updateMap(excludePieceIndex) {
-  const spots = document.querySelectorAll('.island-spot');
+    function updateMap(excludePieceIndex) {
+      const spots = document.querySelectorAll('.island-spot');
 
-  spots.forEach((el) => {
-    const islandIndex = parseInt(el.dataset.island);
+      spots.forEach((el) => {
+        const islandIndex = parseInt(el.dataset.island);
 
-    el.className = 'island-spot';
+        el.className = 'island-spot';
 
-    if (state.completedIslands.includes(islandIndex)) {
-      el.classList.add('completed');
-      el.querySelector('.spot-status').textContent = 'Completada';
+        if (state.completedIslands.includes(islandIndex)) {
+          el.classList.add('completed');
+          el.querySelector('.spot-status').textContent = 'Completada';
+        } else if (islandIndex === state.currentIsland) {
+          el.classList.add('current');
+          el.querySelector('.spot-status').textContent = 'Explorar';
+        } else {
+          el.classList.add('locked');
+          el.querySelector('.spot-status').textContent = '🔒';
+        }
+      });
 
-    } else if (islandIndex === state.currentIsland) {
-      el.classList.add('current');
-      el.querySelector('.spot-status').textContent = 'Explorar';
+      if (state.completedIslands.length > 0) {
+        document.getElementById('map-subtitle').textContent =
+          `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
+      }
 
-    } else {
-      el.classList.add('locked');
-      el.querySelector('.spot-status').textContent = '🔒';
+      updatePuzzleTracker(excludePieceIndex);
     }
-  });
-
-  if (state.completedIslands.length > 0) {
-    document.getElementById('map-subtitle').textContent =
-      `${state.completedIslands.length} de 5 islas exploradas. ¡Sigue adelante, ${state.nickname}!`;
-  }
-
-  updatePuzzleTracker(excludePieceIndex);
-}
 
     function enterIsland(index) {
       if (index !== state.currentIsland || state.completedIslands.includes(index)) return;
@@ -2141,7 +2126,6 @@ function updatePuzzleTracker(excludeIndex) {
       if (questions.length === 0) { alert('⏳ Las preguntas de esta isla aún no están disponibles.'); return; }
       state.currentQuestion = 0;
       renderQuiz();
-      // Puerta mágica: se cierra visualmente, cambio de pantalla, y luego se abre
       openMagicDoor(() => {
         showScreen('screen-quiz');
       });
@@ -2191,11 +2175,9 @@ function updatePuzzleTracker(excludeIndex) {
       state.answers[island.key][state.currentQuestion] = index;
       document.querySelectorAll('.option-btn').forEach((btn, i) => {
         const isSelected = i === index;
-        // Reset primero para que la animación de sparkles se relance
         btn.classList.remove('selected');
         if (isSelected) {
-          // eslint-disable-next-line no-unused-expressions
-          void btn.offsetWidth; // forzar reflow para reiniciar animación
+          void btn.offsetWidth;
           btn.classList.add('selected');
         }
       });
@@ -2205,13 +2187,11 @@ function updatePuzzleTracker(excludeIndex) {
     function transitionQuestion(direction, doAfter) {
       const body = document.getElementById('quiz-body');
       body.classList.remove('transitioning-in', 'transitioning-out');
-      // eslint-disable-next-line no-unused-expressions
       void body.offsetWidth;
       body.classList.add('transitioning-out');
       setTimeout(() => {
         doAfter();
         body.classList.remove('transitioning-out');
-        // eslint-disable-next-line no-unused-expressions
         void body.offsetWidth;
         body.classList.add('transitioning-in');
         setTimeout(() => body.classList.remove('transitioning-in'), 450);
@@ -2244,11 +2224,9 @@ function updatePuzzleTracker(excludeIndex) {
       const justCompleted = state.currentIsland;
       state.completedIslands.push(justCompleted);
       if (state.completedIslands.length === 5) {
-        // Última isla: en vez de recompensa intermedia, mostramos también la recompensa
-        // y desde ella disparamos submitResults
-        showRewardScreen(justCompleted, /* isLast */ true);
+        showRewardScreen(justCompleted, true);
       } else {
-        showRewardScreen(justCompleted, /* isLast */ false);
+        showRewardScreen(justCompleted, false);
       }
     }
 
@@ -2262,7 +2240,6 @@ function updatePuzzleTracker(excludeIndex) {
 
       const island = ISLANDS[islandIndex];
 
-      // Clonar la pieza SVG correspondiente del tracker
       const sourcePiece = document.querySelector(`.puzzle-piece[data-piece="${islandIndex}"]`);
       const container = document.getElementById('reward-piece-container');
       container.innerHTML = '';
@@ -2274,11 +2251,9 @@ function updatePuzzleTracker(excludeIndex) {
         container.appendChild(clone);
       }
 
-      // Frase de la película y nombre de la película
       document.getElementById('reward-quote').textContent = `"${island.quote}"`;
       document.getElementById('reward-movie').textContent = `— ${island.movie}`;
 
-      // Contador de piezas (dots visuales)
       const counter = document.getElementById('reward-counter');
       const done = state.completedIslands.length;
       counter.innerHTML = '';
@@ -2292,7 +2267,6 @@ function updatePuzzleTracker(excludeIndex) {
       label.style.marginLeft = '0.4rem';
       counter.appendChild(label);
 
-      // Actualizar el botón según si es la última o no
       const btn = document.getElementById('btn-reward-continue');
       btn.textContent = isLast ? 'Recibir mi resultado ✦' : 'Continuar el viaje →';
 
@@ -2304,21 +2278,12 @@ function updatePuzzleTracker(excludeIndex) {
       const sourceEl = rewardScreen.querySelector('.reward-piece');
 
       if (!sourceEl) {
-        // fallback si algo raro pasa
         finishRewardTransition();
         return;
       }
 
-      // Posición inicial (donde está ahora en la pantalla)
       const startRect = sourceEl.getBoundingClientRect();
 
-      // Necesitamos calcular la posición destino en el tracker.
-      // Como el tracker está en la pantalla del mapa (no visible aún), lo mostraremos
-      // primero visualmente para poder medir. Truco: mostrar el mapa detrás con opacity 0
-      // y medir. Alternativamente hacemos el switch primero y luego animamos.
-      // Vamos por lo simple: cambiamos de pantalla, medimos, y hacemos la pieza volar.
-
-      // Creamos el clon volador antes de cambiar de pantalla, con posición inicial fija
       const flyer = sourceEl.cloneNode(true);
       flyer.classList.remove('reward-piece');
       flyer.classList.add('flying-piece');
@@ -2329,14 +2294,10 @@ function updatePuzzleTracker(excludeIndex) {
       flyer.style.opacity = '1';
       document.body.appendChild(flyer);
 
-      // Ocultamos la pieza original para que solo se vea la voladora
       sourceEl.style.opacity = '0';
 
       if (pendingRewardIsLast) {
-        // Última isla: activar la pieza en el tracker, ocultar pantalla de recompensa
-        // y disparar el envío. El vuelo lleva la pieza al centro con celebracion.
         rewardScreen.classList.remove('active');
-        // Animar la voladora hacia el centro y desvanecerla como parte de la celebración
         requestAnimationFrame(() => {
           const centerX = window.innerWidth / 2 - startRect.width / 2;
           const centerY = window.innerHeight / 2 - startRect.height / 2;
@@ -2349,14 +2310,11 @@ function updatePuzzleTracker(excludeIndex) {
           submitResults();
         }, 1100);
       } else {
-        // Isla intermedia: mostrar mapa detrás, marcar la pieza como desbloqueada
-        // y animar la voladora hasta la posición de esa pieza
-       const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
-state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
-        updateMap(pendingRewardIndex); // excluye la pieza recien ganada (la maneja la voladora)
+        const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
+        state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
+        updateMap(pendingRewardIndex);
         showScreen('screen-map');
 
-        // Medir posición destino ahora que el mapa está visible
         requestAnimationFrame(() => {
           const trackerPiece = document.querySelector(`.puzzle-piece[data-piece="${pendingRewardIndex}"]`);
           if (!trackerPiece) {
@@ -2367,11 +2325,9 @@ state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
           const scale = endRect.width / startRect.width;
           const dx = endRect.left - startRect.left;
           const dy = endRect.top - startRect.top;
-          // Al principio la pieza del tracker está semi-oculta; el vuelo la sustituye visualmente
           trackerPiece.style.opacity = '0';
           flyer.style.transform = `translate(${dx}px, ${dy}px) scale(${scale}) rotate(-8deg)`;
           setTimeout(() => {
-            // Al aterrizar, mostrar la pieza real ya desbloqueada y quitar la voladora
             trackerPiece.style.opacity = '';
             trackerPiece.classList.add('unlocked');
             if (flyer.parentNode) flyer.parentNode.removeChild(flyer);
@@ -2384,52 +2340,49 @@ state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
       if (pendingRewardIsLast) {
         submitResults();
       } else {
-const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
-state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
-updateMap();
+        const currentIndex = ISLAND_PROGRESS.indexOf(state.currentIsland);
+        state.currentIsland = ISLAND_PROGRESS[currentIndex + 1];
+        updateMap();
         showScreen('screen-map');
       }
     }
 
     // ═══════════ TABLA DE PESOS OCEAN (según TFM, Anexo I) ═══════════
-    // Cada opción (A/B/C/D) tiene un peso de 1 a 5:
-    //   1 = polo bajo, 2 = bajo con matices, 3 = intermedio,
-    //   4 = alto con matices, 5 = polo alto
     const WEIGHTS = {
       openness: [
-        { A: 2, B: 4, C: 5, D: 1 }, // Q1
-        { A: 1, B: 3, C: 5, D: 2 }, // Q2
-        { A: 1, B: 2, C: 5, D: 3 }, // Q3
-        { A: 1, B: 5, C: 4, D: 3 }, // Q4
-        { A: 2, B: 3, C: 5, D: 2 }, // Q5
+        { A: 2, B: 4, C: 5, D: 1 },
+        { A: 1, B: 3, C: 5, D: 2 },
+        { A: 1, B: 2, C: 5, D: 3 },
+        { A: 1, B: 5, C: 4, D: 3 },
+        { A: 2, B: 3, C: 5, D: 2 },
       ],
       conscientiousness: [
-        { A: 5, B: 2, C: 4, D: 3 }, // Q6
-        { A: 5, B: 1, C: 3, D: 4 }, // Q7
-        { A: 5, B: 4, C: 2, D: 1 }, // Q8
-        { A: 3, B: 5, C: 4, D: 1 }, // Q9
-        { A: 5, B: 3, C: 1, D: 2 }, // Q10
+        { A: 5, B: 2, C: 4, D: 3 },
+        { A: 5, B: 1, C: 3, D: 4 },
+        { A: 5, B: 4, C: 2, D: 1 },
+        { A: 3, B: 5, C: 4, D: 1 },
+        { A: 5, B: 3, C: 1, D: 2 },
       ],
       extraversion: [
-        { A: 1, B: 3, C: 5, D: 2 }, // Q11
-        { A: 1, B: 2, C: 5, D: 3 }, // Q12
-        { A: 1, B: 3, C: 5, D: 2 }, // Q13
-        { A: 1, B: 3, C: 5, D: 2 }, // Q14
-        { A: 1, B: 2, C: 5, D: 3 }, // Q15
+        { A: 1, B: 3, C: 5, D: 2 },
+        { A: 1, B: 2, C: 5, D: 3 },
+        { A: 1, B: 3, C: 5, D: 2 },
+        { A: 1, B: 3, C: 5, D: 2 },
+        { A: 1, B: 2, C: 5, D: 3 },
       ],
       agreeableness: [
-        { A: 5, B: 3, C: 2, D: 4 }, // Q16
-        { A: 2, B: 3, C: 5, D: 1 }, // Q17
-        { A: 5, B: 4, C: 1, D: 3 }, // Q18
-        { A: 5, B: 1, C: 2, D: 3 }, // Q19
-        { A: 5, B: 3, C: 1, D: 4 }, // Q20
+        { A: 5, B: 3, C: 2, D: 4 },
+        { A: 2, B: 3, C: 5, D: 1 },
+        { A: 5, B: 4, C: 1, D: 3 },
+        { A: 5, B: 1, C: 2, D: 3 },
+        { A: 5, B: 3, C: 1, D: 4 },
       ],
       neuroticism: [
-        { A: 1, B: 2, C: 5, D: 4 }, // Q21
-        { A: 1, B: 2, C: 5, D: 3 }, // Q22
-        { A: 1, B: 2, C: 5, D: 4 }, // Q23
-        { A: 1, B: 2, C: 5, D: 4 }, // Q24
-        { A: 1, B: 2, C: 5, D: 4 }, // Q25
+        { A: 1, B: 2, C: 5, D: 4 },
+        { A: 1, B: 2, C: 5, D: 3 },
+        { A: 1, B: 2, C: 5, D: 4 },
+        { A: 1, B: 2, C: 5, D: 4 },
+        { A: 1, B: 2, C: 5, D: 4 },
       ],
     };
 
@@ -2451,43 +2404,27 @@ updateMap();
       return raw;
     }
 
-// ═══════════ APPWRITE CONFIG ═══════════
+    // ═══════════ APPWRITE CONFIG ═══════════
     const APPWRITE_ENDPOINT = 'https://fra.cloud.appwrite.io/v1';
     const APPWRITE_PROJECT_ID = '6a578e76001d493c9459';
-    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7'; 
-    const APPWRITE_COLLECTION_ID = 'resultados'; 
+    const APPWRITE_DATABASE_ID = '6a578ff8001ae0eb23e7';
+    const APPWRITE_COLLECTION_ID = 'resultados';
 
     const client = new Appwrite.Client()
       .setEndpoint(APPWRITE_ENDPOINT)
       .setProject(APPWRITE_PROJECT_ID);
 
     const databases = new Appwrite.Databases(client);
-    const account = new Appwrite.Account(client); // <-- 1. Añadimos el gestor de cuentas
-
-    // <-- 2. Nueva función: Crea un pase de invitado si no tienen uno
-    async function loginAnonymous() {
-      try {
-        await account.get(); // Intenta ver si ya tienen sesión (tú, por ejemplo)
-      } catch (err) {
-        try {
-          await account.createAnonymousSession(); // Si son nuevos, les crea una sesión anónima
-        } catch (e) {
-          console.error("Error creando sesión anónima:", e);
-        }
-      }
-    }
 
     async function submitResults() {
       const loading = document.getElementById('loading');
       loading.classList.add('active');
 
-      await loginAnonymous(); // <-- 3. Pedimos el pase justo antes de enviar los datos
-
       const payload = {
         Nickname: state.nickname,
         email: state.email,
         respuestas: JSON.stringify(buildRawAnswers()),
-        arquetipo: '', 
+        arquetipo: '',
         email_enviado: false,
       };
 
@@ -2507,7 +2444,6 @@ updateMap();
       setTimeout(() => {
         loading.classList.remove('active');
         showScreen('screen-final');
-        // Celebración justo al aterrizar en la pantalla final
         setTimeout(() => celebrationBurst(), 200);
       }, 1500);
     }
