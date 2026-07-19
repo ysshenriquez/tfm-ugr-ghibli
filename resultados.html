@@ -28,17 +28,10 @@
       --radius: 16px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
@@ -84,25 +77,10 @@
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translate(0, 100vh) scale(0);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 0.9;
-        transform: translate(10px, 90vh) scale(1);
-      }
-
-      50% {
-        opacity: 0.7;
-        transform: translate(-20px, 50vh) scale(1.1);
-      }
-
-      100% {
-        transform: translate(0, -10vh) scale(0);
-        opacity: 0;
-      }
+      0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.9; transform: translate(10px, 90vh) scale(1); }
+      50% { opacity: 0.7; transform: translate(-20px, 50vh) scale(1.1); }
+      100% { transform: translate(0, -10vh) scale(0); opacity: 0; }
     }
 
     .container {
@@ -115,20 +93,11 @@
       animation: fadeIn 0.8s ease-out;
     }
 
-    .container.visible {
-      display: block;
-    }
+    .container.visible { display: block; }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .eyebrow {
@@ -152,11 +121,7 @@
       margin-bottom: 0.4rem;
     }
 
-    h1 em {
-      font-style: italic;
-      color: var(--forest);
-      font-weight: 500;
-    }
+    h1 em { font-style: italic; color: var(--forest); font-weight: 500; }
 
     .subtitle {
       font-family: 'Cormorant Garamond', serif;
@@ -209,15 +174,8 @@
     }
 
     @keyframes gentleFloat {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-8px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .archetype-name {
@@ -250,16 +208,8 @@
       margin-bottom: 1.25rem;
     }
 
-    .radar-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
-    .radar-wrap svg {
-      width: 100%;
-      max-width: 420px;
-      height: auto;
-    }
+    .radar-wrap { display: flex; justify-content: center; }
+    .radar-wrap svg { width: 100%; max-width: 420px; height: auto; }
 
     .legend {
       display: flex;
@@ -271,11 +221,7 @@
       flex-wrap: wrap;
     }
 
-    .legend span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
+    .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
 
     .legend .dot {
       width: 12px;
@@ -284,13 +230,8 @@
       display: inline-block;
     }
 
-    .dot.user {
-      background: var(--gold);
-    }
-
-    .dot.character {
-      background: var(--nausicaa-blue);
-    }
+    .dot.user { background: var(--gold); }
+    .dot.character { background: var(--nausicaa-blue); }
 
     .cta {
       display: inline-block;
@@ -343,9 +284,7 @@
       text-align: center;
     }
 
-    .state.hidden {
-      display: none;
-    }
+    .state.hidden { display: none; }
 
     .spinner {
       width: 48px;
@@ -357,11 +296,7 @@
       margin-bottom: 1rem;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .state p {
       font-family: 'Cormorant Garamond', serif;
@@ -372,14 +307,8 @@
     }
 
     @media (max-width: 600px) {
-      .card {
-        padding: 1.6rem 1.25rem;
-      }
-
-      .archetype-img {
-        width: 130px;
-        height: 130px;
-      }
+      .card { padding: 1.6rem 1.25rem; }
+      .archetype-img { width: 130px; height: 130px; }
     }
   </style>
 </head>
@@ -583,13 +512,13 @@
         const client = new Appwrite.Client()
           .setEndpoint(APPWRITE_ENDPOINT)
           .setProject(APPWRITE_PROJECT_ID);
-        const tablesDB = new Appwrite.TablesDB(client);
+        const databases = new Appwrite.Databases(client);
 
-        const row = await tablesDB.getRow({
-          databaseId: APPWRITE_DATABASE_ID,
-          tableId: APPWRITE_TABLE_ID,
-          rowId: id,
-        });
+        const row = await databases.getDocument(
+          APPWRITE_DATABASE_ID,
+          APPWRITE_TABLE_ID,
+          id
+        );
 
         const characterId = (row.arquetipo || '').trim();
         const character = CHARACTERS[characterId];
