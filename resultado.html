@@ -314,7 +314,7 @@
     }
 
     .streaming-badge.prime {
-      background: linear-gradient(135deg, var(--storm-dark), #34404e);
+      background: linear-gradient(135deg, #4a5568, #34404e);
     }
 
     /* ─── Soundtrack embebido ─── */
@@ -823,7 +823,7 @@
     function copyShareLink() {
       const btn = document.getElementById('share-btn');
       const btnText = document.getElementById('share-btn-text');
-      const url = window.location.href;
+      const url = window.location.origin + '/index.html';
 
       const showCopied = () => {
         btn.classList.add('copied');
