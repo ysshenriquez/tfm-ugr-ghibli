@@ -1376,7 +1376,15 @@
       }
 
       .door-panel img {
-        transform-origin: center;
+        object-fit: cover;
+      }
+
+      .door-panel.left img {
+        object-position: right center;
+      }
+
+      .door-panel.right img {
+        object-position: left center;
       }
 
       .particle {
